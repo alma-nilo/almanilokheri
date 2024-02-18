@@ -55,21 +55,24 @@ jobs:
   backend:
     runs-on: ubuntu-latest
     environment: backend
+    env:
+      DATABASE_KEY: ${{ vars.DATABASE_KEY }}
+      privateKey: ${{ vars.PRIVATEKEY }}
+      sender_mail: ${{ vars.SENDER_MAIL }}
+      mail_pwd: ${{ vars.MAIL_PWD }}
+      aws_access_key: ${{ vars.AWS_ACCESS_KEY }}
+      aws_secret_key: ${{ vars.AWS_SECRET_KEY }}
+      aws_s3_bucket: ${{ vars.AWS_S3_BUCKET }}
+      aws_region: ${{ vars.AWS_REGION }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Login to Docker Hub
         run: docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_KEY}}
-        env:
-          DATABASE_KEY: ${{ vars.DATABASE_KEY }}
-          privateKey: ${{ vars.PRIVATEKEY }}
-          sender_mail: ${{ vars.SENDER_MAIL }}
-          mail_pwd: ${{ vars.MAIL_PWD }}
-          aws_access_key: ${{ vars.AWS_ACCESS_KEY }}
-          aws_secret_key: ${{ vars.AWS_SECRET_KEY }}
-          aws_s3_bucket: ${{ vars.AWS_S3_BUCKET }}
-          aws_region: ${{ vars.AWS_REGION }}
+
+      - name: make variable
+        run: echo "variable  ${{env.DATABASE_KEY}}"
 
       - name: Build Backend Docker Image
         run: docker build -t vishu7im/almanilokheri-backend ./backend
