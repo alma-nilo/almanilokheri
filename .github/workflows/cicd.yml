@@ -11,8 +11,28 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      - name: Copy .env file
-        run: cp /home/vishu7im/Tech/GBN/client/.env backend/.env
+      - name: Set up environment variables
+        env:
+          DATABASE_KEY: ${{ secrets.DATABASE_KEY }}
+          privateKey: ${{ secrets.PRIVATE_KEY }}
+          apiKey: ${{ secrets.API_KEY }}
+          authDomain: ${{ secrets.AUTH_DOMAIN }}
+          projectId: ${{ secrets.PROJECT_ID }}
+          storageBucket: ${{ secrets.STORAGE_BUCKET }}
+          messagingSenderId: ${{ secrets.MESSAGING_SENDER_ID }}
+          appId: ${{ secrets.APP_ID }}
+          private_key_id: ${{ secrets.PRIVATE_KEY_ID }}
+          private_key: ${{ secrets.PRIVATE_KEY }}
+          client_email: ${{ secrets.CLIENT_EMAIL }}
+          client_id: ${{ secrets.CLIENT_ID }}
+          client_x509_cert_url: ${{ secrets.CLIENT_X509_CERT_URL }}
+          sender_mail: ${{ secrets.SENDER_MAIL }}
+          mail_pwd: ${{ secrets.MAIL_PWD }}
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
+          aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
+          aws_s3_bucket: ${{ secrets.AWS_S3_BUCKET }}
+          aws_region: ${{ secrets.AWS_REGION }}
+
       - name: Login to Docker Hub
         run: docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_KEY}}
       - name: Build Backend Docker Image
