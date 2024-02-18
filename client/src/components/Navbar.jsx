@@ -80,7 +80,7 @@ export default function Navbar({ headerDash, developer }) {
                     to="/"
                   >
                     <p className="font-serif bold text text-white">
-                      Alma connect
+                      alma nilokheri
                     </p>
                   </Link>
                 </div>
@@ -548,7 +548,7 @@ export default function Navbar({ headerDash, developer }) {
                         />
                       )}
                       <p class="text-white font-serif bold text ml-2  heading">
-                        Alma Connect
+                        alma nilokheri
                       </p>
                     </div>
                   </Link>
