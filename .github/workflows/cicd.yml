@@ -90,7 +90,8 @@ jobs:
       - frontend
     steps:
       - name: Deploy to production
-        run: docker-compose up -d --force-recreate
-
+        run: |
+          docker-compose pull
+          docker-compose up -d
       - name: DONE
         run: echo "Deployment complete"
