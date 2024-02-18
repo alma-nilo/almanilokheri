@@ -9,6 +9,23 @@ jobs:
   frontend:
     runs-on: ubuntu-latest
     environment: frontend
+    env:
+      REACT_APP_API_KEY: ${{ vars.REACT_APP_API_KEY }}
+      REACT_APP_PRIVET_KEY: ${{ vars.REACT_APP_PRIVET_KEY }}
+      REACT_APP_AWS_Access_key: ${{ vars.REACT_APP_AWS_ACCESS_KEY }}
+      REACT_APP_AWS_secret_key: ${{ vars.REACT_APP_AWS_SECRET_KEY }}
+      REACT_APP_AWS_S3_BUCKET: ${{ vars.REACT_APP_AWS_S3_BUCKET }}
+      REACT_APP_AWS_REGION: ${{ vars.REACT_APP_AWS_REGION }}
+      REACT_APP_apiKey: ${{ vars.REACT_APP_APIKEY }}
+      REACT_APP_authDomain: ${{ vars.REACT_APP_AUTHDOMAIN }}
+      REACT_APP_projectId: ${{ vars.REACT_APP_PROJECTID }}
+      REACT_APP_storageBucket: ${{ vars.REACT_APP_STORAGEBUCKET }}
+      REACT_APP_messagingSenderId: ${{ vars.REACT_APP_MESSAGINGSENDERID }}
+      REACT_APP_appId: ${{ vars.REACT_APP_APPID }}
+      REACT_APP_measurementId: ${{ vars.REACT_APP_MEASUREMENTID }}
+      REACT_APP_TRACKING_ID: ${{ vars.REACT_APP_TRACKING_ID }}
+      REACT_APP_Month: ${{ vars.REACT_APP_MONTH }}
+      REACT_APP_Year: ${{ vars.REACT_APP_YEAR }}
 
     steps:
       - name: Checkout code
@@ -19,6 +36,25 @@ jobs:
         with:
           node-version: "18"
 
+      - name: Make .env file for frontend
+        run: |
+          echo "REACT_APP_API_KEY=${REACT_APP_API_KEY}" > ./client/.env
+          echo "REACT_APP_PRIVET_KEY=${REACT_APP_PRIVET_KEY}" >> ./client/.env
+          echo "REACT_APP_AWS_Access_key=${REACT_APP_AWS_Access_key}" >> ./client/.env
+          echo "REACT_APP_AWS_secret_key=${REACT_APP_AWS_secret_key}" >> ./client/.env
+          echo "REACT_APP_AWS_S3_BUCKET=${REACT_APP_AWS_S3_BUCKET}" >> ./client/.env
+          echo "REACT_APP_AWS_REGION=${REACT_APP_AWS_REGION}" >> ./client/.env
+          echo "REACT_APP_apiKey=${REACT_APP_apiKey}" >> ./client/.env
+          echo "REACT_APP_authDomain=${REACT_APP_authDomain}" >> ./client/.env
+          echo "REACT_APP_projectId=${REACT_APP_projectId}" >> ./client/.env
+          echo "REACT_APP_storageBucket=${REACT_APP_storageBucket}" >> ./client/.env
+          echo "REACT_APP_messagingSenderId=${REACT_APP_messagingSenderId}" >> ./client/.env
+          echo "REACT_APP_appId=${REACT_APP_appId}" >> ./client/.env
+          echo "REACT_APP_measurementId=${REACT_APP_measurementId}" >> ./client/.env
+          echo "REACT_APP_TRACKING_ID=${REACT_APP_TRACKING_ID}" >> ./client/.env
+          echo "REACT_APP_Month=${REACT_APP_Month}" >> ./client/.env
+          echo "REACT_APP_Year=${REACT_APP_Year}" >> ./client/.env
+
       - name: Navigate to client directory and  Install dependencies and  Build React app
         run: |
           cd ./client
@@ -26,22 +62,6 @@ jobs:
           npm run build
         env:
           CI: false
-          REACT_APP_API_KEY: ${{ vars.REACT_APP_API_KEY }}
-          REACT_APP_PRIVET_KEY: ${{ vars.REACT_APP_PRIVET_KEY }}
-          REACT_APP_AWS_Access_key: ${{ vars.REACT_APP_AWS_ACCESS_KEY }}
-          REACT_APP_AWS_secret_key: ${{ vars.REACT_APP_AWS_SECRET_KEY }}
-          REACT_APP_AWS_S3_BUCKET: ${{ vars.REACT_APP_AWS_S3_BUCKET }}
-          REACT_APP_AWS_REGION: ${{ vars.REACT_APP_AWS_REGION }}
-          REACT_APP_apiKey: ${{ vars.REACT_APP_APIKEY }}
-          REACT_APP_authDomain: ${{ vars.REACT_APP_AUTHDOMAIN }}
-          REACT_APP_projectId: ${{ vars.REACT_APP_PROJECTID }}
-          REACT_APP_storageBucket: ${{ vars.REACT_APP_STORAGEBUCKET }}
-          REACT_APP_messagingSenderId: ${{ vars.REACT_APP_MESSAGINGSENDERID }}
-          REACT_APP_appId: ${{ vars.REACT_APP_APPID }}
-          REACT_APP_measurementId: ${{ vars.REACT_APP_MEASUREMENTID }}
-          REACT_APP_TRACKING_ID: ${{ vars.REACT_APP_TRACKING_ID }}
-          REACT_APP_Month: ${{ vars.REACT_APP_MONTH }}
-          REACT_APP_Year: ${{ vars.REACT_APP_YEAR }}
 
       - name: Login to Docker Hub
         run: docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_KEY}}
@@ -68,11 +88,19 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Make .env file for Backend
+        run: |
+          echo "DATABASE_KEY=${DATABASE_KEY}" > ./backend/.env
+          echo "privateKey=${privateKey}" >> ./backend/.env
+          echo "sender_mail=${sender_mail}" >> ./backend/.env
+          echo "mail_pwd=${mail_pwd}" >> ./backend/.env
+          echo "aws_access_key=${aws_access_key}" >> ./backend/.env
+          echo "aws_secret_key=${aws_secret_key}" >> ./backend/.env
+          echo "aws_s3_bucket=${aws_s3_bucket}" >> ./backend/.env
+          echo "aws_region=${aws_region}" >> ./backend/.env
+
       - name: Login to Docker Hub
         run: docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_KEY}}
-
-      - name: make variable
-        run: echo "variable  ${{env.DATABASE_KEY}}"
 
       - name: Build Backend Docker Image
         run: docker build -t vishu7im/almanilokheri-backend ./backend
