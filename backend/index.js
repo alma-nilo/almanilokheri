@@ -14,6 +14,8 @@ const DB = process.env.DATABASE_KEY;
 
 const app = Express();
 
+console.log(process.env)
+
 // app.use(Express.static("build"));
 // app.use(history());
 // app.use(Express.static("build"));
