@@ -41,7 +41,7 @@ jobs:
       - name: Navigate to client directory and  Install dependencies and  Build React app
         run: |
           cd ./client
-          npm ci
+          npm install
           npm run build
         env:
           CI: false
