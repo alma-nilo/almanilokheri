@@ -41,28 +41,17 @@ jobs:
       - name: Navigate to client directory and  Install dependencies and  Build React app
         run: |
           cd ./client
-          npm install
+          npm run install
           npm run build
 
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v1
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
-
       - name: Login to Docker Hub
-        uses: docker/login-action@v1
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_KEY }}
+        run: docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_KEY}}
 
-      - name: Build and push Frontend Docker image
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          dockerfile: Dockerfile
-          push: true
-          tags: vishu7im/alma-nilokheri-frontend:latest
+      - name: Build frontend Docker Image
+        run: docker build -t vishu7im/alma-nilokheri-frontend .
+
+      - name: Publish frontend image to Docker Hub
+        run: docker push vishu7im/alma-nilokheri-frontend
 
   backend:
     runs-on: ubuntu-latest
