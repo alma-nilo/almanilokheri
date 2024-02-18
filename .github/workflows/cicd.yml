@@ -14,7 +14,8 @@ jobs:
 
       - name: Set up environment variables for Frontend
         run: |
-          echo "All variables : ${{ secrets }}"
+          cd ./client
+           echo "All variables : ${{ secrets }}"
         env:
           REACT_APP_API_KEY: ${{ secrets.REACT_APP_API_KEY }}
           REACT_APP_PRIVET_KEY: ${{ secrets.REACT_APP_PRIVET_KEY }}
@@ -63,6 +64,7 @@ jobs:
 
       - name: Set up environment variables for Backend
         run: |
+          cd ./backend
           echo "All variables : ${{ secrets }}"
         env:
           DATABASE_KEY: ${{ secrets.DATABASE_KEY }}
