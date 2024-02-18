@@ -8,31 +8,27 @@ on:
 jobs:
   frontend:
     runs-on: ubuntu-latest
+    environment: frontend
+    env:
+      REACT_APP_API_KEY: ${{ vars.REACT_APP_API_KEY }}
+      REACT_APP_PRIVET_KEY: ${{ vars.REACT_APP_PRIVET_KEY }}
+      REACT_APP_AWS_Access_key: ${{ vars.REACT_APP_AWS_ACCESS_KEY }}
+      REACT_APP_AWS_secret_key: ${{ vars.REACT_APP_AWS_SECRET_KEY }}
+      REACT_APP_AWS_S3_BUCKET: ${{ vars.REACT_APP_AWS_S3_BUCKET }}
+      REACT_APP_AWS_REGION: ${{ vars.REACT_APP_AWS_REGION }}
+      REACT_APP_apiKey: ${{ vars.REACT_APP_APIKEY }}
+      REACT_APP_authDomain: ${{ vars.REACT_APP_AUTHDOMAIN }}
+      REACT_APP_projectId: ${{ vars.REACT_APP_PROJECTID }}
+      REACT_APP_storageBucket: ${{ vars.REACT_APP_STORAGEBUCKET }}
+      REACT_APP_messagingSenderId: ${{ vars.REACT_APP_MESSAGINGSENDERID }}
+      REACT_APP_appId: ${{ vars.REACT_APP_APPID }}
+      REACT_APP_measurementId: ${{ vars.REACT_APP_MEASUREMENTID }}
+      REACT_APP_TRACKING_ID: ${{ vars.REACT_APP_TRACKING_ID }}
+      REACT_APP_Month: ${{ vars.REACT_APP_MONTH }}
+      REACT_APP_Year: ${{ vars.REACT_APP_YEAR }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-
-      - name: Set up environment variables for Frontend
-        run: |
-          cd ./client
-           echo "All variables : ${{ secrets }}"
-        env:
-          REACT_APP_API_KEY: ${{ secrets.REACT_APP_API_KEY }}
-          REACT_APP_PRIVET_KEY: ${{ secrets.REACT_APP_PRIVET_KEY }}
-          REACT_APP_AWS_Access_key: ${{ secrets.REACT_APP_AWS_ACCESS_KEY }}
-          REACT_APP_AWS_secret_key: ${{ secrets.REACT_APP_AWS_SECRET_KEY }}
-          REACT_APP_AWS_S3_BUCKET: ${{ secrets.REACT_APP_AWS_S3_BUCKET }}
-          REACT_APP_AWS_REGION: ${{ secrets.REACT_APP_AWS_REGION }}
-          REACT_APP_apiKey: ${{ secrets.REACT_APP_APIKEY }}
-          REACT_APP_authDomain: ${{ secrets.REACT_APP_AUTHDOMAIN }}
-          REACT_APP_projectId: ${{ secrets.REACT_APP_PROJECTID }}
-          REACT_APP_storageBucket: ${{ secrets.REACT_APP_STORAGEBUCKET }}
-          REACT_APP_messagingSenderId: ${{ secrets.REACT_APP_MESSAGINGSENDERID }}
-          REACT_APP_appId: ${{ secrets.REACT_APP_APPID }}
-          REACT_APP_measurementId: ${{ secrets.REACT_APP_MEASUREMENTID }}
-          REACT_APP_TRACKING_ID: ${{ secrets.REACT_APP_TRACKING_ID }}
-          REACT_APP_Month: ${{ secrets.REACT_APP_MONTH }}
-          REACT_APP_Year: ${{ secrets.REACT_APP_YEAR }}
 
       - name: Install Node.js 18
         uses: actions/setup-node@v2
@@ -58,26 +54,22 @@ jobs:
 
   backend:
     runs-on: ubuntu-latest
+    environment: backend
+    env:
+      DATABASE_KEY: ${{ vars.DATABASE_KEY }}
+      privateKey: ${{ vars.PRIVATEKEY }}
+      sender_mail: ${{ vars.SENDER_MAIL }}
+      mail_pwd: ${{ vars.MAIL_PWD }}
+      aws_access_key: ${{ vars.AWS_ACCESS_KEY }}
+      aws_secret_key: ${{ vars.AWS_SECRET_KEY }}
+      aws_s3_bucket: ${{ vars.AWS_S3_BUCKET }}
+      aws_region: ${{ vars.AWS_REGION }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up environment variables for Backend
-        run: |
-          cd ./backend
-          echo "All variables : ${{ secrets }}"
-        env:
-          DATABASE_KEY: ${{ secrets.DATABASE_KEY }}
-          privateKey: ${{ secrets.PRIVATEKEY }}
-          sender_mail: ${{ secrets.SENDER_MAIL }}
-          mail_pwd: ${{ secrets.MAIL_PWD }}
-          aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
-          aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
-          aws_s3_bucket: ${{ secrets.AWS_S3_BUCKET }}
-          aws_region: ${{ secrets.AWS_REGION }}
-
       - name: Login to Docker Hub
-        run: docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_KEY}}
+        run: docker login -u ${{vars.DOCKER_USERNAME}} -p ${{vars.DOCKER_KEY}}
 
       - name: Build Backend Docker Image
         run: docker build -t vishu7im/almanilokheri-backend ./backend
