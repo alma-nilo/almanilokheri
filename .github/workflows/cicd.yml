@@ -52,6 +52,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Navigate to client directory
+        run: cd /home/runner/work/almanilokheri/almanilokheri/client/
+
       - name: Set up environment variables for Frontend
         run: |
           echo "All variables : ${{ secrets }}"
@@ -69,13 +72,9 @@ jobs:
           REACT_APP_messagingSenderId: ${{ secrets.REACT_APP_MESSAGINGSENDERID }}
           REACT_APP_appId: ${{ secrets.REACT_APP_APPID }}
           REACT_APP_measurementId: ${{ secrets.REACT_APP_MEASUREMENTID }}
-          PUBLIC_URL: ${{ secrets.PUBLIC_URL }}
           REACT_APP_TRACKING_ID: ${{ secrets.REACT_APP_TRACKING_ID }}
           REACT_APP_Month: ${{ secrets.REACT_APP_MONTH }}
           REACT_APP_Year: ${{ secrets.REACT_APP_YEAR }}
-
-      - name: Navigate to client directory
-        run: cd client
 
       - name: Install Node.js 18
         uses: actions/setup-node@v2
