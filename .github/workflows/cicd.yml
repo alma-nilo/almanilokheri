@@ -100,10 +100,6 @@ jobs:
       - backend
       - frontend
     steps:
-      - name: show ls
-        run: |
-          ls -a
-          pwd
       - name: Deploy to production
         run: docker-compose -f docker-compose.yml up -d --build
 
