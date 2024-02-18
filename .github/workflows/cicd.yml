@@ -41,8 +41,10 @@ jobs:
       - name: Navigate to client directory and  Install dependencies and  Build React app
         run: |
           cd ./client
-          npm install
+          npm ci
           npm run build
+        env:
+          CI: false
 
       - name: Login to Docker Hub
         run: docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_KEY}}
