@@ -53,7 +53,7 @@ jobs:
         run: docker build -t vishu7im/alma-nilokheri-frontend ./client
 
       - name: Publish frontend image to Docker Hub
-        run: docker push vishu7im/alma-nilokheri-frontend
+        run: docker push vishu7im/alma-nilokheri-frontend:latest
 
   backend:
     runs-on: ubuntu-latest
@@ -92,7 +92,7 @@ jobs:
         run: docker build -t vishu7im/alma-nilokheri-backend ./backend
 
       - name: Publish Backend image to Docker Hub
-        run: docker push vishu7im/alma-nilokheri-backend
+        run: docker push vishu7im/alma-nilokheri-backend:latest
 
   deploy:
     runs-on: self-hosted
