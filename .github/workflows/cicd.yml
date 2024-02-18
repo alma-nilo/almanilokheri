@@ -50,7 +50,7 @@ jobs:
         run: docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_KEY}}
 
       - name: Build frontend Docker Image
-        run: docker build -t vishu7im/alma-nilokheri-frontend .
+        run: docker build -t vishu7im/alma-nilokheri-frontend ./client
 
       - name: Publish frontend image to Docker Hub
         run: docker push vishu7im/alma-nilokheri-frontend
