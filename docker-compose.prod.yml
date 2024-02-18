@@ -8,6 +8,10 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: vishal
       MONGO_INITDB_ROOT_PASSWORD: 65072d0281127af6a924e65d
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "3"
 
   backend:
     image: vishu7im/alma-nilokheri-backend:latest 
@@ -16,9 +20,16 @@ services:
       - 5000:5000
     depends_on:
       - "mongo"
-
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "3"
   frontend:
     image: vishu7im/alma-nilokheri-frontend:latest 
     restart: on-failure
     ports:
       - 80:80
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "3"
