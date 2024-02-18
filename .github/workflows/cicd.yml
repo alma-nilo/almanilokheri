@@ -50,10 +50,10 @@ jobs:
         run: docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_KEY}}
 
       - name: Build frontend Docker Image
-        run: docker build -t vishu7im/alma-nilokheri-frontend ./client
+        run: docker build -t vishu7im/almanilokheri-frontend ./client
 
       - name: Publish frontend image to Docker Hub
-        run: docker push vishu7im/alma-nilokheri-frontend:latest
+        run: docker push vishu7im/almanilokheri-frontend:latest
 
   backend:
     runs-on: ubuntu-latest
@@ -78,10 +78,10 @@ jobs:
         run: docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_KEY}}
 
       - name: Build Backend Docker Image
-        run: docker build -t vishu7im/alma-nilokheri-backend ./backend
+        run: docker build -t vishu7im/almanilokheri-backend ./backend
 
       - name: Publish Backend image to Docker Hub
-        run: docker push vishu7im/alma-nilokheri-backend:latest
+        run: docker push vishu7im/almanilokheri-backend:latest
 
   deploy:
     runs-on: self-hosted
