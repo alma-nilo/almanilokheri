@@ -1,0 +1,21 @@
+/* Center the carousel images */
+.slick-slide img {
+  display: block;
+  height: 70%;
+  width: 100%;
+}
+
+/* Customize the dots navigation */
+.slick-dots {
+  bottom: 1rem;
+}
+
+.slick-dots li button:before {
+  font-size: 1rem;
+  color: #fff;
+  opacity: 0.5;
+}
+
+.slick-dots li.slick-active button:before {
+  opacity: 1;
+}

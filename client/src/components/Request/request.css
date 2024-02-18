@@ -1,0 +1,42 @@
+.conversation_box {
+  margin: 5% 0px;
+  height: 60px;
+  width: 80%;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  padding: 3%;
+  cursor: pointer;
+}
+
+.conversation_logo {
+  height: 50px;
+  width: 50px;
+  border-radius: 50px;
+  object-fit: contain;
+}
+
+.conversation_logo img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50px;
+  object-fit: contain;
+}
+
+.conversation_box h2 {
+  color: white;
+  margin-left: 20px;
+  font-weight: 900;
+}
+.conversation_box h3 {
+  color: white;
+  margin-left: 20px;
+}
+
+.active_chat {
+  background-image: linear-gradient(to bottom right, #4a6e68, #3cff00);
+}
+
+.active_chat:hover {
+  background-image: linear-gradient(to bottom right, #3cff01, #8be662);
+}
