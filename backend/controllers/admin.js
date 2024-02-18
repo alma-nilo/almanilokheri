@@ -15,10 +15,8 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { ACCEPT, ACTIVEMAIL, BLOCKEDMAIL, REJECT } from "../mail/server.js";
 import {
-  deleteAccount,
   deleteImageToStorage,
-  uploadImageToStorage,
-} from "../firebase/firestore/functions.js";
+} from "../aws/functions.js";
 
 function shuffle(array) {
   for (let i = array.length - 1; i > 0; i--) {
@@ -204,7 +202,7 @@ export const UserResponse = async (req, res) => {
       if (data.proofpath) {
         deleteImageToStorage(data.proofpath);
       }
-      deleteAccount(data.uuid);
+
       await TempUser.deleteOne({ email: email });
       REJECT(email, remark, data.name);
       // sent mail for rejection

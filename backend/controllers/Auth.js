@@ -8,7 +8,6 @@ import bcrypt from "bcrypt";
 import { validate as uuidValidate } from "uuid";
 import jwt from "jsonwebtoken";
 import { sentotp } from "../mail/server.js";
-import { uploadImageToStorage } from "../firebase/firestore/functions.js";
 import dotenv from "dotenv";
 dotenv.config();
 
