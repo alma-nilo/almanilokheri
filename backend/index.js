@@ -69,27 +69,26 @@ mongoose.set("strictQuery", false);
 mongoose
   .connect(DB)
   .then(() => {
-    console.info("DB Connect")
+    if (process.env.NODE_ENV === "production") {
+      const fullchainPath = "/etc/letsencrypt/live/almanilokheri.in/fullchain.pem";
+      const privkeyPath = "/etc/letsencrypt/live/almanilokheri.in/privkey.pem";
+
+      https
+        .createServer(
+          // need change pem file
+          {
+            cert: fs.readFileSync(fullchainPath),
+            key: fs.readFileSync(privkeyPath)
+          },
+          app
+        )
+        .listen(PORT, () => console.info(`[Server] > Listening on port ${PORT}`));
+    } else {
+      app.listen(PORT, () => console.info(`[Server] > Listening on port ${PORT}`));
+    }
   })
   .catch((e) => {
     console.log(e.message);
   });
 
 
-if (process.env.NODE_ENV === "production") {
-  const fullchainPath = "/etc/letsencrypt/live/almanilokheri.in/fullchain.pem";
-  const privkeyPath = "/etc/letsencrypt/live/almanilokheri.in/privkey.pem";
-
-  https
-    .createServer(
-      // need change pem file
-      {
-        cert: fs.readFileSync(fullchainPath),
-        key: fs.readFileSync(privkeyPath)
-      },
-      app
-    )
-    .listen(PORT, () => console.info(`[Server] > Listening on port ${PORT}`));
-} else {
-  app.listen(PORT, () => console.info(`[Server] > Listening on port ${PORT}`));
-}
