@@ -14,7 +14,7 @@ services:
         max-file: "3"
 
   backend:
-    image: vishu7im/alma-nilokheri-backend:latest 
+    image: vishu7im/almanilokheri-backend:latest 
     restart: on-failure
     ports:
       - 5000:5000
@@ -25,7 +25,7 @@ services:
         max-size: "10m"
         max-file: "3"
   frontend:
-    image: vishu7im/alma-nilokheri-frontend:latest 
+    image: vishu7im/almanilokheri-frontend:latest 
     restart: on-failure
     ports:
       - 80:80

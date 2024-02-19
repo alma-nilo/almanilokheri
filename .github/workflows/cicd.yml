@@ -38,22 +38,10 @@ jobs:
 
       - name: Make .env file for frontend
         run: |
-          echo "REACT_APP_API_KEY=${REACT_APP_API_KEY}" > ./client/.env
-          echo "REACT_APP_PRIVET_KEY=${REACT_APP_PRIVET_KEY}" >> ./client/.env
-          echo "REACT_APP_AWS_Access_key=${REACT_APP_AWS_Access_key}" >> ./client/.env
-          echo "REACT_APP_AWS_secret_key=${REACT_APP_AWS_secret_key}" >> ./client/.env
-          echo "REACT_APP_AWS_S3_BUCKET=${REACT_APP_AWS_S3_BUCKET}" >> ./client/.env
-          echo "REACT_APP_AWS_REGION=${REACT_APP_AWS_REGION}" >> ./client/.env
-          echo "REACT_APP_apiKey=${REACT_APP_apiKey}" >> ./client/.env
-          echo "REACT_APP_authDomain=${REACT_APP_authDomain}" >> ./client/.env
-          echo "REACT_APP_projectId=${REACT_APP_projectId}" >> ./client/.env
-          echo "REACT_APP_storageBucket=${REACT_APP_storageBucket}" >> ./client/.env
-          echo "REACT_APP_messagingSenderId=${REACT_APP_messagingSenderId}" >> ./client/.env
-          echo "REACT_APP_appId=${REACT_APP_appId}" >> ./client/.env
-          echo "REACT_APP_measurementId=${REACT_APP_measurementId}" >> ./client/.env
-          echo "REACT_APP_TRACKING_ID=${REACT_APP_TRACKING_ID}" >> ./client/.env
-          echo "REACT_APP_Month=${REACT_APP_Month}" >> ./client/.env
-          echo "REACT_APP_Year=${REACT_APP_Year}" >> ./client/.env
+          echo -e "REACT_APP_API_KEY=${REACT_APP_API_KEY} \n REACT_APP_PRIVET_KEY=${REACT_APP_PRIVET_KEY} \n REACT_APP_AWS_Access_key=${REACT_APP_AWS_Access_key} \n REACT_APP_AWS_secret_key=${REACT_APP_AWS_secret_key} \n REACT_APP_AWS_S3_BUCKET=${REACT_APP_AWS_S3_BUCKET} \n REACT_APP_AWS_REGION=${REACT_APP_AWS_REGION} \n REACT_APP_apiKey=${REACT_APP_apiKey} \n REACT_APP_authDomain=${REACT_APP_authDomain} \n REACT_APP_projectId=${REACT_APP_projectId} \n REACT_APP_storageBucket=${REACT_APP_storageBucket} \n REACT_APP_messagingSenderId=${REACT_APP_messagingSenderId} \n REACT_APP_appId=${REACT_APP_appId} \n REACT_APP_measurementId=${REACT_APP_measurementId} \n REACT_APP_TRACKING_ID=${REACT_APP_TRACKING_ID} \n REACT_APP_Month=${REACT_APP_Month} \n REACT_APP_Year=${REACT_APP_Year}" > ./client/.env
+
+      - name: Read .env
+        run: echo ./client/.env
 
       - name: Navigate to client directory and  Install dependencies and  Build React app
         run: |
@@ -90,14 +78,10 @@ jobs:
 
       - name: Make .env file for Backend
         run: |
-          echo "DATABASE_KEY=${DATABASE_KEY}" > ./backend/.env
-          echo "privateKey=${privateKey}" >> ./backend/.env
-          echo "sender_mail=${sender_mail}" >> ./backend/.env
-          echo "mail_pwd=${mail_pwd}" >> ./backend/.env
-          echo "aws_access_key=${aws_access_key}" >> ./backend/.env
-          echo "aws_secret_key=${aws_secret_key}" >> ./backend/.env
-          echo "aws_s3_bucket=${aws_s3_bucket}" >> ./backend/.env
-          echo "aws_region=${aws_region}" >> ./backend/.env
+          echo -e "DATABASE_KEY=${DATABASE_KEY} \n privateKey=${privateKey} \n sender_mail=${sender_mail} \n mail_pwd=${mail_pwd} \n aws_access_key=${aws_access_key} \n aws_secret_key=${aws_secret_key} \n aws_s3_bucket=${aws_s3_bucket} \n aws_region=${aws_region}" > ./backend/.env
+
+      - name: Read .env
+        run: echo ./backend/.env
 
       - name: Login to Docker Hub
         run: docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_KEY}}
