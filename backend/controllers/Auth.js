@@ -28,7 +28,9 @@ export const tempuser = async (req, res) => {
     state,
     district,
     proof,
-    proofKey
+    proofKey,
+    profile,
+    profileKey
   } = req.body;
 
   if (
@@ -54,6 +56,8 @@ export const tempuser = async (req, res) => {
       profession: profession,
       proof: proof,
       proofpath: proofKey,
+      profile: profile,
+      profilepath: profileKey,
       linkdln: linkdln,
       facebook: facebook,
       twitter: twitter,
@@ -76,7 +80,7 @@ export const tempuser = async (req, res) => {
 };
 
 export const signup = async (req, res) => {
-  const { uuid, email, profile } = req.body;
+  const { uuid, email } = req.body;
 
   // //console.log(uuid, email);
 
@@ -128,7 +132,7 @@ export const signup = async (req, res) => {
     }
   }
 
-  const input = new TempUser({ uuid, email, profile });
+  const input = new TempUser({ uuid, email });
 
   try {
     await input.save();

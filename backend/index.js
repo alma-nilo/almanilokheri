@@ -53,11 +53,14 @@ app.use(cors());
 // );
 // --------------------------deployment------------------------------
 
-app.use((req, res, next) => {
-  console.log(req.body)
-  next()
+if (process.env.NODE_ENV !== "production") {
+  app.use((req, res, next) => {
+    console.log(req.body)
+    next()
 
-})
+  })
+}
+
 app.get("/", (req, res) => {
   res.send("gbn server");
 });

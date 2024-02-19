@@ -202,6 +202,9 @@ export const UserResponse = async (req, res) => {
       if (data.proofpath) {
         deleteImageToStorage(data.proofpath);
       }
+      if (data.profilepath) {
+        deleteImageToStorage(data.profilepath);
+      }
 
       await TempUser.deleteOne({ email: email });
       REJECT(email, remark, data.name);
