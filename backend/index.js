@@ -2,8 +2,8 @@ import mongoose from "mongoose";
 import Express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
-const https = require("https");
-const fs = require("fs");
+import https from "https";
+import fs from "fs";
 
 import * as dotenv from "dotenv";
 dotenv.config();
