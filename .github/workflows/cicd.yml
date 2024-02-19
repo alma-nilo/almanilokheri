@@ -41,7 +41,7 @@ jobs:
           echo -e "REACT_APP_API_KEY=${REACT_APP_API_KEY} \n REACT_APP_PRIVET_KEY=${REACT_APP_PRIVET_KEY} \n REACT_APP_AWS_Access_key=${REACT_APP_AWS_Access_key} \n REACT_APP_AWS_secret_key=${REACT_APP_AWS_secret_key} \n REACT_APP_AWS_S3_BUCKET=${REACT_APP_AWS_S3_BUCKET} \n REACT_APP_AWS_REGION=${REACT_APP_AWS_REGION} \n REACT_APP_apiKey=${REACT_APP_apiKey} \n REACT_APP_authDomain=${REACT_APP_authDomain} \n REACT_APP_projectId=${REACT_APP_projectId} \n REACT_APP_storageBucket=${REACT_APP_storageBucket} \n REACT_APP_messagingSenderId=${REACT_APP_messagingSenderId} \n REACT_APP_appId=${REACT_APP_appId} \n REACT_APP_measurementId=${REACT_APP_measurementId} \n REACT_APP_TRACKING_ID=${REACT_APP_TRACKING_ID} \n REACT_APP_Month=${REACT_APP_Month} \n REACT_APP_Year=${REACT_APP_Year}" > ./client/.env
 
       - name: Read .env
-        run: echo ./client/.env
+        run: cat ./client/.env
 
       - name: Navigate to client directory and  Install dependencies and  Build React app
         run: |
@@ -65,23 +65,23 @@ jobs:
     environment: backend
     env:
       DATABASE_KEY: ${{ vars.DATABASE_KEY }}
-      privateKey: ${{ vars.PRIVATEKEY }}
-      sender_mail: ${{ vars.SENDER_MAIL }}
-      mail_pwd: ${{ vars.MAIL_PWD }}
-      aws_access_key: ${{ vars.AWS_ACCESS_KEY }}
-      aws_secret_key: ${{ vars.AWS_SECRET_KEY }}
-      aws_s3_bucket: ${{ vars.AWS_S3_BUCKET }}
-      aws_region: ${{ vars.AWS_REGION }}
+      PrivetKey: ${{ vars.PRIVATEKEY }}
+      SENDER_MAIL: ${{ vars.SENDER_MAIL }}
+      MAIL_PWD: ${{ vars.MAIL_PWD }}
+      AWS_Access_key: ${{ vars.AWS_ACCESS_KEY }}
+      AWS_secret_key: ${{ vars.AWS_SECRET_KEY }}
+      AWS_S3_BUCKET: ${{ vars.AWS_S3_BUCKET }}
+      AWS_REGION: ${{ vars.AWS_REGION }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Make .env file for Backend
         run: |
-          echo -e "DATABASE_KEY=${DATABASE_KEY} \n privateKey=${privateKey} \n sender_mail=${sender_mail} \n mail_pwd=${mail_pwd} \n aws_access_key=${aws_access_key} \n aws_secret_key=${aws_secret_key} \n aws_s3_bucket=${aws_s3_bucket} \n aws_region=${aws_region}" > ./backend/.env
+          echo -e "DATABASE_KEY=${DATABASE_KEY} \n PrivetKey=${PrivetKey} \n SENDER_MAIL=${SENDER_MAIL} \n MAIL_PWD=${MAIL_PWD} \n AWS_Access_key=${AWS_Access_key} \n AWS_secret_key=${AWS_secret_key} \n AWS_S3_BUCKET=${AWS_S3_BUCKET} \n AWS_REGION=${AWS_REGION}" > ./backend/.env
 
       - name: Read .env
-        run: echo ./backend/.env
+        run: cat ./backend/.env
 
       - name: Login to Docker Hub
         run: docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_KEY}}
