@@ -2,6 +2,8 @@ import mongoose from "mongoose";
 import Express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
+const https = require("https");
+const fs = require("fs");
 
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -67,10 +69,27 @@ mongoose.set("strictQuery", false);
 mongoose
   .connect(DB)
   .then(() => {
-    app.listen(PORT, () => {
-      console.info(`connection success ${PORT}`);
-    });
+    console.info("DB Connect")
   })
   .catch((e) => {
     console.log(e.message);
   });
+
+
+if (process.env.NODE_ENV === "production") {
+  const fullchainPath = "/etc/letsencrypt/live/almanilokheri.in/fullchain.pem";
+  const privkeyPath = "/etc/letsencrypt/live/almanilokheri.in/privkey.pem";
+
+  https
+    .createServer(
+      // need change pem file
+      {
+        cert: fs.readFileSync(fullchainPath),
+        key: fs.readFileSync(privkeyPath)
+      },
+      app
+    )
+    .listen(PORT, () => console.info(`[Server] > Listening on port ${PORT}`));
+} else {
+  app.listen(PORT, () => console.info(`[Server] > Listening on port ${PORT}`));
+}

@@ -20,10 +20,16 @@ services:
       - 5000:5000
     depends_on:
       - "mongo"
+    environment:
+      NODE_ENV: production
+    volumes:
+      - /etc/letsencrypt/live/almanilokheri.in/fullchain.pem:/etc/letsencrypt/live/almanilokheri.in/fullchain.pem
+      - /etc/letsencrypt/live/almanilokheri.in/privkey.pem:/etc/letsencrypt/live/almanilokheri.in/privkey.pem
     logging:
       options:
         max-size: "10m"
         max-file: "3"
+
   frontend:
     image: vishu7im/almanilokheri-frontend:latest 
     restart: on-failure
@@ -31,7 +37,8 @@ services:
       - 80:80
       - 443:443
     volumes:
-      - /etc/letsencrypt/live/almanilokheri.in:/etc/letsencrypt/live/almanilokheri.in
+      - /etc/letsencrypt/live/almanilokheri.in/fullchain.pem:/etc/letsencrypt/live/almanilokheri.in/fullchain.pem
+      - /etc/letsencrypt/live/almanilokheri.in/privkey.pem:/etc/letsencrypt/live/almanilokheri.in/privkey.pem
     
     logging:
       options:
