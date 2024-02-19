@@ -30,8 +30,7 @@ const GalleryUploadComponent = ({ fetchGallery }) => {
   const [progress, setProgress] = useState(1);
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null); // For image preview
-  const [caption, setCaption] = useState("");
-  const [loader, setLoader] = useState(true);
+
   const [posting, setPosting] = useState(false);
 
   const initialValues = {

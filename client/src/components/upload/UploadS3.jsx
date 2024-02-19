@@ -16,7 +16,7 @@ const myBucket = new AWS.S3({
   region: REGION,
 });
 
-const UploadImageToS3WithNativeSdk = ({ title, setFieldValue }) => {
+const UploadImageToS3WithNativeSdk = ({ filed, title, setFieldValue }) => {
   const { setAlert } = AlertApi();
 
   const [progress, setProgress] = useState(0);
@@ -30,14 +30,16 @@ const UploadImageToS3WithNativeSdk = ({ title, setFieldValue }) => {
     const maxSize = 2 * 1024 * 1024; // 2MB
     if (file && file.type.startsWith("image/") && file.size <= maxSize) {
       setSelectedFile(file);
+
       const reader = new FileReader();
       reader.onloadend = () => {
         setUploadedImageUrl(reader.result);
       };
       reader.readAsDataURL(file);
     } else {
-      setSelectedFile(null);
+      setSelectedFile(file);
       setUploadedImageUrl(null);
+
       if (file.size > maxSize) {
         setAlert({
           type: "warning",
@@ -52,7 +54,7 @@ const UploadImageToS3WithNativeSdk = ({ title, setFieldValue }) => {
     const params = {
       Body: file,
       Bucket: S3_BUCKET,
-      Key: `proof/${file.name}_${Date.now()}`,
+      Key: `${filed}/${file.name}_${Date.now()}`,
     };
 
     try {
@@ -63,8 +65,8 @@ const UploadImageToS3WithNativeSdk = ({ title, setFieldValue }) => {
         })
         .promise();
       console.log("Upload successful:", response);
-      setFieldValue("proof", response.Location);
-      setFieldValue("proofKey", response.key);
+      setFieldValue(filed, response.Location);
+      setFieldValue(`${filed}Key`, response.key);
       setUploadComplete(true);
     } catch (err) {
       console.error("Error uploading file:", err);
@@ -109,7 +111,7 @@ const UploadImageToS3WithNativeSdk = ({ title, setFieldValue }) => {
                   onClick={removeFile}
                   className="text-sm text-gray-500 underline focus:outline-none"
                 >
-                  Remove
+                  Remove (2mb)
                 </button>
               )}
             </div>
@@ -118,8 +120,8 @@ const UploadImageToS3WithNativeSdk = ({ title, setFieldValue }) => {
               <input
                 type="file"
                 onChange={handleFileInput}
-                id="proof"
-                name="proof"
+                id={filed}
+                name={filed}
                 className="border border-gray-300 rounded-md px-4 py-2 w-full mb-4"
                 disabled={uploading}
               />
@@ -135,7 +137,7 @@ const UploadImageToS3WithNativeSdk = ({ title, setFieldValue }) => {
                 </button>
               )}
               <ErrorMessage
-                name="proof"
+                name={filed}
                 component="div"
                 className="text-red-500 mt-2"
               />
@@ -157,7 +159,7 @@ const UploadImageToS3WithNativeSdk = ({ title, setFieldValue }) => {
               {uploadComplete ? (
                 <div
                   className={`bg-green-500 text-white py-2 px-4 rounded-md w-full ${
-                    (!selectedFile || uploading) &&
+                    (!selectedFile || uploading) && // Disable if no file, uploading or invalid image
                     "opacity-50 cursor-not-allowed"
                   }`}
                 >
@@ -166,9 +168,9 @@ const UploadImageToS3WithNativeSdk = ({ title, setFieldValue }) => {
               ) : (
                 <button
                   onClick={() => uploadFile(selectedFile)}
-                  disabled={!selectedFile || uploading}
+                  disabled={uploading} // Disable if uploading or invalid image
                   className={`bg-blue-500 text-white py-2 px-4 rounded-md w-full ${
-                    (!selectedFile || uploading) &&
+                    (!selectedFile || uploading) && // Disable if no file, uploading or invalid image
                     "opacity-50 cursor-not-allowed"
                   }`}
                 >

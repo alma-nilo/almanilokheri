@@ -101,7 +101,6 @@ export default function SignUp() {
       const playload = {
         uuid: user.user.uid,
         email: user.user.email,
-        profile: user.user.photoURL,
       };
 
       // //console.log(user.user);

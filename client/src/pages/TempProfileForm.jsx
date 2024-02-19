@@ -7,6 +7,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Loader from "../components/Loader";
 import UploadImageToS3WithNativeSdk from "../components/upload/UploadS3";
+import PhotoUploadComponent from "../components/upload/Profile";
 
 const validationSchema = Yup.object({
   profession: Yup.string().required("Profession is required"),
@@ -16,6 +17,7 @@ const validationSchema = Yup.object({
   about: Yup.string().required("Please tell us something about yourself"),
   startYear: Yup.number().nullable().required("Starting year is required"),
   proof: Yup.string().required("Proof is required "),
+  profile: Yup.string().required("Profile pic is required "),
   endYear: Yup.number()
     .nullable()
     .required("Ending year is required")
@@ -42,6 +44,8 @@ export default function TempProfileForm() {
     endYear: null,
     proof: "",
     proofKey: "",
+    profile: "",
+    profileKey: "",
   };
 
   const [RollNo, setRollNo] = useState("");
@@ -73,7 +77,10 @@ export default function TempProfileForm() {
   };
 
   const yearOptions = [];
-  for (let year = 1947; year <= 2023; year++) {
+  let year = 1947;
+  const currentYear = new Date().getFullYear();
+
+  for (year; year <= currentYear; year++) {
     yearOptions.push(year);
   }
 
@@ -195,6 +202,7 @@ export default function TempProfileForm() {
       startYear,
       endYear,
       profile,
+      profileKey,
       proof,
       proofKey,
     } = values;
@@ -235,6 +243,8 @@ export default function TempProfileForm() {
       state: selectedState,
       district: selectedDistrict,
       proofKey: proofKey,
+      profile: profile,
+      profileKey: profileKey,
     };
 
     const url = `${process.env.REACT_APP_API_KEY}/tempuserinfo`;
@@ -418,6 +428,9 @@ export default function TempProfileForm() {
                     } w-full border rounded px-3 py-2  text-green-700  border-green-400 ring-green-300 focus:outline-none ring ring-opacity-40`}
                   />
                 </div>
+
+                <PhotoUploadComponent setFieldValue={setFieldValue} />
+
                 <div className="mb-6">
                   <label
                     htmlFor="Trade"
@@ -614,6 +627,7 @@ export default function TempProfileForm() {
                     className="text-red-500"
                   />
                 </div>
+
                 <div className="mb-5">
                   <label
                     htmlFor="about"
@@ -636,116 +650,12 @@ export default function TempProfileForm() {
                   />
                 </div>
 
-                {/* <div className="mb-6 z-0 ">
-                  <label
-                    htmlFor="profile"
-                    className="block text-gray-700 font-bold mb-2"
-                  >
-                    Profile
-                  </label>
-                  <div className="relative z-2 border-dashed border-2 border-gray-400 bg-white py-6 px-3 rounded-lg">
-                    <div className="flex justify-center items-center text-gray-400">
-                      <svg
-                        className="h-8 w-8"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M21 11.5V18.5C21 19.8807 19.8807 21 18.5 21H5.5C4.11929 21 3 19.8807 3 18.5V5.5C3 4.11929 4.11929 3 5.5 3H11.5"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                        <path
-                          d="M16 16L21 11M21 11L16.5 6.5M21 11L11.5 11M8.5 16L11.5 11"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                        <path
-                          d="M16 16L8.5 16"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                      <span className="mx-2 text-gray-400">Upload a file</span>
-                    </div>
-                    <input
-                      type="file"
-                      id="profile"
-                      name="profile"
-                      className="absolute z-0 left-0 top-0 border-2 border-indigo-600 w-full h-full opacity-5"
-                      onChange={(event) => {
-                        setFieldValue("profile", event.currentTarget.files[0]);
-                      }}
-                    />
-                  </div>
-                </div> */}
-                {/* <div className="mb-6">
-                  <label
-                    htmlFor="Proof"
-                    className="block text-gray-700 font-bold mb-2"
-                  >
-                    Proof
-                  </label>
-                  <div className="relative border-dashed border-2 border-gray-400 bg-white py-6 px-3 rounded-lg">
-                    <div className="flex justify-center items-center text-gray-400">
-                      <svg
-                        className="h-8 w-8"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M21 11.5V18.5C21 19.8807 19.8807 21 18.5 21H5.5C4.11929 21 3 19.8807 3 18.5V5.5C3 4.11929 4.11929 3 5.5 3H11.5"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                        <path
-                          d="M16 16L21 11M21 11L16.5 6.5M21 11L11.5 11M8.5 16L11.5 11"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                        <path
-                          d="M16 16L8.5 16"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                      <span className="mx-2 text-gray-400">Upload a file</span>
-                    </div>
-                    <input
-                      type="file"
-                      id="proof"
-                      name="proof"
-                      className="absolute left-0 top-0 border-2 border-indigo-600 w-full h-full opacity-5"
-                      onChange={(event) => {
-                        setFieldValue("proof", event.currentTarget.files[0]);
-                      }}
-                    />{" "}
-                  </div>
-                  <ErrorMessage
-                    name="proof"
-                    component="div"
-                    className="text-red-500 mt-2"
-                  />
-                </div> */}
-
                 <UploadImageToS3WithNativeSdk
-                  title="Proof (2mb)"
+                  title="Proof"
                   setFieldValue={setFieldValue}
+                  filed={"proof"}
                 />
+
                 <button
                   type="submit"
                   className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"

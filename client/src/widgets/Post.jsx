@@ -106,9 +106,9 @@ const Posts = ({ UserProfile, uuid }) => {
   return (
     <>
       {pathname === "/alumni" ? <CreatePost setpostsData={setpostsData} /> : ""}
-      <div className=" flex justify-center h-96 sideFix overflow-scroll mt-4 w-full">
+      <div className=" flex justify-center h-96 postfix overflow-scroll mt-4 w-full">
         <div
-          className={`flex    h-full  flex-col p-4 items-center  mt-2 space-y-4 w-80 ${
+          className={`flex h-full  flex-col p-4 items-center  mt-2 space-y-4 w-80 ${
             UserProfile ? "md:full" : "md:w-5/12"
           }  `}
         >

@@ -119,6 +119,15 @@ body,
   display: none;
 }
 
+.postfix{
+  overflow-x: scroll;
+}
+.postfix::-webkit-scrollbar {
+  display: none;
+}
+
+
+
 .content {
   width: 80%;
   overflow-x: scroll;
