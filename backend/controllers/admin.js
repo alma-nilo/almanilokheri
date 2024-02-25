@@ -261,16 +261,12 @@ export const getoneuser = async (req, res) => {
 };
 
 export const uploadDocument = async (req, res) => {
-  const { Title, path, url } = req.body;
+  const documents = req.body; // Assuming req.body is an array of documents
 
-  const data = new Gallery({
-    Document: url,
-    Title,
-    Path: path,
-  });
   try {
-    await data.save();
-    res.status(200).json({ msg: "upload" });
+    const insertedDocuments = await Gallery.insertMany(documents);
+
+    res.status(200).json({ msg: "upload", insertedDocuments });
   } catch (error) {
     res.status(500).json({ msg: error.message });
   }

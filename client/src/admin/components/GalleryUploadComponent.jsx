@@ -28,105 +28,88 @@ const myBucket = new AWS.S3({
 
 const GalleryUploadComponent = ({ fetchGallery }) => {
   const [progress, setProgress] = useState(1);
-  const [image, setImage] = useState(null);
-  const [imagePreview, setImagePreview] = useState(null); // For image preview
+  const [images, setImages] = useState([]); // Store array of images
+  const [imagePreviews, setImagePreviews] = useState([]); // For image previews
 
   const [posting, setPosting] = useState(false);
 
   const initialValues = {
     title: "",
   };
-  const handleImageChange = (acceptedFiles) => {
-    const selectedImage = acceptedFiles[0];
+  // Function to handle image removal
+  const handleRemoveImage = (indexToRemove) => {
+    setImages((prevImages) =>
+      prevImages.filter((_, index) => index !== indexToRemove)
+    );
+    setImagePreviews((prevPreviews) =>
+      prevPreviews.filter((_, index) => index !== indexToRemove)
+    );
+  };
 
-    // Check if a file is selected and it's an image
-    if (selectedImage && selectedImage.type.startsWith("image/")) {
-      // Check if file size is within limit (2MB)
-      if (selectedImage.size <= 2 * 1024 * 1024) {
-        // 2MB in bytes
-        setImage(selectedImage);
-        setImagePreview(URL.createObjectURL(selectedImage)); // Create image preview URL
-      } else {
-        // Display error message or handle accordingly
-        setAlert({
-          type: "warning",
-          message: "File size exceeds the limit of 2MB.",
-        });
+  const handleImageChange = (acceptedFiles) => {
+    let selectedImages = [];
+    let previews = [];
+
+    acceptedFiles.forEach((file) => {
+      if (file.type.startsWith("image/") && file.size <= 2 * 1024 * 1024) {
+        selectedImages.push(file);
+        previews.push(URL.createObjectURL(file));
       }
-    } else {
-      // Display error message or handle accordingly for non-image files
-      setAlert({
-        type: "warning",
-        message: "Only image files are accepted.",
-      });
-    }
+    });
+
+    setImages(selectedImages);
+    setImagePreviews(previews);
   };
 
   const validationSchema = Yup.object({
     title: Yup.string().required("Title is required"),
   });
+
   // context
   const { setAlert } = AlertApi();
 
   const { admin } = AuthApi();
 
   const handleSubmit = async (values, { setSubmitting, resetForm }) => {
-    // Prevent the default form submission
-
-    let playload = {
-      Title: values.title,
-      url: "",
-      path: "",
-    };
-
-    if (image) {
-      setSubmitting(true);
-      setPosting(true);
-
-      const params = {
-        Body: image,
-        Bucket: S3_BUCKET,
-        Key: `gallery/${image.name}_${Date.now()}`,
-      };
-
-      // console.log(params);
-
-      const response = await myBucket
-        .upload(params)
-        .on("httpUploadProgress", (evt) => {
-          setProgress(Math.round((evt.loaded / evt.total) * 100));
-        })
-        .promise();
-      // console.log("Upload successful:", response);
-
-      playload.url = response.Location;
-      playload.path = response.key;
-    } else {
-      setAlert({ type: "error", message: "Image are required" });
-    }
-    console.log(playload);
-
-    const url = `${process.env.REACT_APP_API_KEY}/admins/uploadDocument`;
+    setSubmitting(true);
+    setPosting(true);
 
     try {
-      await axios.post(url, playload, {
+      const uploadPromises = images.map(async (image) => {
+        const params = {
+          Body: image,
+          Bucket: S3_BUCKET,
+          Key: `gallery/${image.name}_${Date.now()}`,
+        };
+
+        const response = await myBucket.upload(params).promise();
+        return response;
+      });
+
+      const uploadedResults = await Promise.all(uploadPromises);
+
+      const payloads = uploadedResults.map((response) => ({
+        Title: values.title,
+        Document: response.Location,
+        Path: response.key,
+      }));
+
+      const url = `${process.env.REACT_APP_API_KEY}/admins/uploadDocument`;
+
+      await axios.post(url, payloads, {
         headers: {
           Authorization: `Bearer ${admin.token}`,
         },
       });
 
-      // //console.log("API response:", response.data);
-
-      setImage(null);
-      setImagePreview(null); // Clear image preview after upload
-      setAlert({ type: "success", message: "Piture Upload" });
+      setImages([]);
+      setImagePreviews([]);
+      setAlert({ type: "success", message: "Pictures Uploaded" });
       fetchGallery(1);
-      // Handle any further logic here if needed
     } catch (error) {
-      // console.error("Axios Error:", error);
-
-      setAlert({ type: "error", message: "Somthing Went Wrong" });
+      setAlert({ type: "error", message: "Something Went Wrong" });
     }
+
     resetForm();
     setSubmitting(false);
     setPosting(false);
@@ -141,7 +124,7 @@ const GalleryUploadComponent = ({ fetchGallery }) => {
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
-        {({ isSubmitting, setFieldValue }) => (
+        {({ isSubmitting }) => (
           <Form className="space-y-6">
             <div>
               <label htmlFor="title" className="block text-white mb-2">
@@ -161,26 +144,6 @@ const GalleryUploadComponent = ({ fetchGallery }) => {
               />
             </div>
 
-            {/* <div>
-              <label htmlFor="image" className="block text-white mb-2">
-                Upload Image:
-              </label>
-              <input
-                type="file"
-                id="image"
-                name="image"
-                className="w-full px-4 py-2 rounded-lg bg-purple-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-600"
-                onChange={(event) => {
-                  setFieldValue("image", event.currentTarget.files[0]);
-                }}
-              />
-              <ErrorMessage
-                name="image"
-                component="div"
-                className="text-red-500 mt-2"
-              />
-            </div> */}
-
             <Box
               border={`1px solid gray`}
               borderRadius="5px"
@@ -189,7 +152,7 @@ const GalleryUploadComponent = ({ fetchGallery }) => {
             >
               <Dropzone
                 acceptedFiles=".jpg,.jpeg,.png"
-                multiple={false}
+                multiple={true} // Allow multiple files
                 onDrop={(acceptedFiles) => handleImageChange(acceptedFiles)}
               >
                 {({ getRootProps, getInputProps }) => (
@@ -225,26 +188,28 @@ const GalleryUploadComponent = ({ fetchGallery }) => {
                         sx={{ "&:hover": { cursor: "pointer" } }}
                       >
                         <input {...getInputProps()} />
-                        {!image ? (
+                        {!images.length ? (
                           <p>Add Image Here</p>
                         ) : (
-                          <FlexBetween>
-                            <Typography>{image.name}</Typography>
-                            <EditOutlined />
-                          </FlexBetween>
+                          images.map((image, index) => (
+                            <FlexBetween key={index}>
+                              <Typography>{image.name}</Typography>
+                              <EditOutlined />
+                            </FlexBetween>
+                          ))
                         )}
                       </Box>
                     )}
 
-                    {image && (
+                    {images.length > 0 && (
                       <div className=" p-2">
                         {posting ? (
                           ""
                         ) : (
                           <IconButton
                             onClick={() => {
-                              setImage(null);
-                              setImagePreview(null);
+                              setImages([]);
+                              setImagePreviews([]);
                             }}
                             sx={{ width: "15%" }}
                           >
@@ -256,13 +221,26 @@ const GalleryUploadComponent = ({ fetchGallery }) => {
                   </FlexBetween>
                 )}
               </Dropzone>
-              {imagePreview && (
-                <img
-                  src={imagePreview}
-                  alt="Preview"
-                  style={{ marginTop: "10px", width: "100%", height: "auto" }}
-                />
-              )}
+              <div className="w-full flex overflow-x-scroll  mt-5 whitespace-nowrap">
+                {imagePreviews.map((preview, index) => (
+                  <div
+                    key={index}
+                    className=" w-74 relative mr-2" // Adjust margin between images as needed
+                  >
+                    <img
+                      src={preview}
+                      alt="Preview"
+                      className="mt-2 w-74 object-cover h-64" // Adjust height as needed
+                    />
+                    <IconButton
+                      onClick={() => handleRemoveImage(index)}
+                      className="absolute top-2 right-2 bg-red-600"
+                    >
+                      <DeleteOutlined />
+                    </IconButton>
+                  </div>
+                ))}
+              </div>
             </Box>
 
             <button

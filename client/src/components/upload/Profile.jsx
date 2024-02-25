@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Box, Typography, IconButton } from "@mui/material";
 import AWS from "aws-sdk";
@@ -9,6 +9,7 @@ import Dropzone from "react-dropzone";
 import FlexBetween from "../FlexBetween";
 import { AlertApi } from "../../context/AlertContext";
 import { ErrorMessage } from "formik";
+import axios from "axios";
 
 const S3_BUCKET = process.env.REACT_APP_AWS_S3_BUCKET;
 const REGION = process.env.REACT_APP_AWS_REGION;
@@ -23,7 +24,7 @@ const myBucket = new AWS.S3({
   region: REGION,
 });
 
-const PhotoUploadComponent = ({ setFieldValue }) => {
+const PhotoUploadComponent = ({ data, setprofileExist }) => {
   const [progress, setProgress] = useState(1);
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null); // For image preview
@@ -80,10 +81,17 @@ const PhotoUploadComponent = ({ setFieldValue }) => {
           })
           .promise();
         // console.log("Upload successful:", response);
-        setFieldValue("profile", response.Location);
-        setFieldValue("profileKey", response.key);
+
+        let url = `${process.env.REACT_APP_API_KEY}/tempuserdocs`;
+
+        await axios.post(url, {
+          data: data,
+          profile: response.Location,
+          profileKey: response.key,
+        });
         setImage(null);
         // Clear image preview after upload
+        setprofileExist(true);
         setAlert({ type: "success", message: "Piture Upload" });
         setUploadComplete(true);
       } else {
@@ -97,6 +105,19 @@ const PhotoUploadComponent = ({ setFieldValue }) => {
 
     setPosting(false);
   };
+
+  const imagesync = (data) => {
+    if (data.profile) {
+      setUploadComplete(true);
+      setImagePreview(data.profile);
+      setprofileExist(true);
+    }
+  };
+
+  useEffect(() => {
+    // render
+    imagesync(data);
+  }, [data]);
 
   return (
     <div className="p-2 rounded-lg">

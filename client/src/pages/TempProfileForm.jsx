@@ -16,8 +16,6 @@ const validationSchema = Yup.object({
   twitter: Yup.string().url("Invalid Twitter URL"),
   about: Yup.string().required("Please tell us something about yourself"),
   startYear: Yup.number().nullable().required("Starting year is required"),
-  proof: Yup.string().required("Proof is required "),
-  profile: Yup.string().required("Profile pic is required "),
   endYear: Yup.number()
     .nullable()
     .required("Ending year is required")
@@ -42,13 +40,11 @@ export default function TempProfileForm() {
     about: "",
     startYear: null,
     endYear: null,
-    proof: "",
-    proofKey: "",
-    profile: "",
-    profileKey: "",
   };
 
   const [RollNo, setRollNo] = useState("");
+  const [proofExist, setproofExist] = useState(false);
+  const [profileExist, setprofileExist] = useState(false);
   const [selectedState, setSelectedState] = useState("");
   const [selectedDistrict, setSelectedDistrict] = useState("");
   const [Duplicate, setDuplicate] = useState(false);
@@ -168,7 +164,7 @@ export default function TempProfileForm() {
     "Tamil Nadu": ["Chennai", "Coimbatore", "Madurai"],
     Telangana: ["Hyderabad", "Warangal", "Nizamabad"],
     Tripura: ["Agartala", "Dharmanagar", "Udaipur"],
-    "Uttar Pradesh": ["Lucknow", "Kanpur", "Agra"],
+    "Uttar Pradesh": ["Lucknow", "Kanpur", "Agra", "Haripur"],
     Uttarakhand: ["Dehradun", "Haridwar", "Nainital"],
     "West Bengal": ["Kolkata", "Howrah", "Durgapur"],
     "Andaman and Nicobar Islands": ["Port Blair", "Havelock", "Diglipur"],
@@ -184,12 +180,20 @@ export default function TempProfileForm() {
     // console.log("first");
     // console.log(values);
 
-    if (
-      !RollNo ||
-      !InstituteCollectionValuesTrade ||
-      !InstituteCollectionValuesName
-    ) {
-      setAlert({ type: "error", message: "All Field are required" });
+    if (!RollNo) {
+      setAlert({ type: "error", message: "RollNo are required" });
+      return;
+    } else if (!InstituteCollectionValuesName) {
+      setAlert({ type: "error", message: "Name are required" });
+      return;
+    } else if (!profileExist) {
+      setAlert({ type: "error", message: "profile are required" });
+      return;
+    } else if (!InstituteCollectionValuesTrade) {
+      setAlert({ type: "error", message: "Trade are required" });
+      return;
+    } else if (!proofExist) {
+      setAlert({ type: "error", message: "Proof are required" });
       return;
     }
 
@@ -201,37 +205,16 @@ export default function TempProfileForm() {
       about,
       startYear,
       endYear,
-      profile,
-      profileKey,
-      proof,
-      proofKey,
     } = values;
     // console.log(values);
 
     // //console.log(values);
     actions.setSubmitting(true);
 
-    // const formData = new FormData();
-    // formData.append("uuid", id);
-    // formData.append("name", InstituteCollectionValuesName);
-    // formData.append("Trade", InstituteCollectionValuesTrade);
-    // formData.append("proof", proof);
-    // formData.append("rollNo", RollNo);
-    // formData.append("profession", profession);
-    // formData.append("linkdln", linkdln);
-    // formData.append("facebook", facebook);
-    // formData.append("twitter", twitter);
-    // formData.append("about", about);
-    // formData.append("startYear", startYear);
-    // formData.append("endYear", endYear);
-    // formData.append("state", selectedState);
-    // formData.append("district", selectedDistrict);
-
     const playload = {
       uuid: id,
       name: InstituteCollectionValuesName,
       Trade: InstituteCollectionValuesTrade,
-      proof: proof,
       profession: profession,
       rollNo: RollNo,
       linkdln: linkdln,
@@ -242,9 +225,6 @@ export default function TempProfileForm() {
       endYear: endYear,
       state: selectedState,
       district: selectedDistrict,
-      proofKey: proofKey,
-      profile: profile,
-      profileKey: profileKey,
     };
 
     const url = `${process.env.REACT_APP_API_KEY}/tempuserinfo`;
@@ -429,7 +409,11 @@ export default function TempProfileForm() {
                   />
                 </div>
 
-                <PhotoUploadComponent setFieldValue={setFieldValue} />
+                <PhotoUploadComponent
+                  setFieldValue={setFieldValue}
+                  data={Tempdata}
+                  setprofileExist={setprofileExist}
+                />
 
                 <div className="mb-6">
                   <label
@@ -654,6 +638,8 @@ export default function TempProfileForm() {
                   title="Proof"
                   setFieldValue={setFieldValue}
                   filed={"proof"}
+                  data={Tempdata}
+                  setproofExist={setproofExist}
                 />
 
                 <button

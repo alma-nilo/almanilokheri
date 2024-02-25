@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AWS from "aws-sdk";
 import { ErrorMessage } from "formik";
 import { AlertApi } from "../../context/AlertContext";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import axios from "axios";
 
 const S3_BUCKET = process.env.REACT_APP_AWS_S3_BUCKET;
 const REGION = process.env.REACT_APP_AWS_REGION;
@@ -16,7 +18,12 @@ const myBucket = new AWS.S3({
   region: REGION,
 });
 
-const UploadImageToS3WithNativeSdk = ({ filed, title, setFieldValue }) => {
+const UploadImageToS3WithNativeSdk = ({
+  filed,
+  title,
+  data,
+  setproofExist,
+}) => {
   const { setAlert } = AlertApi();
 
   const [progress, setProgress] = useState(0);
@@ -64,9 +71,15 @@ const UploadImageToS3WithNativeSdk = ({ filed, title, setFieldValue }) => {
           setProgress(Math.round((evt.loaded / evt.total) * 100));
         })
         .promise();
-      console.log("Upload successful:", response);
-      setFieldValue(filed, response.Location);
-      setFieldValue(`${filed}Key`, response.key);
+
+      let url = `${process.env.REACT_APP_API_KEY}/tempuserdocs`;
+
+      await axios.post(url, {
+        data: data,
+        proof: response.Location,
+        proofKey: response.key,
+      });
+      setproofExist(true);
       setUploadComplete(true);
     } catch (err) {
       console.error("Error uploading file:", err);
@@ -91,6 +104,20 @@ const UploadImageToS3WithNativeSdk = ({ filed, title, setFieldValue }) => {
     setUploadedImageUrl(null);
     setUploadComplete(false); // Reset upload status
   };
+
+  const imagesync = (data) => {
+    if (data.proof) {
+      setUploadComplete(true);
+      setSelectedFile(data.proof);
+      setUploadedImageUrl(data.proof);
+      setproofExist(true);
+    }
+  };
+
+  useEffect(() => {
+    // render
+    imagesync(data);
+  }, [data]);
 
   return (
     <div className=" bg-gray-100 flex justify-center sm:py-5">
@@ -163,7 +190,7 @@ const UploadImageToS3WithNativeSdk = ({ filed, title, setFieldValue }) => {
                     "opacity-50 cursor-not-allowed"
                   }`}
                 >
-                  Completed
+                  <CheckCircleIcon />
                 </div>
               ) : (
                 <button

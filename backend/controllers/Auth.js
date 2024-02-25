@@ -27,10 +27,7 @@ export const tempuser = async (req, res) => {
     endYear,
     state,
     district,
-    proof,
-    proofKey,
-    profile,
-    profileKey
+
   } = req.body;
 
   if (
@@ -54,10 +51,6 @@ export const tempuser = async (req, res) => {
       startYear: startYear,
       endYear: endYear,
       profession: profession,
-      proof: proof,
-      proofpath: proofKey,
-      profile: profile,
-      profilepath: profileKey,
       linkdln: linkdln,
       facebook: facebook,
       twitter: twitter,
@@ -217,6 +210,30 @@ export const getTempvalidation = async (req, res) => {
     }
     res.status(200).json({ data: data });
   } catch (error) {
+    res.status(400).json({ err: error.message });
+  }
+};
+
+export const tempuserdocs = async (req, res) => {
+  const { data, profile, profileKey, proof, proofKey } = req.body;
+  try {
+
+    if (profile && profileKey) {
+      console.log("first")
+      await TempUser.findOneAndUpdate({ _id: data._id }, { profile: profile, profilepath: profileKey })
+      res.status(200).json({ data: "success" });
+    } else if (proof && proofKey) {
+      await TempUser.findOneAndUpdate({ _id: data._id }, { proof: proof, proofpath: proofKey })
+      res.status(200).json({ data: "success" });
+
+
+    } else {
+      res.status(400).json({ err: "Somthing went wrong" });
+    }
+
+  } catch (error) {
+    console.log(error)
+
     res.status(400).json({ err: error.message });
   }
 };
