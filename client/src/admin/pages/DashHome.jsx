@@ -377,7 +377,7 @@ const DashHome = ({ deviceCount }) => {
                 <Box
                   onClick={() => {
                     navigate(
-                      `${process.env.REACT_APP_API_KEY}/admin/monthsRecord/${transaction.month}/${transaction.year}`
+                      `/admin/monthsRecord/${transaction.month}/${transaction.year}`
                     );
                   }}
                   className="cursor-pointer"
