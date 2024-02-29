@@ -281,19 +281,8 @@ export default function SignUp() {
                     </Button>
                   </ThemeProvider>
                 </Grid>
+
                 {/* <Grid item xs={12} sm={4}>
-                  <ThemeProvider theme={theme}>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      startIcon={<Apple />}
-                      fullWidth
-                    >
-                      Apple
-                    </Button>
-                  </ThemeProvider>
-                </Grid> */}
-                <Grid item xs={12} sm={4}>
                   <ThemeProvider theme={theme}>
                     <Button
                       variant="contained"
@@ -301,11 +290,12 @@ export default function SignUp() {
                       startIcon={<Facebook />}
                       fullWidth
                       onClick={handleSignupWithFaceBook}
+                      className="hidden"
                     >
                       Facebook
                     </Button>
                   </ThemeProvider>
-                </Grid>
+                </Grid> */}
               </Grid>
             </div>
           </Grid>
