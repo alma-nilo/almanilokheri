@@ -184,9 +184,6 @@ export default function Navbar({ headerDash, developer }) {
                       >
                         Contribute
                       </li>
-                      <div className="md:hidden ml-2">
-                        <KeyboardDoubleArrowDownIcon />
-                      </div>
                     </div>
 
                     <ul className="absolute w-40  p-2 z-50 hidden top-4 left-2  mt-2  bg-green-600 text-white group-hover:block">
@@ -272,9 +269,6 @@ export default function Navbar({ headerDash, developer }) {
                       >
                         Service
                       </li>
-                      <div className="md:hidden ml-2">
-                        <KeyboardDoubleArrowDownIcon />
-                      </div>
                     </div>
                     <ul className="absolute w-40  p-2 z-50 hidden top-4 left-2  mt-2  bg-green-600 text-white group-hover:block">
                       <li className="pl-4 font-semibold hover:text-green-300 sub  ">
@@ -644,9 +638,6 @@ export default function Navbar({ headerDash, developer }) {
                         >
                           Contribute
                         </li>
-                        <div className="md:hidden ml-2">
-                          <KeyboardDoubleArrowDownIcon />
-                        </div>
                       </div>
                       <ul className="absolute w-40  p-2 z-50 hidden top-4 left-2  mt-2  bg-green-500 text-white group-hover:block">
                         <li className="pl-4 font-semibold hover:text-green-300 sub ">
@@ -731,9 +722,6 @@ export default function Navbar({ headerDash, developer }) {
                         >
                           Service
                         </li>
-                        <div className="md:hidden ml-2">
-                          <KeyboardDoubleArrowDownIcon />
-                        </div>
                       </div>
                       <ul className="absolute w-40  p-2 z-50 hidden top-4 left-2  mt-2  bg-green-500 text-white group-hover:block">
                         <li className="pl-4 font-semibold hover:text-green-300 sub  ">
