@@ -1,232 +1,96 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AlertApi } from "../context/AlertContext";
-// import { useFormik } from "formik";
-// import * as Yup from "yup";
+
 import axios from "axios";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer/Footer";
-import { TextField, Button, Grid, Typography } from "@mui/material";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { Apple, Facebook, Google } from "@mui/icons-material";
-import {
-  GoogleAuthProvider,
-  signInWithPopup,
-  createUserWithEmailAndPassword,
-  FacebookAuthProvider,
-} from "firebase/auth";
-import { auth } from "../auth/firebase";
+import { Grid, Typography } from "@mui/material";
+
 import Cookies from "js-cookie";
 import { AuthApi } from "../context/user";
 
 export default function SignUp() {
-  // const [match, setMatch] = useState(true);
-  // const [passwordStrength, setPasswordStrength] = useState("");
-  // const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [secret, setSecret] = useState("");
+  const [qrCode, setQRCode] = useState("");
+  const [showQrCode, setShowQrCode] = useState(false);
+  const [totp, setTotp] = useState("");
+  const [isValidEmail, setIsValidEmail] = useState(false);
 
   const { setAlert } = AlertApi();
   const { setuser } = AuthApi();
-  // const formik = useFormik({
-  //   initialValues: {
-  //     email: "",
-  //     password: "",
-  //     Cpassword: "",
-  //   },
-  //   validationSchema: Yup.object({
-  //     name: Yup.string().required("Required"),
-  //     email: Yup.string().email("Invalid email address").required("Required"),
-  //     password: Yup.string()
-  //       .matches(
-  //         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-  //         "Must contain at least 8 characters, one uppercase letter, one lowercase letter, one number, and one special character"
-  //       )
-  //       .required("Required"),
-  //     Cpassword: Yup.string()
-  //       .oneOf([Yup.ref("password"), null], "Passwords must match")
-  //       .required("Required"),
-  //   }),
-  //   onSubmit: async (values, { resetForm }) => {
-  //     // Handle form submission here using axios or any other method
-  //     setLoading(true);
-  //     await handleSignup(values);
-  //     setLoading(false);
-  //     resetForm();
-  //   },
-  // });
 
-  // const handleSignup = async (values) => {
-  //   const { email, password } = values;
-  //   if ((!email, !password)) {
-  //     setAlert({ type: "warning", message: "All fields are Required" });
-  //     return;
-  //   }
-  //   try {
-  //     const user = await createUserWithEmailAndPassword(auth, email, password);
+  const fetchQrCode = async (mail) => {
+    const url = `${process.env.REACT_APP_API_KEY}/signup?mail=${mail}`;
 
-  //     // Send the user data to the server
-
-  //     const playload = {
-  //       uuid: user.user.uid,
-  //       email: email,
-  //     };
-
-  //     if (user) {
-  //       let url = `${process.env.REACT_APP_API_KEY}/signup`;
-  //       const res = await axios.post(url, playload);
-  //       navigate(`/signup/${res.data.uuid}`);
-  //       setAlert({ type: "success", message: "Sign Up success" });
-  //     }
-  //   } catch (error) {
-  //     if (error.message === "Firebase: Error (auth/email-already-in-use).") {
-  //       setAlert({
-  //         type: "error",
-  //         message: "Account Already exist wait for intitute approvel",
-  //       });
-  //     }
-  //     // //console.log("Failed to sign up with Google.");
-  //   }
-  // };
-
-  const handleSignupWithGoogle = async () => {
     try {
-      const provider = new GoogleAuthProvider();
-      // provider.setCustomParameters({ prompt: "select_account" });
-      // //console.log(provider);
-      // //console.log(auth);
-      const user = await signInWithPopup(auth, provider);
-
-      // console.log(user);
-      // Send the user data to the server
-      const playload = {
-        uuid: user.user.uid,
-        email: user.user.email,
-      };
-
-      // //console.log(user.user);
-      // //console.log(user._tokenResponse);
-      if (user) {
-        let url = `${process.env.REACT_APP_API_KEY}/signup`;
-
-        const res = await axios.post(url, playload);
-        console.log(res);
-        if (res.data.code === 0) {
-          navigate(`/signup/${res.data.uuid}`);
-          window.scrollTo({
-            top: 0,
-            behavior: "smooth",
-          });
-          setAlert({ type: "success", message: "success" });
-        } else if (res.data.code === 1) {
-          console.log(res);
-          setuser(res.data);
-          const Token = JSON.stringify(res.data);
-          Cookies.set("User", Token, { expires: 2 });
-          navigate(`/alumni`);
-          // navigate("/Login");
-        } else if (res.data.code === 2) {
-          setAlert({ type: "error", message: "You are Blocked" });
-        } else if (res.data.code === 3) {
-          setAlert({
-            type: "error",
-            message: "your account Already exist wait for intitute approvel",
-          });
-        }
-      }
-    } catch (error) {}
-  };
-  const handleSignupWithFaceBook = async () => {
-    try {
-      const provider = new FacebookAuthProvider();
-      // provider.setCustomParameters({ prompt: "select_account" });
-      // //console.log(provider);
-      // //console.log(auth);
-      const user = await signInWithPopup(auth, provider);
-      // Send the user data to the server
-      const playload = {
-        uuid: user.user.uid,
-        email: user.user.email,
-      };
-
-      console.log(user);
-
-      // //console.log(user.user);
-      // //console.log(user._tokenResponse);
-      if (user) {
-        let url = `${process.env.REACT_APP_API_KEY}/signup`;
-
-        const res = await axios.post(url, playload);
-        // //console.log(res);
-        if (res.data.code === 0) {
-          navigate(`/signup/${res.data.uuid}`);
-          window.scrollTo({
-            top: 0,
-            behavior: "smooth",
-          });
-          setAlert({ type: "success", message: "success" });
-        } else if (res.data.code === 1) {
-          setAlert({ type: "warning", message: "This Mail Already exist" });
-          // navigate("/Login");
-        } else if (res.data.code === 2) {
-          setAlert({ type: "error", message: "You are Blocked" });
-        } else if (res.data.code === 3) {
-          setAlert({
-            type: "error",
-            message: "your account Already exist wait for intitute approvel",
-          });
-        }
-      }
-    } catch (error) {}
+      const response = await axios.post(url);
+      setSecret(response.data.secret);
+      setQRCode(response.data.qrCode);
+    } catch (error) {
+      console.error("Error signing up:", error);
+    }
   };
 
-  // const handleinput = (e) => {
-  //   const { value, id } = e.target;
-  //   formik.setFieldValue(id, value);
-  // };
+  const handleEmailSubmit = () => {
+    // Handle email submission logic here
 
-  // const checkpwd = () => {
-  //   const { password, Cpassword } = formik.values;
+    if (!isValidEmail) {
+      // Don't generate QR code if email is not valid
+      setAlert({ type: "error", message: "only Valid email required " });
 
-  //   if (!Cpassword || !password) {
-  //     return setMatch(true);
-  //   }
+      return;
+    }
 
-  //   if (Cpassword === password) {
-  //     setMatch(true);
-  //   } else {
-  //     setMatch(false);
-  //   }
-  // };
+    setShowQrCode(true); // Show QR code after email submission
+    fetchQrCode(email);
+  };
 
-  // useEffect(() => {
-  //   checkpwd();
-  // }, [formik.values]);
+  const handleChangeTotp = (e) => {
+    setTotp(e.target.value);
+  };
 
-  // const checkPasswordStrength = (password) => {
-  //   if (
-  //     password.match(
-  //       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
-  //     )
-  //   ) {
-  //     setPasswordStrength("Strong");
-  //   } else if (password.match(/^(?=.*[a-zA-Z])(?=.*\d)[A-Za-z\d]{8,}$/)) {
-  //     setPasswordStrength("Medium");
-  //   } else {
-  //     setPasswordStrength("Weak");
-  //   }
-  // };
+  const handleChangeEmail = (e) => {
+    // Validate the entered email using regex
+    const enteredEmail = e.target.value;
+    setEmail(enteredEmail);
 
-  // useEffect(() => {
-  //   checkPasswordStrength(formik.values.password);
-  // }, [formik.values.password]);
+    const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(enteredEmail);
+    setIsValidEmail(isValid);
+  };
 
-  const theme = createTheme({
-    palette: {
-      primary: {
-        main: "#1976d2",
-      },
-    },
-  });
+  const handleSubmit = async () => {
+    // Handle submission logic here
+    const url = `${process.env.REACT_APP_API_KEY}/validate`;
+    const playload = {
+      totp,
+      email,
+      secret,
+    };
+    try {
+      await axios.post(url, playload);
+      navigate(`/signup/${secret}`);
+      setAlert({ type: "success", message: "Validate" });
+    } catch (error) {
+      setAlert({ type: "error", message: "Somthing Went Wrong" });
+    }
+  };
+  const openGoogleAuthenticator = () => {
+    window.open(
+      `otpauth://totp/Alma Nilokheri: ${email}?secret=${secret}`,
+      "_blank"
+    );
+  };
+
+  // Function to handle opening Microsoft Authenticator
+  const openMicrosoftAuthenticator = () => {
+    window.open(
+      `msauth://com.microsoft.azureauthenticator/otpauth/Alma Nilokheri: ${email}?secret=${secret}`,
+      "_blank"
+    );
+  };
 
   return (
     <>
@@ -265,38 +129,85 @@ export default function SignUp() {
                     </li>
                   </ul>
                 </Typography>
+
+                {showQrCode ? (
+                  <>
+                    <Typography
+                      variant="body1"
+                      className="mb-4 md:mb-6 text-white"
+                    >
+                      Scan the QR code using{" "}
+                      <button
+                        onClick={openGoogleAuthenticator}
+                        className="text-blue-500"
+                      >
+                        Google Authenticator
+                      </button>{" "}
+                      or{" "}
+                      <button
+                        onClick={openMicrosoftAuthenticator}
+                        className="text-blue-500"
+                      >
+                        Microsoft Authenticator
+                      </button>{" "}
+                      to complete the setup process.
+                    </Typography>
+                    <div className="flex justify-center mt-2">
+                      <p className="text-white font-bold">Email: {email}</p>
+                    </div>
+                    <div className="flex justify-center mt-2">
+                      <img src={qrCode} alt="QR Code" />
+                    </div>
+                    <div className="mt-2 flex justify-center">
+                      <input
+                        type="text"
+                        value={totp}
+                        onChange={handleChangeTotp}
+                        placeholder="Enter TOTP"
+                        className="py-2 px-4 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                      />
+                    </div>
+                    <div className="mt-2 flex justify-center">
+                      <button
+                        onClick={handleSubmit}
+                        className="inline-flex justify-center py-1 px-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                      >
+                        Verify
+                      </button>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <Typography
+                      variant="body1"
+                      className="mb-4 md:mb-6 text-white"
+                    >
+                      Enter your email to complete the setup process.
+                    </Typography>
+                    <div className="mt-2 flex justify-center">
+                      <input
+                        type="email"
+                        value={email}
+                        onChange={handleChangeEmail}
+                        placeholder="Enter Email"
+                        className="py-2 px-4 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                      />
+                    </div>
+                    <div className="mt-2 flex justify-center">
+                      <button
+                        onClick={handleEmailSubmit}
+                        className="inline-flex justify-center py-1 px-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                      >
+                        Submit Email
+                      </button>
+                    </div>
+                    <p className="text-white mt-4 font-bold">
+                      Already have an Account :{" "}
+                      <span className=" text-blue-600 font-normal">Login</span>
+                    </p>
+                  </>
+                )}
               </div>
-
-              <Grid container spacing={2}>
-                <Grid item xs={12} sm={4}>
-                  <ThemeProvider theme={theme}>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      startIcon={<Google />}
-                      onClick={handleSignupWithGoogle}
-                      fullWidth
-                    >
-                      Google
-                    </Button>
-                  </ThemeProvider>
-                </Grid>
-
-                {/* <Grid item xs={12} sm={4}>
-                  <ThemeProvider theme={theme}>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      startIcon={<Facebook />}
-                      fullWidth
-                      onClick={handleSignupWithFaceBook}
-                      className="hidden"
-                    >
-                      Facebook
-                    </Button>
-                  </ThemeProvider>
-                </Grid> */}
-              </Grid>
             </div>
           </Grid>
         </Grid>

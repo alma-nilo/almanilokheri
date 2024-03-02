@@ -228,9 +228,7 @@ const EventBox = () => {
                   <span
                     className="text-green-600 cursor-pointer hover:text-green-300"
                     onClick={() => {
-                      navigate(
-                        `${process.env.REACT_APP_API_KEY}/events/${event._id}`
-                      );
+                      navigate(`/events/${event._id}`);
                       window.scrollTo({
                         top: 0,
                         behavior: "smooth",
