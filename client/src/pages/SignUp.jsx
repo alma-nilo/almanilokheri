@@ -34,7 +34,7 @@ export default function SignUp() {
     }
   };
 
-  const handleEmailSubmit = () => {
+  const handleEmailSubmit = async () => {
     // Handle email submission logic here
 
     if (!isValidEmail) {
@@ -44,8 +44,34 @@ export default function SignUp() {
       return;
     }
 
-    setShowQrCode(true); // Show QR code after email submission
-    fetchQrCode(email);
+    try {
+      const url = `${process.env.REACT_APP_API_KEY}/flagforauth`;
+
+      const response = await axios.post(url, { mail: email });
+
+      if (response.data.status === "LOGIN") {
+        console.log("Login");
+      } else if (response.data.status === "BLOCK") {
+        setAlert({
+          type: "error",
+          message: "This Account is Block",
+        });
+      } else if (response.data.status === "WAIT") {
+        setAlert({
+          type: "success",
+          message: "Wait For Institute Confirmation",
+        });
+      } else if (response.data.status === "REGISTRATION") {
+        navigate(response.data.tempUser.uuid);
+      } else if (response.data.status === "TOTP") {
+        setShowQrCode(true); // Show QR code after email submission
+        fetchQrCode(email);
+      } else {
+        setAlert({ type: "error", message: "Somthing Went Wrong" });
+      }
+    } catch (error) {
+      setAlert({ type: "error", message: "Somthing Went Wrong" });
+    }
   };
 
   const handleChangeTotp = (e) => {
@@ -201,10 +227,6 @@ export default function SignUp() {
                         Submit Email
                       </button>
                     </div>
-                    <p className="text-white mt-4 font-bold">
-                      Already have an Account :{" "}
-                      <span className=" text-blue-600 font-normal">Login</span>
-                    </p>
                   </>
                 )}
               </div>

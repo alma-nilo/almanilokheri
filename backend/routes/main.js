@@ -8,12 +8,14 @@ import {
   getDeviceRecord,
   insertdeviceDailyRecord,
   tempuserdocs,
-  validate
+  validate,
+  flagForAuth
 } from "../controllers/Auth.js";
 const router = Router();
 
 router.post("/signup", signup);
 router.post("/validate", validate);
+router.post("/flagforauth", flagForAuth);
 router.post("/signup/:id", getTempvalidation);
 router.post(
   "/tempuserinfo",

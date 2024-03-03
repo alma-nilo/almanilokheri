@@ -77,7 +77,7 @@ export const tempuser = async (req, res) => {
 export const signup = async (req, res) => {
   const { mail } = req.query
 
-  const user = await TempUser.findOne({ email: mail });
+  // const user = await TempUser.findOne({ email: mail });
 
   const secret = speakeasy.generateSecret({ length: 20, name: `Alma Nilokheri: ${mail}` });
   qrCode.toDataURL(secret.otpauth_url, async (err, dataUrl) => {
@@ -117,7 +117,51 @@ export const validate = async (req, res) => {
   }
 
 }
-12.0
+
+export const flagForAuth = async (req, res) => {
+
+  const { mail } = req.body
+
+
+  try {
+
+    const tempUser = await TempUser.findOne({ email: mail });
+    const user = await User.findOne({ email: mail });
+
+    console.log(user)
+
+    const TBool = Boolean(TempUser)
+    const TBoolstatus = Boolean(TempUser.status)
+    const UserBool = Boolean(User)
+    const UserTBoolstatus = Boolean(User.status)
+
+    console.log(UserBool, UserTBoolstatus, TBool, TBoolstatus)
+
+    if (user && !tempUser && user.status) {
+      res.status(200).json({ status: "LOGIN", user: user })
+    }
+    else if (user && !tempUser && !user.status) {
+      res.status(200).json({ status: "BLOCK" })
+    }
+    else if (!user && tempUser && tempUser.status) {
+      res.status(200).json({ status: "WAIT" })
+    }
+    else if (!user && tempUser && !tempUser.status) {
+      res.status(200).json({ status: "REGISTRATION", tempUser: tempUser })
+    }
+    else if (!user && !tempUser) {
+      res.status(200).json({ status: "TOTP" })
+    }
+    else {
+      res.status(401).json({ message: 'Invalid token' });
+    }
+  } catch (error) {
+    console.log(error)
+    res.status(500).json(error);
+
+  }
+
+}
 // export const signup = async (req, res) => {
 //   const { uuid, email } = req.body;
 
