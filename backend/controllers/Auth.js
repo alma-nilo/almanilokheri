@@ -154,9 +154,6 @@ export const login = async (req, res) => {
         profile: user.profile,
       });
 
-
-
-
     }
     else {
       res.status(404).json({ message: "user not found" });
@@ -184,14 +181,6 @@ export const flagForAuth = async (req, res) => {
     const tempUser = await TempUser.findOne({ email: mail });
     const user = await User.findOne({ email: mail });
 
-    console.log(user)
-
-    const TBool = Boolean(TempUser)
-    const TBoolstatus = Boolean(TempUser.status)
-    const UserBool = Boolean(User)
-    const UserTBoolstatus = Boolean(User.status)
-
-    console.log(UserBool, UserTBoolstatus, TBool, TBoolstatus)
 
     if (user && !tempUser && user.status) {
       res.status(200).json({ status: "LOGIN", user: user })
