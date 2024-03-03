@@ -15,6 +15,7 @@ export default function SignUp() {
   const [email, setEmail] = useState("");
   const [secret, setSecret] = useState("");
   const [qrCode, setQRCode] = useState("");
+  const [isLogin, setisLogin] = useState(false);
   const [showQrCode, setShowQrCode] = useState(false);
   const [totp, setTotp] = useState("");
   const [isValidEmail, setIsValidEmail] = useState(false);
@@ -50,7 +51,8 @@ export default function SignUp() {
       const response = await axios.post(url, { mail: email });
 
       if (response.data.status === "LOGIN") {
-        console.log("Login");
+        setShowQrCode(true);
+        setisLogin(true);
       } else if (response.data.status === "BLOCK") {
         setAlert({
           type: "error",
@@ -103,6 +105,31 @@ export default function SignUp() {
       setAlert({ type: "error", message: "Somthing Went Wrong" });
     }
   };
+
+  const handleLogin = async () => {
+    const url = `${process.env.REACT_APP_API_KEY}/login`;
+    const playload = {
+      totp,
+      email,
+    };
+    try {
+      const res = await axios.post(url, playload);
+
+      if (res.data.code === 1) {
+        console.log(res);
+        setuser(res.data);
+        const Token = JSON.stringify(res.data);
+        Cookies.set("User", Token, { expires: 2 });
+        navigate(`/alumni`);
+        // navigate("/Login");
+      }
+
+      setAlert({ type: "success", message: "Login Success" });
+    } catch (error) {
+      setAlert({ type: "error", message: "invalid Otp" });
+    }
+  };
+
   const openGoogleAuthenticator = () => {
     window.open(
       `otpauth://totp/Alma Nilokheri: ${email}?secret=${secret}`,
@@ -158,49 +185,96 @@ export default function SignUp() {
 
                 {showQrCode ? (
                   <>
-                    <Typography
-                      variant="body1"
-                      className="mb-4 md:mb-6 text-white"
-                    >
-                      Scan the QR code using{" "}
-                      <button
-                        onClick={openGoogleAuthenticator}
-                        className="text-blue-500"
-                      >
-                        Google Authenticator
-                      </button>{" "}
-                      or{" "}
-                      <button
-                        onClick={openMicrosoftAuthenticator}
-                        className="text-blue-500"
-                      >
-                        Microsoft Authenticator
-                      </button>{" "}
-                      to complete the setup process.
-                    </Typography>
-                    <div className="flex justify-center mt-2">
-                      <p className="text-white font-bold">Email: {email}</p>
-                    </div>
-                    <div className="flex justify-center mt-2">
-                      <img src={qrCode} alt="QR Code" />
-                    </div>
-                    <div className="mt-2 flex justify-center">
-                      <input
-                        type="text"
-                        value={totp}
-                        onChange={handleChangeTotp}
-                        placeholder="Enter TOTP"
-                        className="py-2 px-4 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                      />
-                    </div>
-                    <div className="mt-2 flex justify-center">
-                      <button
-                        onClick={handleSubmit}
-                        className="inline-flex justify-center py-1 px-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                      >
-                        Verify
-                      </button>
-                    </div>
+                    {isLogin ? (
+                      <>
+                        <Typography
+                          variant="body1"
+                          className="mb-4 md:mb-6 text-white"
+                        >
+                          Enter Totp from your{" "}
+                          <button
+                            onClick={openGoogleAuthenticator}
+                            className="text-blue-500"
+                          >
+                            Google Authenticator
+                          </button>{" "}
+                          or{" "}
+                          <button
+                            onClick={openMicrosoftAuthenticator}
+                            className="text-blue-500"
+                          >
+                            Microsoft Authenticator
+                          </button>{" "}
+                          to complete the Login process.
+                        </Typography>
+                        <div className="flex justify-center mt-2">
+                          <p className="text-white font-bold">Email: {email}</p>
+                        </div>
+                        <div className="mt-2 flex justify-center">
+                          <input
+                            type="text"
+                            value={totp}
+                            onChange={handleChangeTotp}
+                            placeholder="Enter TOTP"
+                            className="py-2 px-4 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                          />
+                        </div>
+                        <div className="mt-2 flex justify-center">
+                          <button
+                            onClick={handleLogin}
+                            className="inline-flex justify-center py-1 px-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                          >
+                            Login
+                          </button>
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <Typography
+                          variant="body1"
+                          className="mb-4 md:mb-6 text-white"
+                        >
+                          Scan the QR code using{" "}
+                          <button
+                            onClick={openGoogleAuthenticator}
+                            className="text-blue-500"
+                          >
+                            Google Authenticator
+                          </button>{" "}
+                          or{" "}
+                          <button
+                            onClick={openMicrosoftAuthenticator}
+                            className="text-blue-500"
+                          >
+                            Microsoft Authenticator
+                          </button>{" "}
+                          to complete the setup process.
+                        </Typography>
+                        <div className="flex justify-center mt-2">
+                          <p className="text-white font-bold">Email: {email}</p>
+                        </div>
+                        <div className="flex justify-center mt-2">
+                          <img src={qrCode} alt="QR Code" />
+                        </div>
+                        <div className="mt-2 flex justify-center">
+                          <input
+                            type="text"
+                            value={totp}
+                            onChange={handleChangeTotp}
+                            placeholder="Enter TOTP"
+                            className="py-2 px-4 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                          />
+                        </div>
+                        <div className="mt-2 flex justify-center">
+                          <button
+                            onClick={handleSubmit}
+                            className="inline-flex justify-center py-1 px-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                          >
+                            Verify
+                          </button>
+                        </div>
+                      </>
+                    )}
                   </>
                 ) : (
                   <>

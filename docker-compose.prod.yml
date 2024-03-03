@@ -1,27 +1,10 @@
 version: '3.1'
 services:
-  mongo:
-    image: mongo
-    restart: on-failure
-    ports:
-      - 27017:27017
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: vishal
-      MONGO_INITDB_ROOT_PASSWORD: 65072d0281127af6a924e65d
-    volumes:
-      - ./backup:/backup
-    logging:
-      options:
-        max-size: "10m"
-        max-file: "3"
-
   backend:
     image: vishu7im/almanilokheri-backend:latest 
     restart: on-failure
     ports:
       - 5000:5000
-    depends_on:
-      - "mongo"
     environment:
       NODE_ENV: production
     volumes:
@@ -31,7 +14,6 @@ services:
       options:
         max-size: "10m"
         max-file: "3"
-
   frontend:
     image: vishu7im/almanilokheri-frontend:latest 
     restart: on-failure
@@ -41,7 +23,6 @@ services:
     volumes:
       - /etc/letsencrypt/live/almanilokheri.in/fullchain.pem:/etc/letsencrypt/live/almanilokheri.in/fullchain.pem
       - /etc/letsencrypt/live/almanilokheri.in/privkey.pem:/etc/letsencrypt/live/almanilokheri.in/privkey.pem
-    
     logging:
       options:
         max-size: "10m"

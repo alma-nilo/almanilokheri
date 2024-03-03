@@ -3,3 +3,4 @@ methods for auth
 report button 
 member serch query page
 service account .
+controll for Block Account 

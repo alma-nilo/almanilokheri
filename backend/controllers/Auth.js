@@ -118,6 +118,62 @@ export const validate = async (req, res) => {
 
 }
 
+export const login = async (req, res) => {
+  try {
+
+    const { email, totp } = req.body
+
+    const user = await User.findOne({ email: email })
+
+    if (!user) {
+      res.status(404).json({ message: "user not found" });
+    }
+
+    const verified = speakeasy.totp.verify({
+      secret: user.uuid,
+      encoding: 'base32',
+      token: totp
+    });
+
+    if (verified) {
+
+      const playload = {
+        _id: user._id,
+        name: user.name,
+        avtar: user.profile,
+        User: true,
+        exp: Math.floor(Date.now() / 1000) + 2 * 24 * 60 * 60,
+      };
+
+      const token = jwt.sign(playload, process.env.PrivetKey);
+      // console.log(token, Puser);
+      res.status(200).json({
+        code: 1,
+        Token: token,
+        uuid: user._id,
+        profile: user.profile,
+      });
+
+
+
+
+    }
+    else {
+      res.status(404).json({ message: "user not found" });
+
+    }
+
+
+
+
+  } catch (error) {
+    res.status(500).json(error);
+
+  }
+
+};
+
+
 export const flagForAuth = async (req, res) => {
 
   const { mail } = req.body
@@ -225,34 +281,7 @@ export const flagForAuth = async (req, res) => {
 //   }
 // };
 
-export const login = async (req, res) => {
-  try {
-    // Extract user input
-    const { email, password } = req.body;
 
-    // Check if user exists
-    const user = await User.findOne({ email });
-
-    if (!user) {
-      return res.status(401).json({ error: "User not found" });
-    }
-
-    // Compare the password hash
-    const match = await bcrypt.compare(password, user.password);
-
-    if (!match) {
-      return res.status(401).json({ error: "Invalid password" });
-    }
-
-    // Passwords match, create and send a token
-    const token = jwt.sign({ userId: user._id }, process.env.PrivetKey, {
-      expiresIn: "1h",
-    });
-    res.status(200).json({ message: "Login successful", token });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
 
 
 export const getTempvalidation = async (req, res) => {
