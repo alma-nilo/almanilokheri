@@ -1,4 +1,5 @@
 import React from "react";
+import CancelIcon from "@mui/icons-material/Cancel";
 
 const LogoutDialogBox = ({ isOpen, onClose, onLogout }) => {
   return (

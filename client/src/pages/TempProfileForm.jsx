@@ -8,8 +8,10 @@ import Navbar from "../components/Navbar";
 import Loader from "../components/Loader";
 import UploadImageToS3WithNativeSdk from "../components/upload/UploadS3";
 import PhotoUploadComponent from "../components/upload/Profile";
+import Referral from "../components/Referral";
 
 const validationSchema = Yup.object({
+  aadhaar: Yup.string().required("Aadhaar is required"),
   profession: Yup.string().required("Profession is required"),
   linkdln: Yup.string().url("Invalid LinkedIn URL"),
   facebook: Yup.string().url("Invalid Facebook URL"),
@@ -31,6 +33,7 @@ const validationSchema = Yup.object({
 
 export default function TempProfileForm() {
   const initalvalues = {
+    aadhaar: "",
     profession: "",
     state: "",
     district: "",
@@ -46,6 +49,7 @@ export default function TempProfileForm() {
   const [proofExist, setproofExist] = useState(false);
   const [profileExist, setprofileExist] = useState(false);
   const [selectedState, setSelectedState] = useState("");
+  const [selectedvalidation, setSelectedvalidation] = useState("");
   const [selectedDistrict, setSelectedDistrict] = useState("");
   const [Duplicate, setDuplicate] = useState(false);
   const [InstituteCollectionValuesTrade, setInstituteCollectionValuesTrade] =
@@ -115,6 +119,15 @@ export default function TempProfileForm() {
     "Delhi",
     "Lakshadweep",
     "Puducherry",
+  ];
+
+  const ValidationArr = [
+    { value: "proof", label: "Id proof related to collage" },
+    {
+      value: "Referral",
+      label: "Referral from Known batchmate already registered",
+    },
+    { value: "NotReferral", label: "Don't have any Referral" },
   ];
 
   const districtsByState = {
@@ -192,7 +205,7 @@ export default function TempProfileForm() {
     } else if (!InstituteCollectionValuesTrade) {
       setAlert({ type: "error", message: "Trade are required" });
       return;
-    } else if (!proofExist) {
+    } else if (selectedvalidation === "proof" && !proofExist) {
       setAlert({ type: "error", message: "Proof are required" });
       return;
     }
@@ -293,6 +306,9 @@ export default function TempProfileForm() {
     setSelectedState(value);
     setSelectedDistrict(""); // Reset district when state changes
   };
+  const handlevalidationChange = (value) => {
+    setSelectedvalidation(value);
+  };
 
   return (
     <>
@@ -305,7 +321,7 @@ export default function TempProfileForm() {
         } fixed w-full h-full top-0 left-0 flex items-center  z-50 justify-center bg-gray-800 bg-opacity-50`}
       >
         {/* Modal container */}
-        <div className="bg-white    rounded-lg w-1/2">
+        <div className="bg-white rounded-lg w-1/2">
           <div className="px-4 py-2  text-center">
             <h2 className="text-lg font-bold mb-2">Thank You for Joining!</h2>
             <p className="text-gray-500">
@@ -329,7 +345,7 @@ export default function TempProfileForm() {
       {loading ? (
         <Loader />
       ) : (
-        <div className="max-w-md mx-auto m-10  bg-white rounded p-5 shadow">
+        <div className="w-full md:w-1/2 mx-auto m-10 flex flex-col items-center bg-white rounded p-4 shadow">
           <h2 className="text-2xl font-bold mb-5">Alumni profile </h2>
           <Formik
             initialValues={initalvalues}
@@ -337,13 +353,14 @@ export default function TempProfileForm() {
             onSubmit={handleSubmit}
           >
             {({ isSubmitting, setFieldValue }) => (
-              <Form className="bg-gray-100 shadow-md rounded px-8 pt-6 pb-8 mb-4 max-w-lg mx-auto">
+              <Form className="bg-gray-100 shadow-md rounded px-8 pt-6 pb-8  mb-4 w-full mx-auto">
                 <div className="mb-6">
                   <label
                     htmlFor="rollNo"
                     className="block text-gray-700 font-bold mb-2"
                   >
-                    Roll No.
+                    Roll No{" "}
+                    <span className="text-red-400 font-bold text-2xl">*</span>
                   </label>
                   <input
                     type="text"
@@ -372,7 +389,8 @@ export default function TempProfileForm() {
                     htmlFor="email"
                     className="block text-gray-700 font-bold mb-2 "
                   >
-                    Email
+                    Email{" "}
+                    <span className="text-red-400 font-bold text-2xl">*</span>
                   </label>
                   <Field
                     type="email"
@@ -383,12 +401,14 @@ export default function TempProfileForm() {
                     readOnly
                   />
                 </div>
+
                 <div className="mb-5">
                   <label
                     htmlFor="name"
                     className="block text-gray-700 font-bold mb-2"
                   >
-                    Name
+                    Name{" "}
+                    <span className="text-red-400 font-bold text-2xl">*</span>
                   </label>
                   <input
                     type="text"
@@ -408,6 +428,27 @@ export default function TempProfileForm() {
                     } w-full border rounded px-3 py-2  text-green-700  border-green-400 ring-green-300 focus:outline-none ring ring-opacity-40`}
                   />
                 </div>
+                <div className="mb-6">
+                  <label
+                    htmlFor="aadhaar"
+                    className="block text-gray-700 font-bold mb-2"
+                  >
+                    Aadhaar{" "}
+                    <span className="text-red-400 font-bold text-2xl">*</span>
+                  </label>
+                  <Field
+                    type="text"
+                    id="aadhaar"
+                    name="aadhaar"
+                    className="appearance-none border rounded w-full py-2 px-3  text-green-700 bg-white  focus:border-green-400 focus:ring-green-300  focus:ring focus:ring-opacity-40 leading-tight focus:outline-none focus:shadow-outline"
+                    placeholder="Aadhaar card No."
+                  />
+                  <ErrorMessage
+                    name="aadhaar"
+                    component="div"
+                    className="text-red-500"
+                  />
+                </div>
 
                 <PhotoUploadComponent
                   setFieldValue={setFieldValue}
@@ -420,7 +461,8 @@ export default function TempProfileForm() {
                     htmlFor="Trade"
                     className="block text-gray-700 font-bold mb-2"
                   >
-                    Trade
+                    Trade{" "}
+                    <span className="text-red-400 font-bold text-2xl">*</span>
                   </label>
                   <input
                     type="text"
@@ -445,7 +487,8 @@ export default function TempProfileForm() {
                     htmlFor="batch"
                     className="block text-gray-700 font-bold mb-2"
                   >
-                    Batch
+                    Batch{" "}
+                    <span className="text-red-400 font-bold text-2xl">*</span>
                   </label>
                   <div className="flex">
                     <Field
@@ -491,7 +534,8 @@ export default function TempProfileForm() {
                     htmlFor="state"
                     className="block text-gray-700 font-bold mb-2"
                   >
-                    State
+                    State{" "}
+                    <span className="text-red-400 font-bold text-2xl">*</span>
                   </label>
                   <select
                     name="state"
@@ -514,7 +558,8 @@ export default function TempProfileForm() {
                     htmlFor="district"
                     className="block text-gray-700 font-bold mb-2"
                   >
-                    District
+                    District{" "}
+                    <span className="text-red-400 font-bold text-2xl">*</span>
                   </label>
                   <select
                     name="district"
@@ -536,7 +581,8 @@ export default function TempProfileForm() {
                     htmlFor="profession"
                     className="block text-gray-700 font-bold mb-2"
                   >
-                    Profession
+                    Profession{" "}
+                    <span className="text-red-400 font-bold text-2xl">*</span>
                   </label>
                   <Field
                     type="text"
@@ -617,7 +663,8 @@ export default function TempProfileForm() {
                     htmlFor="about"
                     className="block text-gray-700 font-bold mb-2"
                   >
-                    Tell us something interesting about yourself
+                    Tell us something interesting about yourself{" "}
+                    <span className="text-red-400 font-bold text-2xl">*</span>
                   </label>
                   <Field
                     as="textarea"
@@ -634,13 +681,42 @@ export default function TempProfileForm() {
                   />
                 </div>
 
-                <UploadImageToS3WithNativeSdk
-                  title="Proof"
-                  setFieldValue={setFieldValue}
-                  filed={"proof"}
-                  data={Tempdata}
-                  setproofExist={setproofExist}
-                />
+                <div className="mb-6">
+                  <label
+                    htmlFor="validation"
+                    className="block text-gray-700 font-bold mb-2"
+                  >
+                    Validation{" "}
+                    <span className="text-red-400 font-bold text-2xl">*</span>
+                  </label>
+                  <select
+                    name="validation"
+                    value={selectedvalidation}
+                    onChange={(e) => handlevalidationChange(e.target.value)}
+                    className="w-full appearance-none border rounded py-2 px-3 leading-tight focus:outline-none focus:shadow-outline text-green-700 bg-white focus:border-green-400 focus:ring-green-300 focus:ring focus:ring-opacity-40"
+                  >
+                    <option value="">Select Validation</option>
+                    {ValidationArr.map((valid) => (
+                      <option key={valid.value} value={valid.value}>
+                        {valid.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                {/* proof */}
+                {selectedvalidation === "proof" ? (
+                  <UploadImageToS3WithNativeSdk
+                    title="Proof"
+                    setFieldValue={setFieldValue}
+                    filed={"proof"}
+                    data={Tempdata}
+                    setproofExist={setproofExist}
+                  />
+                ) : (
+                  ""
+                )}
+
+                {selectedvalidation === "Referral" ? <Referral /> : ""}
 
                 <button
                   type="submit"

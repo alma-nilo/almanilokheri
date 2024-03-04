@@ -72,6 +72,25 @@ export const tempuser = async (req, res) => {
   }
 };
 
+
+export const Referral = async (req, res) => {
+
+  try {
+    const { search } = req.query;
+    const profiles = await User.find({
+      $or: [
+        { name: { $regex: search, $options: 'i' } }, // Case-insensitive search by name
+        { email: { $regex: search, $options: 'i' } }, // Case-insensitive search by email
+        { rollNo: { $regex: search, $options: 'i' } }, // Case-insensitive search by roll number
+      ],
+    });
+    res.status(200).json(profiles);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server Error' });
+  }
+
+}
 export const signup = async (req, res) => {
   const { uuid, email } = req.body;
 

@@ -9,7 +9,8 @@ import {
   insertDeviceRecord,
   getDeviceRecord,
   insertdeviceDailyRecord,
-  tempuserdocs
+  tempuserdocs,
+  Referral
 } from "../controllers/Auth.js";
 const router = Router();
 
@@ -29,5 +30,6 @@ router.post("/validate", validate);
 router.post("/deviceRecord", insertDeviceRecord);
 router.get("/deviceRecord", getDeviceRecord);
 router.post("/deviceDailyRecord", insertdeviceDailyRecord);
+router.get("/referral", Referral);
 
 export default router;
