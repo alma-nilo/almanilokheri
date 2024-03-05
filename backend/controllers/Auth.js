@@ -27,7 +27,8 @@ export const tempuser = async (req, res) => {
     endYear,
     state,
     district,
-
+    aadhaar,
+    validation
   } = req.body;
 
   if (
@@ -45,6 +46,8 @@ export const tempuser = async (req, res) => {
 
   try {
 
+    if(validation==="proof"){
+
     const operation = {
       name: name,
       rollNo: rollNo,
@@ -58,13 +61,40 @@ export const tempuser = async (req, res) => {
       Trade: Trade,
       district: district,
       state: state,
+      aadhaar: aadhaar,
       status: true,
     };
-    // console.log(district);
     // return;
     await TempUser.findOneAndUpdate({ uuid: uuid }, operation);
 
     res.status(200).json({ message: "wait for institute approvel" });
+  }else  if(validation==="NotReferral"){
+    const operation = {
+      name: name,
+      rollNo: rollNo,
+      startYear: startYear,
+      endYear: endYear,
+      profession: profession,
+      linkdln: linkdln,
+      facebook: facebook,
+      twitter: twitter,
+      about: about,
+      Trade: Trade,
+      district: district,
+      state: state,
+      aadhaar: aadhaar,
+      status: true,
+    };
+    // return;
+    // TODO:insertion
+    // await User.findOneAndUpdate({ uuid: uuid }, operation);
+    const input = new User({ uuid, email });
+    // TODO:mail of warning 
+    res.status(200).json({ message: "success" });
+    return
+
+  }
+
     return;
   } catch (error) {
     res.status(500).json({ err: error });
@@ -91,6 +121,8 @@ export const Referral = async (req, res) => {
   }
 
 }
+
+
 export const signup = async (req, res) => {
   const { uuid, email } = req.body;
 

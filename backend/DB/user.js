@@ -43,6 +43,12 @@ const UserSchema = new Schema({
   rollNo: {
     type: String,
   },
+  aadhaar: {
+    type: String,
+  },
+  referral: {
+    type:  Schema.Types.ObjectId,
+  },
   Trade: {
     type: String,
   },

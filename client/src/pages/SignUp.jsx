@@ -129,7 +129,7 @@ export default function SignUp() {
         } else if (res.data.code === 3) {
           setAlert({
             type: "error",
-            message: "your account Already exist wait for intitute approvel",
+            message: "your account already exist wait for intitute approvel",
           });
         }
       }
