@@ -32,7 +32,8 @@ const Referral = ({}) => {
   const fetchProfiles = async (searchTerm) => {
     setisLoading(true);
     try {
-      const response = await axios.get(`/referral?search=${searchTerm}`);
+       let  url = `${process.env.REACT_APP_API_KEY}/referral?search=${searchTerm}`;
+      const response = await axios.get(url);
       console.log(response.data);
       setProfiles(response.data);
     } catch (error) {
