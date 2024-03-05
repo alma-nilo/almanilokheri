@@ -65,19 +65,21 @@ const AllAlumni = () => {
             p="5px"
             display="flex"
             backgroundColor={
-              status === true
+              status === "Approve"
                 ? colors.greenAccent[500]
-                : status === false
+                : status === "Block"
                 ? colors.redAccent[500]
-                : colors.greenAccent[700]
+                : colors.redAccent[500]
             }
             borderRadius="4px"
           >
-            {status === true && <VerifiedUserIcon />}
-            {status === false && <RemoveCircleIcon />}
+            {status === "Approve" && <VerifiedUserIcon />}
+            {status === "Block" && <RemoveCircleIcon />}
+            {status !== "Block" && status !== "Approve" && <RemoveCircleIcon />}
             <Typography color={colors.grey[100]} sx={{ ml: "5px" }}>
-              {status === true && "Active"}
-              {status === false && "Blocked"}
+              {status === "Approve" && "Verified"}
+              {status === "Block" && "Blocked"}
+              {status !== "Block" && status !== "Approve" && "Not Verified"}
             </Typography>
           </Box>
         );

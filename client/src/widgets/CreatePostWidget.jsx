@@ -34,7 +34,7 @@ const myBucket = new AWS.S3({
   region: REGION,
 });
 
-const CreatePost = ({ setpostsData }) => {
+const CreatePost = ({ setpostsData, status }) => {
   const [progress, setProgress] = useState(1);
   const [containsImage, setContainsImage] = useState(false);
   const [image, setImage] = useState(null);
@@ -80,6 +80,14 @@ const CreatePost = ({ setpostsData }) => {
   };
 
   const handleSubmit = async (file) => {
+    if (status === "Block") {
+      setAlert({
+        type: "error",
+        message: "You are Block! Not Able to Post.",
+      });
+      return;
+    }
+
     setLoader(true);
     setPosting(true);
 
@@ -105,7 +113,7 @@ const CreatePost = ({ setpostsData }) => {
             setProgress(Math.round((evt.loaded / evt.total) * 100));
           })
           .promise();
-        console.log("Upload successful:", response);
+        // console.log("Upload successful:", response);
 
         playload.url = response.Location;
         playload.path = response.key;

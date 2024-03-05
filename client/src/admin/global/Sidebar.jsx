@@ -138,7 +138,7 @@ const Sidebar = () => {
               Data
             </Typography>
             <Item
-              title="User Request"
+              title="Pending user"
               to="/admin/req"
               icon={
                 <div className="user_not">

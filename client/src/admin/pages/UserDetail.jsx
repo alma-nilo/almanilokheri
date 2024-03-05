@@ -226,18 +226,29 @@ const UserProfilePage = () => {
               <Box mt={2} mb={1} display="flex">
                 <Button
                   variant="contained"
-                  color={userDetails?.status ? "success" : "error"}
+                  color={
+                    userDetails?.status === "Approve" ? "success" : "error"
+                  }
                   startIcon={
-                    userDetails?.status ? (
+                    userDetails?.status === "Approve" ? (
                       <CheckCircleIcon />
                     ) : (
                       <RemoveCircleIcon />
                     )
                   }
-                  onClick={() => setShowConfirmationModal(true)}
+                  onClick={() => {
+                    if (userDetails?.status === "proof") {
+                      navigate(`/admin/tempuser/${userDetails.uuid}`);
+                      return;
+                    }
+                    setShowConfirmationModal(true);
+                  }}
                   style={{ marginRight: "8px" }}
                 >
-                  {userDetails?.status === true ? "Active" : "Blocked"}
+                  {userDetails?.status === "Approve" && "Active"}
+                  {userDetails?.status === "Block" && "Blocked"}
+                  {userDetails?.status === "NotApprove" && "Verify"}
+                  {userDetails?.status === "proof" && "Proof Verify"}
                 </Button>
               </Box>
             </Box>
@@ -338,20 +349,22 @@ const UserProfilePage = () => {
                 <CloseIcon />
               </IconButton>
               <Typography variant="h6" gutterBottom>
-                {!userDetails?.status ? "Active !" : "Blocked !"}
+                {userDetails?.status !== "Approve" ? "Active !" : "Blocked !"}
               </Typography>
               <Typography variant="body1" gutterBottom>
                 Are you sure you want to{" "}
-                {!userDetails?.status ? "Active !" : "Block"} :{" "}
+                {userDetails?.status !== "Approve" ? "Active !" : "Block"} :{" "}
                 <span
                   className={`font-bold ${
-                    !userDetails?.status ? "text-green-500" : "text-red-500"
+                    userDetails?.status !== "Approve"
+                      ? "text-green-500"
+                      : "text-red-500"
                   }`}
                 >
                   {userDetails?.name}
                 </span>
               </Typography>
-              {userDetails?.status ? (
+              {userDetails?.status === "Approve" ? (
                 <>
                   <TextField
                     id="remarks"
@@ -371,9 +384,11 @@ const UserProfilePage = () => {
               <Box mt={2} display="flex" justifyContent="space-between">
                 <Button
                   variant="contained"
-                  color={!userDetails?.status ? "success" : "error"}
+                  color={
+                    userDetails?.status !== "Approve" ? "success" : "error"
+                  }
                   startIcon={
-                    !userDetails?.status ? (
+                    userDetails?.status !== "Approve" ? (
                       <CheckCircleIcon />
                     ) : (
                       <RemoveCircleIcon />
@@ -392,7 +407,9 @@ const UserProfilePage = () => {
                 >
                   {btnloading
                     ? "Plz Wait......"
-                    : `${!userDetails?.status ? "Active !" : "Block"} `}
+                    : `${
+                        userDetails?.status !== "Approve" ? "Active !" : "Block"
+                      } `}
                 </Button>
                 <Button
                   variant="contained"

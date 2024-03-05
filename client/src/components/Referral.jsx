@@ -14,7 +14,7 @@ import {
 import SearchIcon from "@mui/icons-material/Search";
 import axios from "axios";
 
-const Referral = ({}) => {
+const Referral = ({ setReferralaccount }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedProfile, setSelectedProfile] = useState(null);
   const [profiles, setProfiles] = useState([]);
@@ -23,6 +23,7 @@ const Referral = ({}) => {
 
   const handleProfileSelect = (profile) => {
     setSelectedProfile(profile);
+    setReferralaccount(profile);
   };
 
   //   const filteredProfiles = profiles.filter((profile) =>
@@ -32,7 +33,7 @@ const Referral = ({}) => {
   const fetchProfiles = async (searchTerm) => {
     setisLoading(true);
     try {
-       let  url = `${process.env.REACT_APP_API_KEY}/referral?search=${searchTerm}`;
+      let url = `${process.env.REACT_APP_API_KEY}/referral?search=${searchTerm}`;
       const response = await axios.get(url);
       console.log(response.data);
       setProfiles(response.data);
@@ -149,6 +150,7 @@ const Referral = ({}) => {
             <CancelIcon
               onClick={() => {
                 setSelectedProfile(null);
+                setReferralaccount(null);
                 setSearchTerm("");
                 setProfiles([]);
               }}

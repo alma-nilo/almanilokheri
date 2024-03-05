@@ -11,7 +11,7 @@ import { AlertApi } from "../context/AlertContext";
 import CreatePost from "./CreatePostWidget";
 import { useLocation } from "react-router-dom";
 
-const Posts = ({ UserProfile, uuid }) => {
+const Posts = ({ UserProfile, uuid, status }) => {
   const [postsData, setpostsData] = useState([]);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
@@ -105,11 +105,18 @@ const Posts = ({ UserProfile, uuid }) => {
 
   return (
     <>
-      {pathname === "/alumni" ? <CreatePost setpostsData={setpostsData} /> : ""}
-      <div className=" flex justify-center h-96 postfix overflow-scroll mt-4 w-full">
+      {pathname === "/alumni" ? (
+        <CreatePost setpostsData={setpostsData} status={status} />
+      ) : (
+        ""
+      )}
+
+      <div
+        className={`flex justify-center h-auto max-h-96 postfix overflow-scroll mt-4 w-full`}
+      >
         <div
-          className={`flex h-full  flex-col p-4 items-center  mt-2 space-y-4 w-80 ${
-            UserProfile ? "md:full" : "md:w-5/12"
+          className={`flex h-full  flex-col p-4 items-center  mt-2 space-y-4  ${
+            UserProfile ? "md:w-full" : "md:w-5/12"
           }  `}
         >
           <InfiniteScroll

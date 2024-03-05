@@ -62,6 +62,7 @@ export const Reject = (name, remarks) => {
         <h1>Application Rejected</h1>
         <p>Dear ${name},</p>
 							<p>We regret to inform you that your application has been rejected.</p>
+							<p>We Delete your account and all Posts.</p>
 							<p>Remarks:</p>
 							<p>${remarks}</p>
               <br/>

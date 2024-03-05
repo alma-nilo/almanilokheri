@@ -236,7 +236,6 @@ const Post = new Schema({
 });
 
 // Create the user model
-
 export const User = mongoose.model("User", UserSchema);
 export const Admin = mongoose.model("admin", AdminSchema);
 export const Gallery = mongoose.model("Gallery", GallerySchema);

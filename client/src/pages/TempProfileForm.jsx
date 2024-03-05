@@ -52,6 +52,7 @@ export default function TempProfileForm() {
   const [selectedvalidation, setSelectedvalidation] = useState("");
   const [selectedDistrict, setSelectedDistrict] = useState("");
   const [Duplicate, setDuplicate] = useState(false);
+  const [Referralaccount, setReferralaccount] = useState(null);
   const [InstituteCollectionValuesTrade, setInstituteCollectionValuesTrade] =
     useState("");
   const [InstituteCollectionValuesName, setInstituteCollectionValuesName] =
@@ -69,7 +70,7 @@ export default function TempProfileForm() {
 
   const toggleclose = () => {
     setIsOpen(false);
-    navigate("/signup");
+    navigate("/alumni");
     window.scrollTo({
       top: 0,
       behavior: "smooth",
@@ -208,6 +209,9 @@ export default function TempProfileForm() {
     } else if (selectedvalidation === "proof" && !proofExist) {
       setAlert({ type: "error", message: "Proof are required" });
       return;
+    } else if (selectedvalidation === "Referral" && !Referralaccount) {
+      setAlert({ type: "error", message: "reference are required" });
+      return;
     } else if (!selectedvalidation) {
       setAlert({ type: "error", message: "Validation are required" });
       return;
@@ -246,6 +250,7 @@ export default function TempProfileForm() {
       endYear: endYear,
       state: selectedState,
       district: selectedDistrict,
+      referral: Referralaccount?._id,
     };
 
     const url = `${process.env.REACT_APP_API_KEY}/tempuserinfo`;
@@ -743,7 +748,11 @@ export default function TempProfileForm() {
                   ""
                 )}
 
-                {selectedvalidation === "Referral" ? <Referral /> : ""}
+                {selectedvalidation === "Referral" ? (
+                  <Referral setReferralaccount={setReferralaccount} />
+                ) : (
+                  ""
+                )}
 
                 <button
                   type="submit"

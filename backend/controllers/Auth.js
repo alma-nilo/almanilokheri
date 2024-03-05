@@ -27,7 +27,8 @@ export const tempuser = async (req, res) => {
     state,
     district,
     aadhaar,
-    validation
+    validation,
+    referral
   } = req.body;
 
   if (
@@ -61,7 +62,7 @@ export const tempuser = async (req, res) => {
         district: district,
         state: state,
         aadhaar: aadhaar,
-        status: true,
+        status: "proof"
       };
       // return;
       await User.findOneAndUpdate({ uuid: uuid }, operation);
@@ -70,8 +71,6 @@ export const tempuser = async (req, res) => {
     } else if (validation === "NotReferral") {
       const operation = {
         name: name,
-        email: email,
-        profilepath: profile,
         rollNo: rollNo,
         startYear: startYear,
         endYear: endYear,
@@ -84,14 +83,41 @@ export const tempuser = async (req, res) => {
         district: district,
         state: state,
         aadhaar: aadhaar,
-        status: true,
+        status: "NotApprove",
       };
 
       // return;
-      // TODO:insertion
-      // await User.findOneAndUpdate({ uuid: uuid }, operation);
-      const input = new User({ uuid, email });
+
+      await User.findOneAndUpdate({ uuid: uuid }, operation);
       // TODO:mail of warning 
+      res.status(200).json({ message: "success" });
+      return
+
+    }
+    else if (validation === "Referral") {
+      const operation = {
+        name: name,
+        rollNo: rollNo,
+        startYear: startYear,
+        endYear: endYear,
+        profession: profession,
+        linkdln: linkdln,
+        facebook: facebook,
+        twitter: twitter,
+        about: about,
+        Trade: Trade,
+        district: district,
+        state: state,
+        aadhaar: aadhaar,
+        status: "NotApprove",
+        referral: referral,
+      };
+
+      // return;
+
+      await User.findOneAndUpdate({ uuid: uuid }, operation);
+      // TODO:mail of warning 
+      // TODO:Approval Mail for users who referral
       res.status(200).json({ message: "success" });
       return
 
@@ -110,11 +136,16 @@ export const Referral = async (req, res) => {
   try {
     const { search } = req.query;
     const profiles = await User.find({
-      $or: [
-        { name: { $regex: search, $options: 'i' } }, // Case-insensitive search by name
-        { email: { $regex: search, $options: 'i' } }, // Case-insensitive search by email
-        { rollNo: { $regex: search, $options: 'i' } }, // Case-insensitive search by roll number
-      ],
+      $and: [
+        {
+          $or: [
+            { name: { $regex: search, $options: 'i' } }, // Case-insensitive search by name
+            { email: { $regex: search, $options: 'i' } }, // Case-insensitive search by email
+            { rollNo: { $regex: search, $options: 'i' } }, // Case-insensitive search by roll number
+          ],
+        },
+        { status: "Approve" }
+      ]
     });
     res.status(200).json(profiles);
   } catch (error) {
@@ -140,6 +171,8 @@ export const signup = async (req, res) => {
 
 
   if (Puser) {
+
+
     if (Puser.status === "Pending") {
       res.status(200).json({ code: 0, msg: "signup", uuid: uuid });
       return;
@@ -153,18 +186,18 @@ export const signup = async (req, res) => {
         User: true,
         exp: Math.floor(Date.now() / 1000) + 2 * 24 * 60 * 60,
       };
-    }
 
-    const token = jwt.sign(playload, process.env.PrivetKey);
-    // console.log(token, Puser);
-    res.status(200).json({
-      code: 1,
-      msg: `user  ${Puser.status}`,
-      Token: token,
-      uuid: Puser._id,
-      profile: Puser.profile,
-    });
-    return;
+      const token = jwt.sign(playload, process.env.PrivetKey);
+      // console.log(token, Puser);
+      res.status(200).json({
+        code: 1,
+        msg: `user  ${Puser.status}`,
+        Token: token,
+        uuid: Puser._id,
+        profile: Puser.profile,
+      });
+      return;
+    }
   }
 
   const input = new User({ uuid, email });
@@ -244,7 +277,7 @@ export const validate = async (req, res) => {
 export const getTempvalidation = async (req, res) => {
   const { id } = req.params;
   try {
-    const data = await TempUser.findOne({ uuid: id });
+    const data = await User.findOne({ uuid: id });
 
     if (!data) {
       res.status(400).json({ err: "not found" });

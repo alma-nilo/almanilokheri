@@ -1,5 +1,4 @@
 import {
-
   Admin,
   User,
   Gallery,
@@ -84,7 +83,7 @@ export const Adminlogin = async (req, res) => {
 // fetch temp user request
 export const getTempUser = async (req, res) => {
   try {
-    const data = await User.find({ status: true });
+    const data = await User.find({ status: "proof" });
 
     let object = data.map(
       ({ uuid, name, email, rollNo, startYear, endYear }, i) => {
@@ -108,7 +107,7 @@ export const getTempUser = async (req, res) => {
 // fetch temp user request
 export const getAllUser = async (req, res) => {
   try {
-    const data = await User.find();
+    const data = await User.find({ status: { $ne: "Pending" } });
 
     let object = data.map(({ uuid, name, email, rollNo, status }, i) => {
       let obj = {
@@ -164,34 +163,10 @@ export const UserResponse = async (req, res) => {
     }
 
     if (flage === "Accept") {
-      let newRecord = {
-        uuid: data.uuid,
-        name: data.name,
-        email: data.email,
-        rollNo: data.rollNo,
-        startYear: data.startYear,
-        endYear: data.endYear,
-        profession: data.profession,
-        profile: data.profile,
-        proof: data.proof,
-        profilepath: data.profilepath,
-        proofpath: data.proofpath,
-        linkdln: data.linkdln,
-        facebook: data.facebook,
-        twitter: data.twitter,
-        about: data.about,
-        date: Date.now(),
-        Trade: data.Trade,
-        status: true,
-      };
 
-      const newuser = new User(newRecord);
-      await newuser.save();
-      await User.deleteOne({ email: email });
+      console.log(flage)
 
-      // if (data.proofpath) {
-      //   await deleteImageToStorage(data.proofpath);
-      // }
+      const newuser = await User.findOneAndUpdate({ email: email }, { status: "Approve" });
 
       // sent mail for accept
       ACCEPT(email, data.name);
@@ -207,6 +182,7 @@ export const UserResponse = async (req, res) => {
       }
 
       await User.deleteOne({ email: email });
+      await PostModel.deleteMany({ user: data._id });
       REJECT(email, remark, data.name);
       // sent mail for rejection
       res.status(200).json({ msg: "user rejected " });
@@ -223,7 +199,7 @@ export const UserResponse = async (req, res) => {
 
 export const fetch = async (req, res) => {
   try {
-    const data = await User.find({ status: true });
+    const data = await User.find({ status: { $ne: "Block" } });
 
     const shuffled = shuffle(data);
     const newArray = shuffled.slice();
@@ -497,16 +473,20 @@ export const handlestatus = async (req, res) => {
   const { remark, uuid, currentstatus, email, name } = req.body;
 
   try {
-    if (currentstatus === true) {
+    if (currentstatus === "Approve") {
       // block the user
 
-      await User.findOneAndUpdate({ uuid: uuid }, { status: false });
+      await User.findOneAndUpdate({ uuid: uuid }, { status: "Block" });
       BLOCKEDMAIL(email, remark, name);
       res.status(200).json({ msg: name + " Blocked" });
-    } else if (currentstatus === false) {
+    } else if (currentstatus === "Block") {
       //  unblock the user
 
-      await User.findOneAndUpdate({ uuid: uuid }, { status: true });
+      await User.findOneAndUpdate({ uuid: uuid }, { status: "Approve" });
+      ACTIVEMAIL(email, name);
+      res.status(200).json({ msg: name + " Active" });
+    } else if (currentstatus === "NotApprove") {
+      await User.findOneAndUpdate({ uuid: uuid }, { status: "Approve" });
       ACTIVEMAIL(email, name);
       res.status(200).json({ msg: name + " Active" });
     } else {

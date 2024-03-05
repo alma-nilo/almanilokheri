@@ -95,7 +95,7 @@ export default function SignUp() {
       const provider = new GoogleAuthProvider();
 
       // provider.setCustomParameters({ prompt: "select_account" });
-      console.log(provider);
+      // console.log(provider);
 
       // //console.log(auth);
 
@@ -108,11 +108,11 @@ export default function SignUp() {
         email: user.user.email,
       };
 
-      console.log(playload);
+      // console.log(playload);
 
       const out = await signOut(auth);
 
-      console.log(out);
+      // console.log(out);
 
       // //console.log(user.user);
       // //console.log(user._tokenResponse);
