@@ -14,6 +14,8 @@ import {
   signInWithPopup,
   createUserWithEmailAndPassword,
   FacebookAuthProvider,
+  signInWithRedirect,
+  signOut,
 } from "firebase/auth";
 import { auth } from "../auth/firebase";
 import Cookies from "js-cookie";
@@ -91,17 +93,26 @@ export default function SignUp() {
   const handleSignupWithGoogle = async () => {
     try {
       const provider = new GoogleAuthProvider();
+
       // provider.setCustomParameters({ prompt: "select_account" });
-      // //console.log(provider);
+      console.log(provider);
+
       // //console.log(auth);
+
       const user = await signInWithPopup(auth, provider);
 
-      // console.log(user);
+      console.log("USER", user);
       // Send the user data to the server
       const playload = {
         uuid: user.user.uid,
         email: user.user.email,
       };
+
+      console.log(playload);
+
+      const out = await signOut(auth);
+
+      console.log(out);
 
       // //console.log(user.user);
       // //console.log(user._tokenResponse);
@@ -124,16 +135,11 @@ export default function SignUp() {
           Cookies.set("User", Token, { expires: 2 });
           navigate(`/alumni`);
           // navigate("/Login");
-        } else if (res.data.code === 2) {
-          setAlert({ type: "error", message: "You are Blocked" });
-        } else if (res.data.code === 3) {
-          setAlert({
-            type: "error",
-            message: "your account already exist wait for intitute approvel",
-          });
         }
       }
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   };
   const handleSignupWithFaceBook = async () => {
     try {
