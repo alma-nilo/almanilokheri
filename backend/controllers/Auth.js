@@ -1,5 +1,4 @@
 import {
-  TempUser,
   User,
   DeviceRecordModel,
   DailyDeviceRecordModel,
@@ -46,54 +45,57 @@ export const tempuser = async (req, res) => {
 
   try {
 
-    if(validation==="proof"){
+    if (validation === "proof") {
 
-    const operation = {
-      name: name,
-      rollNo: rollNo,
-      startYear: startYear,
-      endYear: endYear,
-      profession: profession,
-      linkdln: linkdln,
-      facebook: facebook,
-      twitter: twitter,
-      about: about,
-      Trade: Trade,
-      district: district,
-      state: state,
-      aadhaar: aadhaar,
-      status: true,
-    };
-    // return;
-    await TempUser.findOneAndUpdate({ uuid: uuid }, operation);
+      const operation = {
+        name: name,
+        rollNo: rollNo,
+        startYear: startYear,
+        endYear: endYear,
+        profession: profession,
+        linkdln: linkdln,
+        facebook: facebook,
+        twitter: twitter,
+        about: about,
+        Trade: Trade,
+        district: district,
+        state: state,
+        aadhaar: aadhaar,
+        status: true,
+      };
+      // return;
+      await User.findOneAndUpdate({ uuid: uuid }, operation);
 
-    res.status(200).json({ message: "wait for institute approvel" });
-  }else  if(validation==="NotReferral"){
-    const operation = {
-      name: name,
-      rollNo: rollNo,
-      startYear: startYear,
-      endYear: endYear,
-      profession: profession,
-      linkdln: linkdln,
-      facebook: facebook,
-      twitter: twitter,
-      about: about,
-      Trade: Trade,
-      district: district,
-      state: state,
-      aadhaar: aadhaar,
-      status: true,
-    };
-    // return;
-    // TODO:insertion
-    // await User.findOneAndUpdate({ uuid: uuid }, operation);
-    const input = new User({ uuid, email });
-    // TODO:mail of warning 
-    res.status(200).json({ message: "success" });
-    return
+      res.status(200).json({ message: "wait for institute approvel" });
+    } else if (validation === "NotReferral") {
+      const operation = {
+        name: name,
+        email: email,
+        profilepath: profile,
+        rollNo: rollNo,
+        startYear: startYear,
+        endYear: endYear,
+        profession: profession,
+        linkdln: linkdln,
+        facebook: facebook,
+        twitter: twitter,
+        about: about,
+        Trade: Trade,
+        district: district,
+        state: state,
+        aadhaar: aadhaar,
+        status: true,
+      };
 
-  }
+      // return;
+      // TODO:insertion
+      // await User.findOneAndUpdate({ uuid: uuid }, operation);
+      const input = new User({ uuid, email });
+      // TODO:mail of warning 
+      res.status(200).json({ message: "success" });
+      return
+
+    }
 
     return;
   } catch (error) {
@@ -126,57 +128,46 @@ export const Referral = async (req, res) => {
 export const signup = async (req, res) => {
   const { uuid, email } = req.body;
 
-  // //console.log(uuid, email);
+  console.log(uuid, email);
 
   if (!uuid || !email) {
     res.status(404).json({ msg: "fields required " });
     return;
   }
 
-  const Tuser = await TempUser.findOne({ uuid: uuid });
   const Puser = await User.findOne({ uuid: uuid });
 
-  if (Tuser) {
-    if (Tuser.status) {
-      res
-        .status(200)
-        .json({ code: 3, msg: `user  ${Tuser.status}`, uuid: Tuser.uuid });
-      return;
-    } else {
-      res
-        .status(200)
-        .json({ code: 0, msg: `user  ${Tuser.status} `, uuid: Tuser.uuid });
-      return;
-    }
-  }
+
 
   if (Puser) {
-    if (Puser.status) {
+    if (Puser.status === "Pending") {
+      res.status(200).json({ code: 0, msg: "signup", uuid: uuid });
+      return;
+    }
+    else {
       const playload = {
         _id: Puser._id,
         name: Puser.name,
         avtar: Puser.profile,
+        status: Puser.status,
         User: true,
         exp: Math.floor(Date.now() / 1000) + 2 * 24 * 60 * 60,
       };
-
-      const token = jwt.sign(playload, process.env.PrivetKey);
-      // console.log(token, Puser);
-      res.status(200).json({
-        code: 1,
-        msg: `user  ${Puser.status}`,
-        Token: token,
-        uuid: Puser._id,
-        profile: Puser.profile,
-      });
-      return;
-    } else {
-      res.status(200).json({ code: 2, msg: `user Blocked` });
-      return;
     }
+
+    const token = jwt.sign(playload, process.env.PrivetKey);
+    // console.log(token, Puser);
+    res.status(200).json({
+      code: 1,
+      msg: `user  ${Puser.status}`,
+      Token: token,
+      uuid: Puser._id,
+      profile: Puser.profile,
+    });
+    return;
   }
 
-  const input = new TempUser({ uuid, email });
+  const input = new User({ uuid, email });
 
   try {
     await input.save();
@@ -271,10 +262,10 @@ export const tempuserdocs = async (req, res) => {
 
     if (profile && profileKey) {
       console.log("first")
-      await TempUser.findOneAndUpdate({ _id: data._id }, { profile: profile, profilepath: profileKey })
+      await User.findOneAndUpdate({ _id: data._id }, { profile: profile, profilepath: profileKey })
       res.status(200).json({ data: "success" });
     } else if (proof && proofKey) {
-      await TempUser.findOneAndUpdate({ _id: data._id }, { proof: proof, proofpath: proofKey })
+      await User.findOneAndUpdate({ _id: data._id }, { proof: proof, proofpath: proofKey })
       res.status(200).json({ data: "success" });
 
 

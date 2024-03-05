@@ -1,5 +1,5 @@
 import {
-  TempUser,
+
   Admin,
   User,
   Gallery,
@@ -84,7 +84,7 @@ export const Adminlogin = async (req, res) => {
 // fetch temp user request
 export const getTempUser = async (req, res) => {
   try {
-    const data = await TempUser.find({ status: true });
+    const data = await User.find({ status: true });
 
     let object = data.map(
       ({ uuid, name, email, rollNo, startYear, endYear }, i) => {
@@ -155,7 +155,7 @@ export const UserResponse = async (req, res) => {
   // //console.log(req.body);
   // ensure user exist or not
   try {
-    let data = await TempUser.findOne({ email });
+    let data = await User.findOne({ email });
 
     // eslint-disable-next-line
     if (!data) {
@@ -187,7 +187,7 @@ export const UserResponse = async (req, res) => {
 
       const newuser = new User(newRecord);
       await newuser.save();
-      await TempUser.deleteOne({ email: email });
+      await User.deleteOne({ email: email });
 
       // if (data.proofpath) {
       //   await deleteImageToStorage(data.proofpath);
@@ -206,7 +206,7 @@ export const UserResponse = async (req, res) => {
         deleteImageToStorage(data.profilepath);
       }
 
-      await TempUser.deleteOne({ email: email });
+      await User.deleteOne({ email: email });
       REJECT(email, remark, data.name);
       // sent mail for rejection
       res.status(200).json({ msg: "user rejected " });
@@ -672,7 +672,7 @@ export const ContactUsCount = async (req, res) => {
 export const UserReqCount = async (req, res) => {
   try {
     // Count the unread contact records where 'read' is false
-    const unreadCount = await TempUser.countDocuments({ status: true });
+    const unreadCount = await User.countDocuments({ status: true });
 
     res.status(200).json({ unreadCount });
   } catch (error) {

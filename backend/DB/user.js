@@ -47,7 +47,7 @@ const UserSchema = new Schema({
     type: String,
   },
   referral: {
-    type:  Schema.Types.ObjectId,
+    type: Schema.Types.ObjectId,
   },
   Trade: {
     type: String,
@@ -97,8 +97,8 @@ const UserSchema = new Schema({
     default: Date.now(),
   },
   status: {
-    type: Boolean,
-    default: false,
+    type: String,
+    default: "Pending",
   },
 });
 const GallerySchema = new Schema({
@@ -236,7 +236,7 @@ const Post = new Schema({
 });
 
 // Create the user model
-export const TempUser = mongoose.model("TempUser", UserSchema);
+
 export const User = mongoose.model("User", UserSchema);
 export const Admin = mongoose.model("admin", AdminSchema);
 export const Gallery = mongoose.model("Gallery", GallerySchema);
