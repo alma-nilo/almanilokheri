@@ -89,22 +89,22 @@ const Referral = ({}) => {
                   className="border border-zinc-400 my-2 shadow-md hover:shadow-lg rounded-md bg-green-500/20 hover:bg-green-500/30"
                 >
                   <ListItemAvatar>
-                    <Avatar src={profile.profile} />
+                    <Avatar src={profile?.profile} />
                   </ListItemAvatar>
                   <ListItemText
-                    primary={profile.name}
+                    primary={profile?.name}
                     secondary={
                       <>
-                        <p className="font-semibold">Email: {profile.email}</p>
+                        <p className="font-semibold">Email: {profile?.email}</p>
                         <div className="flex flex-col md:flex-row  md:justify-between text-sm font-mono  mt-2 ">
                           <div>
-                            <p>Roll No: {profile.rollNo}</p>
-                            <p>Trade: {profile.Trade}</p>
+                            <p>Roll No: {profile?.rollNo}</p>
+                            <p>Trade: {profile?.Trade}</p>
                           </div>
                           <div>
-                            <p>Profession: {profile.profession}</p>
+                            <p>Profession: {profile?.profession}</p>
                             <p>
-                              Batch: {profile.startYear} - {profile.endYear}
+                              Batch: {profile?.startYear} - {profile?.endYear}
                             </p>
                           </div>
                         </div>
@@ -119,23 +119,23 @@ const Referral = ({}) => {
       ) : (
         <ListItem className="border relative border-zinc-400 my-2 shadow-md hover:shadow-lg rounded-md bg-green-500/20 hover:bg-green-500/30">
           <ListItemAvatar>
-            <Avatar src={selectedProfile.profile} />
+            <Avatar src={selectedProfile?.profile} />
           </ListItemAvatar>
           <ListItemText
-            primary={selectedProfile.name}
+            primary={selectedProfile?.name}
             secondary={
               <>
-                <p className="font-semibold">Email: {selectedProfile.email}</p>
+                <p className="font-semibold">Email: {selectedProfile?.email}</p>
                 <div className="flex flex-col md:flex-row  md:justify-between text-sm font-mono  mt-2 ">
                   <div>
-                    <p>Roll No: {selectedProfile.rollNo}</p>
-                    <p>Trade: {selectedProfile.Trade}</p>
+                    <p>Roll No: {selectedProfile?.rollNo}</p>
+                    <p>Trade: {selectedProfile?.Trade}</p>
                   </div>
                   <div>
-                    <p>Profession: {selectedProfile.profession}</p>
+                    <p>Profession: {selectedProfile?.profession}</p>
                     <p>
-                      Batch: {selectedProfile.startYear} -{" "}
-                      {selectedProfile.endYear}
+                      Batch: {selectedProfile?.startYear} -{" "}
+                      {selectedProfile?.endYear}
                     </p>
                   </div>
                 </div>
@@ -143,7 +143,7 @@ const Referral = ({}) => {
             }
           />
 
-          <div className="absolute border top-1 right-1">
+          <div className="absolute  top-1 right-1">
             {" "}
             <CancelIcon
               onClick={() => {

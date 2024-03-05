@@ -209,6 +209,10 @@ export default function TempProfileForm() {
       setAlert({ type: "error", message: "Proof are required" });
       return;
     }
+     else if (!selectedvalidation) {
+      setAlert({ type: "error", message: "Validation are required" });
+      return;
+    }
 
     const {
       profession,
@@ -218,6 +222,7 @@ export default function TempProfileForm() {
       about,
       startYear,
       endYear,
+      aadhaar,
     } = values;
     // console.log(values);
 
@@ -230,6 +235,8 @@ export default function TempProfileForm() {
       Trade: InstituteCollectionValuesTrade,
       profession: profession,
       rollNo: RollNo,
+      aadhaar: aadhaar,
+      validation:selectedvalidation,
       linkdln: linkdln,
       facebook: facebook,
       twitter: twitter,
@@ -324,10 +331,23 @@ export default function TempProfileForm() {
         <div className="bg-white rounded-lg w-1/2">
           <div className="px-4 py-2  text-center">
             <h2 className="text-lg font-bold mb-2">Thank You for Joining!</h2>
-            <p className="text-gray-500">
+            {
+              selectedvalidation === "proof"? <p className="text-gray-500">
               Your registration is being processed. Please wait for the
               institute's approval.
-            </p>
+            </p> : ""
+            }
+            {
+              selectedvalidation === "Referral"? <p className="text-gray-500">
+              Your registration is being processed. Please wait for your referral to accept .
+            </p> : ""
+            }
+            {
+              selectedvalidation === "NotReferral"? <p className="text-gray-500">
+              you are not fully verified but still access our platform.
+            </p> : ""
+            }
+            
           </div>
           <div className="px-4 py-2 flex justify-end">
             <button
