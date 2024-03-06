@@ -6,6 +6,8 @@ import { Reject } from "./Templates/Reject.js";
 import { Otp } from "./Templates/Otp.js";
 import { Active } from "./Templates/Active.js";
 import { Blocked } from "./Templates/Blocked.js";
+import { Warning } from "./Templates/Warning.js";
+import { ReferenceNotification } from "./Templates/ReferenceNotification.js";
 
 dotenv.config();
 
@@ -122,3 +124,43 @@ export const sentotp = (email, otp) => {
     }
   });
 };
+export const WarningMail = (email, name) => {
+  const template = Warning(name);
+
+  const mailOptions = {
+    from: `"GBN Alumni" <${process.env.SENDER_MAIL}>`, // sender address
+    to: email,
+    subject: "Account Verification Not Done!",
+    html: template,
+  };
+
+  transporter.sendMail(mailOptions, function (error, info) {
+    if (error) {
+      return error;
+    } else {
+      // do something useful
+      return info;
+    }
+  });
+};
+export const ReferenceNotificationMail = (email, referrer, userDetails) => {
+  const template = ReferenceNotification(referrer, userDetails);
+
+  const mailOptions = {
+    from: `"GBN Alumni" <${process.env.SENDER_MAIL}>`, // sender address
+    to: email,
+    subject: "Reference Notification",
+    html: template,
+  };
+
+  transporter.sendMail(mailOptions, function (error, info) {
+    if (error) {
+      return error;
+    } else {
+      // do something useful
+      return info;
+    }
+  });
+};
+
+

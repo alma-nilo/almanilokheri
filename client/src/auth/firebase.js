@@ -22,14 +22,6 @@ const firebaseConfig = {
   // measurementId,
 };
 
-// const firebaseConfig = {
-//   apiKey: "AIzaSyCTgwZ2Y2BtvXP8hzcfADuau2F3WgIMj4w",
-//   authDomain: "gbn-alumni-nilokheri.firebaseapp.com",
-//   projectId: "gbn-alumni-nilokheri",
-//   storageBucket: "gbn-alumni-nilokheri.appspot.com",
-//   messagingSenderId: "65575131168",
-//   appId: "1:65575131168:web:fff3ce9ae704404219c445",
-// };
 
 // Initialize
 

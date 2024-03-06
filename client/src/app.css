@@ -16,6 +16,11 @@ html {
   margin: 2% 10%;
 }
 
+.modal-content {
+  max-height: calc(100vh); /* Adjust the value according to your layout */
+  overflow-y: auto;
+}
+
 /* clg logo  */
 
 .Logo {

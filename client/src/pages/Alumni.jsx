@@ -3,7 +3,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
-import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
+import Cookies from "js-cookie";
+
 import Footer from "../components/Footer/Footer";
 import Navbar from "../components/Navbar";
 import Loader from "../components/Loader";
@@ -16,8 +17,10 @@ import { Box, Typography } from "@mui/material";
 const Alumni = () => {
   const [user, setUser] = useState({});
   const [loader, setLoader] = useState(true);
+  const navigate = useNavigate();
 
   const User = AuthApi().user;
+  const { setuser } = AuthApi();
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -29,7 +32,9 @@ const Alumni = () => {
         setUser(response.data.data);
         //console.log(response.data.data);
       } catch (error) {
-        // navigate("/signup");
+        setuser(null);
+        Cookies.remove("User");
+        navigate("/signup");
         window.scrollTo({
           top: 0,
           behavior: "smooth",
@@ -55,7 +60,7 @@ const Alumni = () => {
                   <img
                     src={user.profile}
                     alt={`${user.name}'s Profile`}
-                    className="w-32 h-32 rounded-full mx-auto"
+                    className="w-32 h-32 rounded-full object-cover mx-auto"
                   />
                   <h2 className="text-3xl font-semibold mt-4">{user.name}</h2>
                 </div>

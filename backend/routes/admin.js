@@ -39,6 +39,7 @@ import {
   CreatePost,
   AllPost,
   deletePost,
+  responsereferrer
 } from "../controllers/admin.js";
 import { Router } from "express";
 import { AdminAuth } from "../middleware/admin.js";
@@ -118,5 +119,7 @@ router.get("/OneMonthTrafficData", AdminAuth, OneMonthTrafficData);
 router.post("/post", AdminAuth, CreatePost);
 router.get("/post", AllPost);
 router.post("/post/delete", AdminAuth, deletePost);
+
+router.get("/responsereferrer", responsereferrer);
 
 export default router;

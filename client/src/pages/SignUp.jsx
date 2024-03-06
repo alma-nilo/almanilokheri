@@ -6,9 +6,9 @@ import { AlertApi } from "../context/AlertContext";
 import axios from "axios";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer/Footer";
-import { TextField, Button, Grid, Typography } from "@mui/material";
+import { Button, Grid, Typography } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { Apple, Facebook, Google } from "@mui/icons-material";
+import { Google } from "@mui/icons-material";
 import {
   GoogleAuthProvider,
   signInWithPopup,
@@ -101,7 +101,7 @@ export default function SignUp() {
 
       const user = await signInWithPopup(auth, provider);
 
-      console.log("USER", user);
+      // console.log("USER", user);
       // Send the user data to the server
       const playload = {
         uuid: user.user.uid,
@@ -120,7 +120,7 @@ export default function SignUp() {
         let url = `${process.env.REACT_APP_API_KEY}/signup`;
 
         const res = await axios.post(url, playload);
-        console.log(res);
+        // console.log(res);
         if (res.data.code === 0) {
           navigate(`/signup/${res.data.uuid}`);
           window.scrollTo({
@@ -129,7 +129,7 @@ export default function SignUp() {
           });
           setAlert({ type: "success", message: "success" });
         } else if (res.data.code === 1) {
-          console.log(res);
+          // console.log(res);
           setuser(res.data);
           const Token = JSON.stringify(res.data);
           Cookies.set("User", Token, { expires: 2 });

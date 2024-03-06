@@ -9,6 +9,9 @@ import Loader from "../components/Loader";
 import UploadImageToS3WithNativeSdk from "../components/upload/UploadS3";
 import PhotoUploadComponent from "../components/upload/Profile";
 import Referral from "../components/Referral";
+import { AuthApi } from "../context/user";
+import Cookies from "js-cookie";
+import { Close } from "@mui/icons-material";
 
 const validationSchema = Yup.object({
   aadhaar: Yup.string().required("Aadhaar is required"),
@@ -30,6 +33,186 @@ const validationSchema = Yup.object({
       }
     ),
 });
+
+const Modal = ({ isOpen, onClose, onAgree }) => {
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center">
+      <div
+        className="absolute inset-0 bg-gray-800 opacity-75"
+        onClick={onClose}
+      ></div>
+      <div className="z-50 relative flex flex-col item-start bg-white p-8 rounded-lg max-w-md modal-content">
+        <h2 className="text-2xl font-bold mb-4">Terms and Conditions</h2>
+        <h2 className="text-xl font-semibold mb-2 text-gray-700 text-left">
+          # Introduction
+        </h2>
+        <p className="text-sm text-gray-600 leading-relaxed text-left">
+          Welcome to Guru BrahmaNand Ji Govt. Polytechnic Alumni Platform! These
+          terms and conditions outline the rules and regulations for the use of
+          our platform. By accessing this platform, we assume you accept these
+          terms and conditions. Do not continue to use Guru BrahmaNand Ji Govt.
+          Polytechnic Alumni Platform if you do not agree to all of the terms
+          and conditions stated on this page. The following terminology applies
+          to these Terms and Conditions, Privacy Statement and Disclaimer Notice
+          and all Agreements: "Client", "You" and "Your" refers to you, the
+          person accessing this platform and accepting the Company’s terms and
+          conditions. "The Company", "Ourselves", "We", "Our" and "Us", refers
+          to our Company. "Party", "Parties", or "Us", refers to both the Client
+          and ourselves. All terms refer to the offer, acceptance and
+          consideration of payment necessary to undertake the process of our
+          assistance to the Client in the most appropriate manner, whether by
+          formal meetings of a fixed duration, or any other means, for the
+          express purpose of meeting the Client’s needs in respect of provision
+          of the Company’s stated services/products, in accordance with and
+          subject to, prevailing law of India. Any use of the above terminology
+          or other words in the singular, plural, capitalisation and/or he/she
+          or they, are taken as interchangeable and therefore as referring to
+          same.
+        </p>
+        <h2 className="text-xl font-semibold mb-2 text-gray-700 text-left">
+          # Suspicious Activity
+        </h2>
+        <p className="text-sm text-gray-600 leading-relaxed text-left">
+          If we find any suspicious activity, we reserve the right to remove you
+          and your post from Guru BrahmaNand Ji Govt. Polytechnic Alumni
+          Platform without notice.
+        </p>
+        <h2 className="text-xl font-semibold mb-2 text-gray-700 text-left">
+          # Cookies
+        </h2>
+        <p className="text-sm text-gray-600 leading-relaxed text-left">
+          We employ the use of cookies. By accessing Guru BrahmaNand Ji Govt.
+          Polytechnic Alumni Platform, you agreed to use cookies in agreement
+          with the Guru BrahmaNand Ji Govt. Polytechnic's Privacy Policy.
+        </p>
+        <h2 className="text-xl font-semibold mb-2 text-gray-700 text-left">
+          # License
+        </h2>
+        <p className="text-sm text-gray-600 leading-relaxed text-left">
+          Unless otherwise stated, Guru BrahmaNand Ji Govt. Polytechnic and/or
+          its licensors own the intellectual property rights for all material on
+          Guru BrahmaNand Ji Govt. Polytechnic Alumni Platform. All intellectual
+          property rights are reserved. You may access this from Guru BrahmaNand
+          Ji Govt. Polytechnic Alumni Platform for your own personal use
+          subjected to restrictions set in these terms and conditions.
+        </p>
+        <h2 className="text-xl font-semibold mb-2 text-gray-700 text-left">
+          # Restrictions
+        </h2>
+        <p className="text-sm text-gray-600 leading-relaxed text-left">
+          You are specifically restricted from all of the following: publishing
+          any Guru BrahmaNand Ji Govt. Polytechnic Alumni Platform material in
+          any other media; selling, sublicensing and/or otherwise
+          commercializing any Guru BrahmaNand Ji Govt. Polytechnic Alumni
+          Platform material; publicly performing and/or showing any Guru
+          BrahmaNand Ji Govt. Polytechnic Alumni Platform material; using Guru
+          BrahmaNand Ji Govt. Polytechnic Alumni Platform in any way that is or
+          may be damaging to this platform; using Guru BrahmaNand Ji Govt.
+          Polytechnic Alumni Platform in any way that impacts user access to
+          this platform; using Guru BrahmaNand Ji Govt. Polytechnic Alumni
+          Platform contrary to applicable laws and regulations, or in any way
+          may cause harm to the platform, or to any person or business entity;
+          engaging in any data mining, data harvesting, data extracting or any
+          other similar activity in relation to Guru BrahmaNand Ji Govt.
+          Polytechnic Alumni Platform; using Guru BrahmaNand Ji Govt.
+          Polytechnic Alumni Platform to engage in any advertising or marketing.
+          Certain areas of Guru BrahmaNand Ji Govt. Polytechnic Alumni Platform
+          are restricted from being accessed by you and Guru BrahmaNand Ji Govt.
+          Polytechnic may further restrict access by you to any areas of this
+          platform, at any time, in absolute discretion. Any user ID and
+          password you may have for Guru BrahmaNand Ji Govt. Polytechnic Alumni
+          Platform are confidential and you must maintain confidentiality as
+          well.
+        </p>
+        <h2 className="text-xl font-semibold mb-2 text-gray-700 text-left">
+          # Your Content
+        </h2>
+        <p className="text-sm text-gray-600 leading-relaxed text-left">
+          In these terms and conditions, "Your Content" shall mean any audio,
+          video text, images or other material you choose to display on Guru
+          BrahmaNand Ji Govt. Polytechnic Alumni Platform. By displaying Your
+          Content, you grant Guru BrahmaNand Ji Govt. Polytechnic a
+          non-exclusive, worldwide irrevocable, sub licensable license to use,
+          reproduce, adapt, publish, translate and distribute it in any and all
+          media. Your Content must be your own and must not be invading any
+          third-party’s rights. Guru BrahmaNand Ji Govt. Polytechnic reserves
+          the right to remove any of Your Content from Guru BrahmaNand Ji Govt.
+          Polytechnic Alumni Platform at any time without notice.
+        </p>
+        <h2 className="text-xl font-semibold mb-2 text-gray-700 text-left">
+          # No warranties
+        </h2>
+        <p className="text-sm text-gray-600 leading-relaxed text-left">
+          This platform is provided "as is," with all faults, and Guru
+          BrahmaNand Ji Govt. Polytechnic express no representations or
+          warranties, of any kind related to Guru BrahmaNand Ji Govt.
+          Polytechnic Alumni Platform or the materials contained on this
+          platform. Also, nothing contained on Guru BrahmaNand Ji Govt.
+          Polytechnic Alumni Platform shall be interpreted as advising you.
+        </p>
+        <h2 className="text-xl font-semibold mb-2 text-gray-700 text-left">
+          # Limitation of liability
+        </h2>
+        <p className="text-sm text-gray-600 leading-relaxed text-left">
+          In no event shall Guru BrahmaNand Ji Govt. Polytechnic, nor any of its
+          officers, directors and employees, shall be held liable for anything
+          arising out of or in any way connected with your use of Guru
+          BrahmaNand Ji Govt. Polytechnic Alumni Platform whether such liability
+          is under contract. Guru BrahmaNand Ji Govt. Polytechnic, including its
+          officers, directors and employees shall not be held liable for any
+          indirect, consequential or special liability arising out of or in any
+          way related to your use of Guru BrahmaNand Ji Govt. Polytechnic Alumni
+          Platform.
+        </p>
+        <h2 className="text-xl font-semibold mb-2 text-gray-700 text-left">
+          # Indemnification
+        </h2>
+        <p className="text-sm text-gray-600 leading-relaxed text-left">
+          You hereby indemnify to the fullest extent Guru BrahmaNand Ji Govt.
+          Polytechnic from and against any and/or all liabilities, costs,
+          demands, causes of action, damages and expenses arising in any way
+          related to your breach of any of the provisions of these terms.
+        </p>
+
+        <h2 className="text-xl font-semibold mb-2 text-gray-700 text-left">
+          # Severability
+        </h2>
+        <p className="text-sm text-gray-600 leading-relaxed text-left">
+          If any provision of these terms is found to be invalid under any
+          applicable law, such provisions shall be deleted without affecting the
+          remaining
+        </p>
+        <div className="mt-4 flex justify-end">
+          {" "}
+          <div>
+            <button
+              onClick={onClose}
+              className="text-white hover:bg-red-700 rounded-lg w-16 h-8 mr-2 bg-red-500"
+            >
+              {" "}
+              close
+            </button>
+            <button
+              onClick={() => {
+                onAgree();
+                onClose();
+              }}
+              className="text-white hover:bg-green-700 rounded-lg w-16 h-8 mr-2 bg-green-500"
+            >
+              {" "}
+              Agree
+            </button>
+          </div>
+        </div>
+        <div className="absolute right-1 top-1 text-red-500" onClick={onClose}>
+          <Close />
+        </div>
+      </div>
+    </div>
+  );
+};
 
 export default function TempProfileForm() {
   const initalvalues = {
@@ -59,7 +242,8 @@ export default function TempProfileForm() {
     useState("");
 
   const [InstituteValueFind, setInstituteValueFind] = useState(false);
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isTermsAccepted, setIsTermsAccepted] = useState(false);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
@@ -67,6 +251,7 @@ export default function TempProfileForm() {
 
   const { id } = useParams();
   const { setAlert } = AlertApi();
+  const { setuser } = AuthApi();
 
   const toggleclose = () => {
     setIsOpen(false);
@@ -215,6 +400,9 @@ export default function TempProfileForm() {
     } else if (!selectedvalidation) {
       setAlert({ type: "error", message: "Validation are required" });
       return;
+    } else if (!isTermsAccepted) {
+      setAlert({ type: "error", message: "Please Accept terms and condition" });
+      return;
     }
 
     const {
@@ -235,7 +423,6 @@ export default function TempProfileForm() {
     const playload = {
       uuid: id,
       email: Tempdata.email,
-      profile: Tempdata,
       name: InstituteCollectionValuesName,
       Trade: InstituteCollectionValuesTrade,
       profession: profession,
@@ -256,10 +443,12 @@ export default function TempProfileForm() {
     const url = `${process.env.REACT_APP_API_KEY}/tempuserinfo`;
 
     try {
-      await axios.post(url, playload);
+      const res = await axios.post(url, playload);
 
       actions.resetForm();
-
+      setuser(res.data);
+      const Token = JSON.stringify(res.data);
+      Cookies.set("User", Token, { expires: 2 });
       setIsOpen(true);
       // Handle any further logic here if needed
     } catch (error) {
@@ -321,6 +510,10 @@ export default function TempProfileForm() {
   };
   const handlevalidationChange = (value) => {
     setSelectedvalidation(value);
+  };
+
+  const handleAccept = () => {
+    setIsModalOpen(true);
   };
 
   return (
@@ -433,7 +626,6 @@ export default function TempProfileForm() {
                     readOnly
                   />
                 </div>
-
                 <div className="mb-5">
                   <label
                     htmlFor="name"
@@ -481,13 +673,11 @@ export default function TempProfileForm() {
                     className="text-red-500"
                   />
                 </div>
-
                 <PhotoUploadComponent
                   setFieldValue={setFieldValue}
                   data={Tempdata}
                   setprofileExist={setprofileExist}
                 />
-
                 <div className="mb-6">
                   <label
                     htmlFor="Trade"
@@ -560,7 +750,6 @@ export default function TempProfileForm() {
                     className="text-red-500"
                   />
                 </div>
-
                 <div className="mb-6">
                   <label
                     htmlFor="state"
@@ -583,7 +772,6 @@ export default function TempProfileForm() {
                     ))}
                   </select>
                 </div>
-
                 {/* District Section */}
                 <div className="mb-6">
                   <label
@@ -689,7 +877,6 @@ export default function TempProfileForm() {
                     className="text-red-500"
                   />
                 </div>
-
                 <div className="mb-5">
                   <label
                     htmlFor="about"
@@ -712,7 +899,6 @@ export default function TempProfileForm() {
                     className="text-red-500"
                   />
                 </div>
-
                 <div className="mb-6">
                   <label
                     htmlFor="validation"
@@ -747,16 +933,39 @@ export default function TempProfileForm() {
                 ) : (
                   ""
                 )}
-
                 {selectedvalidation === "Referral" ? (
                   <Referral setReferralaccount={setReferralaccount} />
                 ) : (
                   ""
                 )}
 
+                <div className="text-center ">
+                  <div className="inline-flex items-center">
+                    <input
+                      type="checkbox"
+                      className="form-checkbox h-5 w-5 text-blue-600"
+                      checked={isTermsAccepted}
+                      onChange={() => setIsTermsAccepted(!isTermsAccepted)}
+                    />
+                    <span className="ml-2 text-sm">
+                      I accept the{" "}
+                      <span
+                        className="text-sm  text-red-500"
+                        onClick={handleAccept}
+                      >
+                        terms and conditions
+                      </span>
+                    </span>
+                  </div>
+                  <Modal
+                    isOpen={isModalOpen}
+                    onClose={() => setIsModalOpen(false)}
+                    onAgree={() => setIsTermsAccepted(true)}
+                  />
+                </div>
                 <button
                   type="submit"
-                  className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                  className="bg-green-500 mt-2 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
                   disabled={isSubmitting || Duplicate}
                 >
                   {isSubmitting ? "Plz wait ........" : "Submit"}

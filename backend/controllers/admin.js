@@ -17,6 +17,8 @@ import {
   deleteImageToStorage,
 } from "../aws/functions.js";
 
+
+
 function shuffle(array) {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -141,6 +143,10 @@ export const getSingleUser = async (req, res) => {
     res.status(400).json({ err: error.message });
   }
 };
+
+
+
+
 
 //  UserResponse
 
@@ -1101,4 +1107,190 @@ export const deletePost = async (req, res) => {
     // Handle error if any
     res.status(500).json({ error: "Could not delete picture." });
   }
+};
+
+
+
+
+const TryAgainResponse = () => {
+  return `<!DOCTYPE html>
+    <html>
+      <head>
+        <meta charset="UTF-8" />
+        <title>Oops! Something Went Wrong</title>
+        <style>
+          body {
+            background-color: #f9eaea;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            margin: 0;
+            padding: 0;
+          }
+    
+          .container {
+            background-color: #ffffff;
+            border-radius: 6px;
+            border: 1px solid #dddddd;
+            margin: 20px auto;
+            max-width: 600px;
+            padding: 20px;
+            text-align: center;
+          }
+    
+          h1 {
+            color: #f44336; /* Red */
+          }
+    
+          p {
+            margin: 20px 0;
+          }
+        </style>
+      </head>
+      <body>
+        <div class="container">
+          <h1>Oops! Something Went Wrong</h1>
+          <p>It seems that something went wrong. Please try again later.</p>
+          <p>If the problem persists, please contact support.</p>
+        </div>
+      </body>
+    </html>
+    `;
+};
+
+const RejectResponse = (referenceUser, newUser) => {
+  return `<!DOCTYPE html>
+    <html>
+      <head>
+        <meta charset="UTF-8" />
+        <title>Reference Rejected</title>
+        <style>
+          body {
+            background-color: #f9eaea;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            margin: 0;
+            padding: 0;
+          }
+    
+          .container {
+            background-color: #ffffff;
+            border-radius: 6px;
+            border: 1px solid #dddddd;
+            margin: 20px auto;
+            max-width: 600px;
+            padding: 20px;
+            text-align: center;
+          }
+    
+          h1 {
+            color: #f44336; /* Red */
+          }
+    
+          p {
+            margin: 20px 0;
+          }
+        </style>
+      </head>
+      <body>
+        <div class="container">
+          <h1>Reference Rejected</h1>
+          <p>Dear ${referenceUser},</p>
+          <p>The reference for ${newUser} has been rejected.</p>
+          <p>If you have any questions or concerns, please feel free to contact us.</p>
+          <p>Best regards,</p>
+          <p>The College Team</p>
+        </div>
+      </body>
+    </html>
+    `;
+};
+
+const ApproveResponse = (referenceUser, newUser) => {
+  return `<!DOCTYPE html>
+    <html>
+      <head>
+        <meta charset="UTF-8" />
+        <title>Reference Approved</title>
+        <style>
+          body {
+            background-color: #f9eaea;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            margin: 0;
+            padding: 0;
+          }
+    
+          .container {
+            background-color: #ffffff;
+            border-radius: 6px;
+            border: 1px solid #dddddd;
+            margin: 20px auto;
+            max-width: 600px;
+            padding: 20px;
+            text-align: center;
+          }
+    
+          h1 {
+            color: #4CAF50; /* Green */
+          }
+    
+          p {
+            margin: 20px 0;
+          }
+        </style>
+      </head>
+      <body>
+        <div class="container">
+          <h1>Reference Approved</h1>
+          <p>Dear ${referenceUser},</p>
+          <p>Thank you for approving the reference for ${newUser}.</p>
+          <p>Best regards,</p>
+          <p>The College Team</p>
+        </div>
+      </body>
+    </html>
+    `;
+};
+
+
+
+export const responsereferrer = async (req, res) => {
+
+  const { uuid, token, response } = req.query
+  const key = process.env.PrivetKey;
+
+  try {
+    const data = await jwt.verify(token, key);
+
+    if (data.uuid === uuid) {
+      if (response === "Approve") {
+        await User.findOneAndUpdate({ _id: data.userid }, { status: "Approve" })
+        res.send(ApproveResponse(data.referrerName, data.userName))
+        return
+      } else if (response === "Reject") {
+        console.log(data)
+        await User.findByIdAndDelete(data.userid)
+        res.send(RejectResponse(data.referrerName, data.userName))
+        return
+      } else {
+        res.send(TryAgainResponse());
+        return
+      }
+
+
+    } else {
+      res.send(TryAgainResponse());
+    }
+  } catch (error) {
+    console.log(error)
+    res.send(TryAgainResponse());
+  }
+
+
+
+
+
+
+
+
 };

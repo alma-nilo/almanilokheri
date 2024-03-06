@@ -6,7 +6,7 @@ import {
 import bcrypt from "bcrypt";
 import { validate as uuidValidate } from "uuid";
 import jwt from "jsonwebtoken";
-import { sentotp } from "../mail/server.js";
+import { ReferenceNotificationMail, WarningMail, sentotp } from "../mail/server.js";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -15,6 +15,7 @@ export const tempuser = async (req, res) => {
   const {
     uuid,
     name,
+    email,
     rollNo,
     Trade,
     profession,
@@ -65,9 +66,27 @@ export const tempuser = async (req, res) => {
         status: "proof"
       };
       // return;
-      await User.findOneAndUpdate({ uuid: uuid }, operation);
+      const Puser = await User.findOneAndUpdate({ uuid: uuid }, operation);
 
-      res.status(200).json({ message: "wait for institute approvel" });
+      const playload = {
+        _id: Puser._id,
+        name: name,
+        avtar: Puser.profile,
+        status: Puser.status,
+        User: true,
+        exp: Math.floor(Date.now() / 1000) + 2 * 24 * 60 * 60,
+      };
+
+      const token = jwt.sign(playload, process.env.PrivetKey);
+
+      // TODO:Approval Mail for users who referral
+      res.status(200).json({
+        message: "success", uuid: Puser._id,
+        Token: token,
+        profile: Puser.profile,
+      });
+
+      // res.status(200).json({ message: "wait for institute approvel" });
     } else if (validation === "NotReferral") {
       const operation = {
         name: name,
@@ -86,11 +105,31 @@ export const tempuser = async (req, res) => {
         status: "NotApprove",
       };
 
+      // TODO:mail of warning 
+
       // return;
 
-      await User.findOneAndUpdate({ uuid: uuid }, operation);
+      const Puser = await User.findOneAndUpdate({ uuid: uuid }, operation);
+      // console.log(Puser)
+
+      const playload = {
+        _id: Puser._id,
+        name: name,
+        avtar: Puser.profile,
+        status: Puser.status,
+        User: true,
+        exp: Math.floor(Date.now() / 1000) + 2 * 24 * 60 * 60,
+      };
+
+      const token = jwt.sign(playload, process.env.PrivetKey);
+
+      WarningMail(email, name)
       // TODO:mail of warning 
-      res.status(200).json({ message: "success" });
+      res.status(200).json({
+        message: "success", Token: token,
+        uuid: Puser._id,
+        profile: Puser.profile,
+      });
       return
 
     }
@@ -115,10 +154,34 @@ export const tempuser = async (req, res) => {
 
       // return;
 
-      await User.findOneAndUpdate({ uuid: uuid }, operation);
-      // TODO:mail of warning 
+      const Puser = await User.findOneAndUpdate({ uuid: uuid }, operation);
+
+      const playload = {
+        _id: Puser._id,
+        name: name,
+        avtar: Puser.profile,
+        status: Puser.status,
+        User: true,
+        exp: Math.floor(Date.now() / 1000) + 2 * 24 * 60 * 60,
+      };
+
+      const token = jwt.sign(playload, process.env.PrivetKey);
+
+
+      // send mail to referal user
+      const userDetails = { name: name, profilePic: Puser.profile, rollNo: rollNo, email: email, trade: Trade, profession: profession, batch: `${startYear} - ${endYear}` }
+      const referrerUser = await User.findOne({ _id: referral })
+      const referraltoken = jwt.sign({ uuid: referrerUser.uuid, userid: Puser._id, referrerName: referrerUser.name, userName: name }, process.env.PrivetKey);
+      const referralDetail = { email: referrerUser.email, token: referraltoken, uuid: referrerUser.uuid }
+
+      ReferenceNotificationMail(referralDetail.email, referralDetail, userDetails);
+
       // TODO:Approval Mail for users who referral
-      res.status(200).json({ message: "success" });
+      res.status(200).json({
+        message: "success", uuid: Puser._id,
+        Token: token,
+        profile: Puser.profile,
+      });
       return
 
     }
@@ -294,7 +357,7 @@ export const tempuserdocs = async (req, res) => {
   try {
 
     if (profile && profileKey) {
-      console.log("first")
+      // console.log("first")
       await User.findOneAndUpdate({ _id: data._id }, { profile: profile, profilepath: profileKey })
       res.status(200).json({ data: "success" });
     } else if (proof && proofKey) {
@@ -307,7 +370,7 @@ export const tempuserdocs = async (req, res) => {
     }
 
   } catch (error) {
-    console.log(error)
+    // console.log(error)
 
     res.status(400).json({ err: error.message });
   }
