@@ -218,7 +218,7 @@ export const fetchhomeuser = async (req, res) => {
   try {
     const data = await User.aggregate([
       { $sample: { size: 5 } },
-      { $match: { status: {$nin:["Block","Pending"]} },
+      { $match: { status: {$nin:["Block","Pending"]}} }
     ]);
     res.status(200).json({ data: data });
   } catch (error) {
