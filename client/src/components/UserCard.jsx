@@ -122,7 +122,7 @@ const UserCard = ({ user }) => {
               });
             }}
           >
-            {user?.about.slice(0, 80)}....{" "}
+            {user?.about}
             <span
               onClick={() => {
                 navigate(`/user/${user?._id}`);
