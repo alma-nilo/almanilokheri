@@ -205,7 +205,7 @@ export const UserResponse = async (req, res) => {
 
 export const fetch = async (req, res) => {
   try {
-    const data = await User.find({ status: { $ne: "Block" } });
+    const data = await User.find({ status: { $nin: ["Pending","Block"] } });
 
     const shuffled = shuffle(data);
     const newArray = shuffled.slice();
