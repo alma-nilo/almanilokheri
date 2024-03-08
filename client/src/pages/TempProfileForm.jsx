@@ -20,6 +20,7 @@ const validationSchema = Yup.object({
   facebook: Yup.string().url("Invalid Facebook URL"),
   twitter: Yup.string().url("Invalid Twitter URL"),
   about: Yup.string().required("Please tell us something about yourself"),
+  trade: Yup.string().required("Trade is required"),
   startYear: Yup.number().nullable().required("Starting year is required"),
   endYear: Yup.number()
     .nullable()
@@ -226,6 +227,7 @@ export default function TempProfileForm() {
     about: "",
     startYear: null,
     endYear: null,
+    trade:""
   };
 
   const [RollNo, setRollNo] = useState("");
@@ -236,8 +238,7 @@ export default function TempProfileForm() {
   const [selectedDistrict, setSelectedDistrict] = useState("");
   const [Duplicate, setDuplicate] = useState(false);
   const [Referralaccount, setReferralaccount] = useState(null);
-  const [InstituteCollectionValuesTrade, setInstituteCollectionValuesTrade] =
-    useState("");
+
   const [InstituteCollectionValuesName, setInstituteCollectionValuesName] =
     useState("");
 
@@ -305,6 +306,17 @@ export default function TempProfileForm() {
     "Delhi",
     "Lakshadweep",
     "Puducherry",
+  ];
+
+  const Tradearr = [
+    "Computer Engineering",
+    "Civil Engineering",
+    "Mechanical Engineering",
+    "Electrical Engineering",
+    "Instrumentation and Control Engineering",
+    "Production Engineering",
+    "Mechatronics Engineering",
+    "Information Control Engineering",
   ];
 
   const ValidationArr = [
@@ -388,9 +400,6 @@ export default function TempProfileForm() {
     } else if (!profileExist) {
       setAlert({ type: "error", message: "profile are required" });
       return;
-    } else if (!InstituteCollectionValuesTrade) {
-      setAlert({ type: "error", message: "Trade are required" });
-      return;
     } else if (selectedvalidation === "proof" && !proofExist) {
       setAlert({ type: "error", message: "Proof are required" });
       return;
@@ -414,6 +423,7 @@ export default function TempProfileForm() {
       startYear,
       endYear,
       aadhaar,
+      trade
     } = values;
     // console.log(values);
 
@@ -424,7 +434,7 @@ export default function TempProfileForm() {
       uuid: id,
       email: Tempdata.email,
       name: InstituteCollectionValuesName,
-      Trade: InstituteCollectionValuesTrade,
+      Trade: trade,
       profession: profession,
       rollNo: RollNo,
       aadhaar: aadhaar,
@@ -485,12 +495,10 @@ export default function TempProfileForm() {
 
       setDuplicate(false);
       // //console.log(data.data);
-      setInstituteCollectionValuesTrade(data.data?.branch);
       setInstituteCollectionValuesName(data.data?.name);
       setInstituteValueFind(true);
     } catch (error) {
       setDuplicate(false);
-      setInstituteCollectionValuesTrade("");
       setInstituteCollectionValuesName("");
       setInstituteValueFind(false);
     }
@@ -678,30 +686,30 @@ export default function TempProfileForm() {
                   data={Tempdata}
                   setprofileExist={setprofileExist}
                 />
-                <div className="mb-6">
+                 <div className="mb-6">
                   <label
-                    htmlFor="Trade"
+                    htmlFor="trade"
                     className="block text-gray-700 font-bold mb-2"
                   >
                     Trade{" "}
                     <span className="text-red-400 font-bold text-2xl">*</span>
                   </label>
-                  <input
-                    type="text"
-                    id="Trade"
+                  <Field
+                      as="select"
+                      name="trade"
+                      className="w-full appearance-none border rounded py-2 px-3 leading-tight focus:outline-none focus:shadow-outline text-green-700 bg-white focus:border-green-400 focus:ring-green-300 focus:ring focus:ring-opacity-40"
+                    >
+                      <option value="">Select Trade</option>
+                      {Tradearr?.map((value) => (
+                        <option key={value} value={value}>
+                          {value}
+                        </option>
+                      ))}
+                    </Field>
+                  <ErrorMessage
                     name="trade"
-                    onChange={
-                      InstituteValueFind
-                        ? () => {}
-                        : (e) => {
-                            setInstituteCollectionValuesTrade(e.target.value);
-                          }
-                    }
-                    value={InstituteCollectionValuesTrade}
-                    className={`${
-                      InstituteValueFind ? "bg-green-100" : "bg-white"
-                    } w-full border rounded px-3 py-2  text-green-700  border-green-400 ring-green-300 focus:outline-none ring ring-opacity-40`}
-                    placeholder="Computer Engg"
+                    component="div"
+                    className="text-red-500"
                   />
                 </div>
                 <div className="mb-6">
@@ -713,10 +721,12 @@ export default function TempProfileForm() {
                     <span className="text-red-400 font-bold text-2xl">*</span>
                   </label>
                   <div className="flex">
+                    <div className="w-1/2">
+
                     <Field
                       as="select"
                       name="startYear"
-                      className="w-1/2 appearance-none border rounded py-2 px-3 leading-tight focus:outline-none focus:shadow-outline text-green-700 bg-white focus:border-green-400 focus:ring-green-300 focus:ring focus:ring-opacity-40"
+                      className="w-full appearance-none border rounded py-2 px-3 leading-tight focus:outline-none focus:shadow-outline text-green-700 bg-white focus:border-green-400 focus:ring-green-300 focus:ring focus:ring-opacity-40"
                     >
                       <option value="">****</option>
                       {yearOptions?.map((year) => (
@@ -725,30 +735,38 @@ export default function TempProfileForm() {
                         </option>
                       ))}
                     </Field>
-                    <span className="px-2">to</span>
-                    <Field
-                      as="select"
-                      name="endYear"
-                      className="w-1/2 appearance-none border rounded py-2 px-3 leading-tight focus:outline-none focus:shadow-outline text-green-700 bg-white focus:border-green-400 focus:ring-green-300 focus:ring focus:ring-opacity-40"
-                    >
-                      <option value="">****</option>
-                      {yearOptions?.map((year) => (
-                        <option key={year} value={year}>
-                          {year}
-                        </option>
-                      ))}
-                    </Field>
-                  </div>
+                    
                   <ErrorMessage
                     name="startYear"
                     component="div"
                     className="text-red-500"
                   />
-                  <ErrorMessage
+                    </div>
+                    <span className="px-2">to</span>
+                    <div className="w-1/2">
+
+                    <Field    
+                      as="select"
+                      name="endYear"
+                      className="w-full appearance-none border rounded py-2 px-3 leading-tight focus:outline-none focus:shadow-outline text-green-700 bg-white focus:border-green-400 focus:ring-green-300 focus:ring focus:ring-opacity-40"
+                    >
+                      <option value="">****</option>
+                      {yearOptions?.map((year) => (
+                        <option key={year} value={year}>
+                          {year}
+                        </option>
+                      ))}
+                    </Field>
+                    <ErrorMessage
                     name="endYear"
                     component="div"
                     className="text-red-500"
                   />
+                    </div>  
+
+                  </div>
+                 
+                  
                 </div>
                 <div className="mb-6">
                   <label
