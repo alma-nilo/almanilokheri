@@ -112,10 +112,10 @@ const Posts = ({ UserProfile, uuid, status }) => {
       )}
 
       <div
-        className={`flex justify-center h-auto max-h-96 postfix overflow-scroll mt-4 w-full`}
+        className={`flex justify-center h-auto postfix overflow-scroll mt-4 w-full`}
       >
         <div
-          className={`flex h-full  flex-col p-4 items-center  mt-2 space-y-4  ${
+          className={`flex h-auto  flex-col p-4 items-center  mt-2 space-y-4  ${
             UserProfile ? "md:w-full" : "md:w-5/12"
           }  `}
         >
