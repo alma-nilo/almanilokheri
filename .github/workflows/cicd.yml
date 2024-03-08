@@ -41,7 +41,7 @@ jobs:
           echo -e "REACT_APP_API_KEY=${REACT_APP_API_KEY} \n REACT_APP_PRIVET_KEY=${REACT_APP_PRIVET_KEY} \n REACT_APP_AWS_Access_key=${REACT_APP_AWS_Access_key} \n REACT_APP_AWS_secret_key=${REACT_APP_AWS_secret_key} \n REACT_APP_AWS_S3_BUCKET=${REACT_APP_AWS_S3_BUCKET} \n REACT_APP_AWS_REGION=${REACT_APP_AWS_REGION} \n REACT_APP_apiKey=${REACT_APP_apiKey} \n REACT_APP_authDomain=${REACT_APP_authDomain} \n REACT_APP_projectId=${REACT_APP_projectId} \n REACT_APP_storageBucket=${REACT_APP_storageBucket} \n REACT_APP_messagingSenderId=${REACT_APP_messagingSenderId} \n REACT_APP_appId=${REACT_APP_appId} \n REACT_APP_measurementId=${REACT_APP_measurementId} \n REACT_APP_TRACKING_ID=${REACT_APP_TRACKING_ID} \n REACT_APP_Month=${REACT_APP_Month} \n REACT_APP_Year=${REACT_APP_Year}" > ./client/.env
 
       - name: Read .env
-        run: cat ./client/.env
+        run: echo ./client/.env
 
       - name: Navigate to client directory and  Install dependencies and  Build React app
         run: |
@@ -81,7 +81,7 @@ jobs:
           echo -e "DATABASE_KEY=${DATABASE_KEY} \n PrivetKey=${PrivetKey} \n SENDER_MAIL=${SENDER_MAIL} \n MAIL_PWD=${MAIL_PWD} \n AWS_Access_key=${AWS_Access_key} \n AWS_secret_key=${AWS_secret_key} \n AWS_S3_BUCKET=${AWS_S3_BUCKET} \n AWS_REGION=${AWS_REGION}" > ./backend/.env
 
       - name: Read .env
-        run: cat ./backend/.env
+        run: echo ./backend/.env
 
       - name: Login to Docker Hub
         run: docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_KEY}}
