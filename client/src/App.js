@@ -14,6 +14,7 @@ import UserUnProtected from "./auth/admin/UserUnprotected.js";
 
 import axios from "axios";
 import Cookies from "js-cookie";
+import UserProfile from "./pages/UserProfile.jsx";
 
 const ChangePwd = React.lazy(() => import("./admin/pages/ChangePwd"));
 const Memories = React.lazy(() => import("./pages/Memories.jsx"));
@@ -61,7 +62,6 @@ const AboutUs = React.lazy(() => import("./pages/AboutUs"));
 const ContactUs = React.lazy(() => import("./pages/ContactUs"));
 // const Login = React.lazy(() => import("./pages/Login"));
 const SignUp = React.lazy(() => import("./pages/SignUp"));
-const UserProfile = React.lazy(() => import("./pages/UserProfile"));
 const News = React.lazy(() => import("./pages/News"));
 
 const EventDetails = React.lazy(() => import("./components/EventsDetail"));

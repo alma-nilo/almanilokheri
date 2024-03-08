@@ -35,7 +35,12 @@ const UserProfile = () => {
   //console.log(user);
 
   if (loader) {
-    return <Loader />;
+    return (
+      <>
+        <Navbar />
+        <Loader />;
+      </>
+    );
   } else {
     return (
       <>
