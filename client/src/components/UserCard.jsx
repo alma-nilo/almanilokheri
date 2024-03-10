@@ -5,9 +5,9 @@ import { useNavigate } from "react-router-dom";
 const UserCard = ({ user }) => {
   const navigate = useNavigate();
   return (
-    <div className="w-full md:w-1/2 lg:w-1/3 p-4 hover:cursor-pointer">
-      <div className="bg-white rounded-lg overflow-hidden shadow-lg transform hover:-translate-y-1 transition duration-300">
-        <div className="relative pb-48 overflow-hidden">
+    <div className="w-full md:w-1/2 lg:w-1/3 p-4 ">
+      <div className="bg-white rounded-lg overflow-hidden shadow-lg ">
+        <div className="relative  pb-48 overflow-hidden">
           <img
             onClick={() => {
               navigate(`/user/${user?._id}`);
@@ -16,7 +16,7 @@ const UserCard = ({ user }) => {
                 behavior: "smooth",
               });
             }}
-            className="absolute rounded-s-xl inset-0 h-full w-full object-contain"
+            className="absolute rounded-xl border  inset-0 h-full w-full object-contain "
             src={user?.profile}
             alt={user?.name}
           />
@@ -122,7 +122,7 @@ const UserCard = ({ user }) => {
               });
             }}
           >
-            {user?.about.slice(0, 80)}....{" "}
+            {user?.about.slice(0, 30)}....{" "}
             <span
               onClick={() => {
                 navigate(`/user/${user?._id}`);

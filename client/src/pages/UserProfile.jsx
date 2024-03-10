@@ -53,7 +53,7 @@ const UserProfile = () => {
                   <img
                     src={user.profile}
                     alt={`${user.name}'s Profile`}
-                    className="w-32 h-32 rounded-full mx-auto"
+                    className="w-32 h-32 rounded-full mx-auto object-cover"
                   />
                   <h2 className="text-3xl font-semibold mt-4">{user.name}</h2>
                 </div>

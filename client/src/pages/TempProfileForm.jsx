@@ -227,7 +227,7 @@ export default function TempProfileForm() {
     about: "",
     startYear: null,
     endYear: null,
-    trade:""
+    trade: "",
   };
 
   const [RollNo, setRollNo] = useState("");
@@ -316,7 +316,8 @@ export default function TempProfileForm() {
     "Instrumentation and Control Engineering",
     "Production Engineering",
     "Mechatronics Engineering",
-    "Information Control Engineering",
+    "Information Technology",
+    "Electronics & Communication Engineering",
   ];
 
   const ValidationArr = [
@@ -423,7 +424,7 @@ export default function TempProfileForm() {
       startYear,
       endYear,
       aadhaar,
-      trade
+      trade,
     } = values;
     // console.log(values);
 
@@ -686,7 +687,7 @@ export default function TempProfileForm() {
                   data={Tempdata}
                   setprofileExist={setprofileExist}
                 />
-                 <div className="mb-6">
+                <div className="mb-6">
                   <label
                     htmlFor="trade"
                     className="block text-gray-700 font-bold mb-2"
@@ -695,17 +696,17 @@ export default function TempProfileForm() {
                     <span className="text-red-400 font-bold text-2xl">*</span>
                   </label>
                   <Field
-                      as="select"
-                      name="trade"
-                      className="w-full appearance-none border rounded py-2 px-3 leading-tight focus:outline-none focus:shadow-outline text-green-700 bg-white focus:border-green-400 focus:ring-green-300 focus:ring focus:ring-opacity-40"
-                    >
-                      <option value="">Select Trade</option>
-                      {Tradearr?.map((value) => (
-                        <option key={value} value={value}>
-                          {value}
-                        </option>
-                      ))}
-                    </Field>
+                    as="select"
+                    name="trade"
+                    className="w-full appearance-none border rounded py-2 px-3 leading-tight focus:outline-none focus:shadow-outline text-green-700 bg-white focus:border-green-400 focus:ring-green-300 focus:ring focus:ring-opacity-40"
+                  >
+                    <option value="">Select Trade</option>
+                    {Tradearr?.map((value) => (
+                      <option key={value} value={value}>
+                        {value}
+                      </option>
+                    ))}
+                  </Field>
                   <ErrorMessage
                     name="trade"
                     component="div"
@@ -722,51 +723,46 @@ export default function TempProfileForm() {
                   </label>
                   <div className="flex">
                     <div className="w-1/2">
+                      <Field
+                        as="select"
+                        name="startYear"
+                        className="w-full appearance-none border rounded py-2 px-3 leading-tight focus:outline-none focus:shadow-outline text-green-700 bg-white focus:border-green-400 focus:ring-green-300 focus:ring focus:ring-opacity-40"
+                      >
+                        <option value="">****</option>
+                        {yearOptions?.map((year) => (
+                          <option key={year} value={year}>
+                            {year}
+                          </option>
+                        ))}
+                      </Field>
 
-                    <Field
-                      as="select"
-                      name="startYear"
-                      className="w-full appearance-none border rounded py-2 px-3 leading-tight focus:outline-none focus:shadow-outline text-green-700 bg-white focus:border-green-400 focus:ring-green-300 focus:ring focus:ring-opacity-40"
-                    >
-                      <option value="">****</option>
-                      {yearOptions?.map((year) => (
-                        <option key={year} value={year}>
-                          {year}
-                        </option>
-                      ))}
-                    </Field>
-                    
-                  <ErrorMessage
-                    name="startYear"
-                    component="div"
-                    className="text-red-500"
-                  />
+                      <ErrorMessage
+                        name="startYear"
+                        component="div"
+                        className="text-red-500"
+                      />
                     </div>
                     <span className="px-2">to</span>
                     <div className="w-1/2">
-
-                    <Field    
-                      as="select"
-                      name="endYear"
-                      className="w-full appearance-none border rounded py-2 px-3 leading-tight focus:outline-none focus:shadow-outline text-green-700 bg-white focus:border-green-400 focus:ring-green-300 focus:ring focus:ring-opacity-40"
-                    >
-                      <option value="">****</option>
-                      {yearOptions?.map((year) => (
-                        <option key={year} value={year}>
-                          {year}
-                        </option>
-                      ))}
-                    </Field>
-                    <ErrorMessage
-                    name="endYear"
-                    component="div"
-                    className="text-red-500"
-                  />
-                    </div>  
-
+                      <Field
+                        as="select"
+                        name="endYear"
+                        className="w-full appearance-none border rounded py-2 px-3 leading-tight focus:outline-none focus:shadow-outline text-green-700 bg-white focus:border-green-400 focus:ring-green-300 focus:ring focus:ring-opacity-40"
+                      >
+                        <option value="">****</option>
+                        {yearOptions?.map((year) => (
+                          <option key={year} value={year}>
+                            {year}
+                          </option>
+                        ))}
+                      </Field>
+                      <ErrorMessage
+                        name="endYear"
+                        component="div"
+                        className="text-red-500"
+                      />
+                    </div>
                   </div>
-                 
-                  
                 </div>
                 <div className="mb-6">
                   <label

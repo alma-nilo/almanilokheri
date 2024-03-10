@@ -204,22 +204,64 @@ export const UserResponse = async (req, res) => {
 };
 
 export const fetch = async (req, res) => {
-  try {
-    const data = await User.find({ status: { $nin: ["Pending","Block"] } });
 
-    const shuffled = shuffle(data);
-    const newArray = shuffled.slice();
-    res.status(200).json({ data: newArray });
+
+
+  let page = parseInt(req.query.page) || 1;
+
+  const perPage = parseInt(req.query.perPage) || 6;
+
+
+  const query = {
+    status: { $nin: ["Block", "Pending"] } // Mandatory condition
+  };
+
+  if (req.query.searchName) {
+    page = 1
+    query.$or = [
+      { name: { $regex: req.query.searchName, $options: 'i' } },
+      { rollNo: { $regex: req.query.searchName, $options: 'i' } } // Assuming rollNumber is the field for roll number
+    ];
+  }
+
+  if (req.query.searchTrade) {
+    page = 1
+
+    query.Trade = req.query.searchTrade;
+  }
+
+  console.log(query)
+
+
+  const skip = (page - 1) * perPage;
+
+  try {
+    const totalpost = await User.countDocuments(query);
+    const totalPages = Math.ceil(totalpost / perPage);
+
+    console.log("total post ", totalpost)
+    console.log("perpage:", perPage)
+    console.log("page:", page)
+    console.log(skip)
+
+    const data = await User.find(query)
+      .sort({ _id: -1 }) // Sort in descending order based on _id (timestamp)
+      .skip(skip)
+      .limit(perPage);
+    // console.log({ data: data, totalPages: totalPages })
+    res.status(200).json({ data: data, totalPages: totalPages });
+
   } catch (error) {
+    console.log(error)
     res.status(500).json({ error: error.message });
   }
+
+
+
 };
 export const fetchhomeuser = async (req, res) => {
   try {
-    const data = await User.aggregate([
-      { $sample: { size: 5 } },
-      { $match: { status: {$nin:["Block","Pending"]}} }
-    ]);
+    const data = await User.find({ status: { $nin: ["Block", "Pending"] } }).limit(5).shuffle();
     res.status(200).json({ data: data });
   } catch (error) {
     res.status(500).json({ error: error.message });
