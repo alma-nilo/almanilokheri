@@ -4,6 +4,7 @@ import axios from "axios";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
 import Cookies from "js-cookie";
+import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 
 import Footer from "../components/Footer/Footer";
 import Navbar from "../components/Navbar";
@@ -13,11 +14,13 @@ import { AuthApi } from "../context/user";
 
 import FloatingLogoButton from "../components/LogoutBtn";
 import { Box, Typography } from "@mui/material";
+import UploadModel from "../widgets/UploadModel";
 
 const Alumni = () => {
   const [user, setUser] = useState({});
   const [loader, setLoader] = useState(true);
   const navigate = useNavigate();
+  const [isUpdate, setisUpdate] = useState(false);
 
   const User = AuthApi().user;
   const { setuser } = AuthApi();
@@ -51,17 +54,32 @@ const Alumni = () => {
   } else {
     return (
       <>
+        {isUpdate ? (
+          <UploadModel isOpen={isUpdate} onClose={() => setisUpdate(false)} />
+        ) : (
+          ""
+        )}
         <Navbar headerDash={true} />
         <div className="relative bg-green-200 py-12">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-1 grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="md:col-span-2">
               <div className="bg-white rounded-lg shadow-lg relative p-6">
-                <div className="text-center">
-                  <img
-                    src={user.profile}
-                    alt={`${user.name}'s Profile`}
-                    className="w-32 h-32 rounded-full object-cover mx-auto"
-                  />
+                <div className=" text-center">
+                  <div className="relative w-32 h-32 rounded-full mx-auto border overflow-hidden ">
+                    <img
+                      src={user.profile}
+                      alt={`${user.name}'s Profile`}
+                      className=" object-cover "
+                    />
+                    <div
+                      onClick={() => {
+                        setisUpdate(true);
+                      }}
+                      className="absolute bottom-1 right-4 hover:bg-gray-400 bg-white rounded-full z-20 p-1"
+                    >
+                      <AppRegistrationIcon className="hover:text-gray-100" />
+                    </div>
+                  </div>
                   <h2 className="text-3xl font-semibold mt-4">{user.name}</h2>
                 </div>
                 <div className="block">

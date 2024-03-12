@@ -153,6 +153,29 @@ export default function Navbar({ headerDash, developer }) {
                       Home
                     </Link>
                   </li>
+                  <li
+                    className="text-white hover:text-indigo-200"
+                    onClick={() => {
+                      setNavbar(false);
+                      window.scrollTo({
+                        top: 0,
+                        behavior: "smooth",
+                      });
+                    }}
+                  >
+                    <Link
+                      className="LinkNav"
+                      onClick={() => {
+                        window.scrollTo({
+                          top: 0,
+                          behavior: "smooth",
+                        });
+                      }}
+                      to="/gallery/memories"
+                    >
+                      Memories
+                    </Link>
+                  </li>
 
                   <li
                     className="text-white hover:text-indigo-200"
@@ -360,23 +383,6 @@ export default function Navbar({ headerDash, developer }) {
                           behavior: "smooth",
                         });
                       }}
-                      to="/news"
-                    >
-                      News
-                    </Link>
-                  </li>
-                  <li
-                    className="text-white hover:text-indigo-200"
-                    onClick={() => setNavbar(false)}
-                  >
-                    <Link
-                      className="LinkNav"
-                      onClick={() => {
-                        window.scrollTo({
-                          top: 0,
-                          behavior: "smooth",
-                        });
-                      }}
                       to="/gallery"
                     >
                       Gallery
@@ -396,7 +402,7 @@ export default function Navbar({ headerDash, developer }) {
                       }}
                       to="/aboutUs"
                     >
-                      About US
+                      About
                     </Link>
                   </li>
                   <li
@@ -413,7 +419,7 @@ export default function Navbar({ headerDash, developer }) {
                       }}
                       to="/contactUs"
                     >
-                      Contact US
+                      Contact
                     </Link>
                   </li>
                 </ul>
@@ -608,6 +614,23 @@ export default function Navbar({ headerDash, developer }) {
                         Home
                       </Link>
                     </li>
+                    <li
+                      className="text-white hover:text-indigo-200"
+                      onClick={() => setNavbar(false)}
+                    >
+                      <Link
+                        className="LinkNav"
+                        onClick={() => {
+                          window.scrollTo({
+                            top: 0,
+                            behavior: "smooth",
+                          });
+                        }}
+                        to="/gallery/memories"
+                      >
+                        Memories
+                      </Link>
+                    </li>
 
                     <li
                       className="text-white hover:text-indigo-200"
@@ -800,23 +823,7 @@ export default function Navbar({ headerDash, developer }) {
                     </li>
 
                     {/*  new tab  */}
-                    <li
-                      className="text-white hover:text-indigo-200"
-                      onClick={() => setNavbar(false)}
-                    >
-                      <Link
-                        className="LinkNav"
-                        onClick={() => {
-                          window.scrollTo({
-                            top: 0,
-                            behavior: "smooth",
-                          });
-                        }}
-                        to="/news"
-                      >
-                        News
-                      </Link>
-                    </li>
+
                     <li
                       className="text-white hover:text-indigo-200"
                       onClick={() => setNavbar(false)}
@@ -848,7 +855,7 @@ export default function Navbar({ headerDash, developer }) {
                         }}
                         to="/aboutUs"
                       >
-                        About US
+                        About
                       </Link>
                     </li>
                     <li
@@ -865,7 +872,7 @@ export default function Navbar({ headerDash, developer }) {
                         }}
                         to="/contactUs"
                       >
-                        Contact US
+                        Contact
                       </Link>
                     </li>
                   </ul>

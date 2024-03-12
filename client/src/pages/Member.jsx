@@ -77,6 +77,7 @@ export default function Member() {
     "Civil Engineering",
     "Mechanical Engineering",
     "Electrical Engineering",
+    "Electronics Engineering",
     "Instrumentation and Control Engineering",
     "Production Engineering",
     "Mechatronics Engineering",

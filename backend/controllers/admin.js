@@ -19,13 +19,7 @@ import {
 
 
 
-function shuffle(array) {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
-  }
-  return array;
-}
+
 
 function getDaysInMonth() {
   const currentDate = new Date();
@@ -259,11 +253,24 @@ export const fetch = async (req, res) => {
 
 
 };
+
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
 export const fetchhomeuser = async (req, res) => {
   try {
-    const data = await User.find({ status: { $nin: ["Block", "Pending"] } }).limit(5).shuffle();
-    res.status(200).json({ data: data });
+    s
+    const users = await User.aggregate([
+      { $match: { status: { $nin: ["Block", "Pending"] } } },
+      { $sample: { size: 5 } }
+    ]);
+    res.status(200).json({ data: users });
   } catch (error) {
+    console.log(error)
     res.status(500).json({ error: error.message });
   }
 };
