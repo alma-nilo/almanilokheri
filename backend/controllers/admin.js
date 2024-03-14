@@ -263,7 +263,7 @@ function shuffleArray(array) {
 }
 export const fetchhomeuser = async (req, res) => {
   try {
-    s
+
     const users = await User.aggregate([
       { $match: { status: { $nin: ["Block", "Pending"] } } },
       { $sample: { size: 5 } }

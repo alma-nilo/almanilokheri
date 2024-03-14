@@ -55,7 +55,11 @@ const Alumni = () => {
     return (
       <>
         {isUpdate ? (
-          <UploadModel isOpen={isUpdate} onClose={() => setisUpdate(false)} />
+          <UploadModel
+            isOpen={isUpdate}
+            data={user}
+            onClose={() => setisUpdate(false)}
+          />
         ) : (
           ""
         )}
@@ -69,7 +73,7 @@ const Alumni = () => {
                     <img
                       src={user.profile}
                       alt={`${user.name}'s Profile`}
-                      className=" object-cover "
+                      className=" object-cover h-full w-full "
                     />
                     <div
                       onClick={() => {
@@ -109,6 +113,16 @@ const Alumni = () => {
                   <p className="text-gray-600 text-lg">
                     <span className="font-semibold text-green-400">Batch:</span>{" "}
                     {user.startYear}-{user.endYear}
+                  </p>
+                  <p className="text-gray-600 text-lg">
+                    <span className="font-semibold text-green-400">State:</span>
+                    {user.state}
+                  </p>
+                  <p className="text-gray-600 text-lg">
+                    <span className="font-semibold text-green-400">
+                      District:
+                    </span>
+                    {user.district}
                   </p>
 
                   <div className="w-32 absolute right-2 top-2 ">

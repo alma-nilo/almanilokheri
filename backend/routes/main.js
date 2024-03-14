@@ -10,7 +10,9 @@ import {
   getDeviceRecord,
   insertdeviceDailyRecord,
   tempuserdocs,
-  Referral
+  Referral,
+  updateprofile,
+
 } from "../controllers/Auth.js";
 const router = Router();
 
@@ -31,5 +33,7 @@ router.post("/deviceRecord", insertDeviceRecord);
 router.get("/deviceRecord", getDeviceRecord);
 router.post("/deviceDailyRecord", insertdeviceDailyRecord);
 router.get("/referral", Referral);
+router.post("/updateprofile", updateprofile);
+
 
 export default router;

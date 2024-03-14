@@ -134,7 +134,7 @@ export default function Member() {
               dataLength={users.length}
               next={loadMoreMember}
               hasMore={hasMore}
-              className="postfix"
+              className="postfix h-full"
               loader={<UserLoding text="Member" />}
             >
               <div className="flex flex-wrap -mx-4">

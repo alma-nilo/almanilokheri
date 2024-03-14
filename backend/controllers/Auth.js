@@ -456,3 +456,17 @@ export const insertdeviceDailyRecord = async (req, res) => {
     res.status(400).json({ err: error.message });
   }
 };
+
+
+export const updateprofile = async (req, res) => {
+
+  try {
+    const { _id, formData } = req.body
+    await User.findOneAndUpdate({ _id: _id }, formData)
+    res.status(200).json({ msg: "success" });
+  } catch (error) {
+
+    res.status(400).json({ err: error.message });
+
+  }
+}
