@@ -752,51 +752,57 @@ export const DashBoard = async (req, res) => {
     ];
     const currentMonth = months[now.getMonth()];
 
-    const AllUser = await User.countDocuments();
-    const ActiveUser = await User.countDocuments({ status: true });
-    const BlockUser = await User.countDocuments({ status: false });
+    const UserData = await User.aggregate([
+      {
+        $match: {
+          status: { $nin: ["Pending"] }
+        }
+      },
+      {
+        $group: {
+          _id: null,
+          AllUser: { $sum: 1 },
+          ActiveUser: { $sum: { $cond: { if: { $eq: ["$status", "Approve"] }, then: 1, else: 0 } } },
+          BlockUser: { $sum: { $cond: { if: { $eq: ["$status", "NotApprove"] }, then: 1, else: 0 } } }
+        }
+      }
+    ]);
 
-    const UserData = {
-      AllUser,
-      ActiveUser,
-      BlockUser,
-    };
+    const Allrec = await DailyDeviceRecordModel.aggregate([
+      {
+        $match: {
+          year,
+          month: currentMonth
+        }
+      },
+      {
+        $group: {
+          _id: null,
+          TotalvisitedUser: { $sum: "$count" },
+          daysInMonth: { $sum: 1 }
+        }
+      }
+    ]);
 
-    let count = await DailyDeviceRecordModel.findOne({
+    const activityData = {
+      count: 0,
       day,
       year,
       month: currentMonth,
-    }).lean();
-
-    const Allrec = await DailyDeviceRecordModel.find({
-      year,
-      month: currentMonth,
-    }).lean();
-
-    // Example usage
-    let TotalvisitedUser = 0;
-    Allrec?.map(({ count }) => {
-      TotalvisitedUser = TotalvisitedUser + parseInt(count);
-    });
-
-    const daysInMonth = getDaysInMonth();
-    const averageValue = Number((TotalvisitedUser / daysInMonth).toFixed(3));
-
-    let activityData = {
-      count: count ? count.count : 0,
-      day,
-      year,
-      month: currentMonth,
-      avg: averageValue,
+      avg: 0
     };
 
-    //console.log(activityData);
-    res.status(200).json({ UserData: UserData, Activity: activityData });
+    if (Allrec.length > 0) {
+      activityData.count = Allrec[0].TotalvisitedUser || 0;
+      const daysInMonth = Allrec[0].daysInMonth || 1;
+      activityData.avg = Number((activityData.count / daysInMonth).toFixed(3));
+    }
+
+    res.status(200).json({ UserData: UserData[0], Activity: activityData });
   } catch (error) {
     res.status(500).json(error);
   }
 };
-
 function processData(sample, id, color) {
   // Create an object to store counts for each range
   const rangeCounts = {

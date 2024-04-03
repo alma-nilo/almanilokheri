@@ -322,12 +322,11 @@ export default function TempProfileForm() {
   ];
 
   const ValidationArr = [
-    { value: "proof", label: "Id proof related to collage" },
+    { value: "proof", label: "Document proof related to collage" },
     {
       value: "Referral",
       label: "Referral from Known batchmate already registered",
     },
-    { value: "NotReferral", label: "Don't have any Referral" },
   ];
 
   const districtsByState = {

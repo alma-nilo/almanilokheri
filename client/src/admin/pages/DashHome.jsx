@@ -196,7 +196,7 @@ const DashHome = ({ deviceCount }) => {
           >
             <StatBox
               title={DashData?.ActiveUser}
-              subtitle="Active User"
+              subtitle="Verified User"
               progress={
                 DashData?.ActiveUser === 0
                   ? "0"
@@ -230,7 +230,7 @@ const DashHome = ({ deviceCount }) => {
           >
             <StatBox
               title={DashData?.BlockUser}
-              subtitle="Block User"
+              subtitle="UnVerified User"
               progress={
                 DashData?.BlockUser === 0
                   ? "0"

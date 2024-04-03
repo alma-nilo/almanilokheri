@@ -80,10 +80,19 @@ const CreatePost = ({ setpostsData, status }) => {
   };
 
   const handleSubmit = async (file) => {
+    console.log(status);
     if (status === "Block") {
       setAlert({
         type: "error",
         message: "You are Block! Not Able to Post.",
+      });
+      return;
+    }
+
+    if (status === "NotApprove") {
+      setAlert({
+        type: "error",
+        message: "You are Not Verified! Not Able to Post.",
       });
       return;
     }

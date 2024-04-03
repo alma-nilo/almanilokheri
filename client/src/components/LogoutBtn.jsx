@@ -20,13 +20,13 @@ const FloatingLogoutButton = () => {
     navigate("/signup");
   };
   return (
-    <div className="fixed bottom-4 right-4">
+    <div className="fixed bottom-4 z-30 right-4">
       {/* Red circle background */}
       <div
         onClick={() => {
           setisOpen(true);
         }}
-        className="bg-red-500 rounded-full p-2"
+        className="bg-red-500  rounded-full p-2"
       >
         {/* Use Material-UI's IconButton with logout icon */}
         <IconButton aria-label="logout">

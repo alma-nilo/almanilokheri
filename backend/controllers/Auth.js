@@ -172,7 +172,7 @@ export const tempuser = async (req, res) => {
       const userDetails = { name: name, profilePic: Puser.profile, rollNo: rollNo, email: email, trade: Trade, profession: profession, batch: `${startYear} - ${endYear}` }
       const referrerUser = await User.findOne({ _id: referral })
       const referraltoken = jwt.sign({ uuid: referrerUser.uuid, userid: Puser._id, referrerName: referrerUser.name, userName: name }, process.env.PrivetKey);
-      const referralDetail = { email: referrerUser.email, token: referraltoken, uuid: referrerUser.uuid }
+      const referralDetail = { name: referrerUser.name, email: referrerUser.email, token: referraltoken, uuid: referrerUser.uuid }
 
       ReferenceNotificationMail(referralDetail.email, referralDetail, userDetails);
 

@@ -452,7 +452,7 @@ export default function Navbar({ headerDash, developer }) {
                       to="/signUp"
                       className="inline-block w-full px-4 py-2 text-center text-gray-800 bg-white rounded-md shadow hover:bg-gray-100"
                     >
-                      Connect
+                      Register
                     </Link>
                   )}
                 </div>
@@ -495,7 +495,7 @@ export default function Navbar({ headerDash, developer }) {
                   to="/signup"
                   className="px-4 py-2 text-gray-800 bg-white rounded-md shadow hover:bg-gray-100"
                 >
-                  Connect
+                  Register
                 </Link>
               )}
             </div>
@@ -905,7 +905,7 @@ export default function Navbar({ headerDash, developer }) {
                         to="/signUp"
                         className="inline-block w-full px-4 py-2 text-center text-gray-800 bg-white rounded-md shadow hover:bg-gray-100"
                       >
-                        Connect
+                        Register
                       </Link>
                     )}
                   </div>
@@ -947,7 +947,7 @@ export default function Navbar({ headerDash, developer }) {
                     to="/signup"
                     className="px-4 py-2 text-gray-800 bg-white rounded-md shadow hover:bg-gray-100"
                   >
-                    Connect
+                    Register
                   </Link>
                 )}
               </div>
