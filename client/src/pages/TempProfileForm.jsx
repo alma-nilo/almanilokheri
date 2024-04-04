@@ -14,7 +14,6 @@ import Cookies from "js-cookie";
 import { Close } from "@mui/icons-material";
 
 const validationSchema = Yup.object({
-  aadhaar: Yup.string().required("Aadhaar is required"),
   profession: Yup.string().required("Profession is required"),
   linkdln: Yup.string().url("Invalid LinkedIn URL"),
   facebook: Yup.string().url("Invalid Facebook URL"),
@@ -663,7 +662,7 @@ export default function TempProfileForm() {
                     } w-full border rounded px-3 py-2  text-green-700  border-green-400 ring-green-300 focus:outline-none ring ring-opacity-40`}
                   />
                 </div>
-                <div className="mb-6">
+                {/* <div className="mb-6">
                   <label
                     htmlFor="aadhaar"
                     className="block text-gray-700 font-bold mb-2"
@@ -683,7 +682,7 @@ export default function TempProfileForm() {
                     component="div"
                     className="text-red-500"
                   />
-                </div>
+                </div> */}
                 <PhotoUploadComponent
                   setFieldValue={setFieldValue}
                   data={Tempdata}
