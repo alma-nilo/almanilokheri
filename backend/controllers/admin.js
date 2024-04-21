@@ -1096,7 +1096,14 @@ export const NewAdmin = async (req, res) => {
 };
 
 export const CreatePost = async (req, res) => {
+  
   const { content, url, path } = req.body;
+
+if(req.admin.status!=='Approve'){
+  return res.status(404).json({ err: "Not Verified" });
+  
+}
+
   try {
     // console.log(req.admin);
     const data = new PostModel({
