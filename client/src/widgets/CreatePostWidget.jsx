@@ -89,7 +89,7 @@ const CreatePost = ({ setpostsData, status }) => {
       return;
     }
 
-    if (status === "NotApprove") {
+    if (status !== "Approve") {
       setAlert({
         type: "error",
         message: "You are Not Verified! Not Able to Post.",
