@@ -20,7 +20,6 @@ const UserProfile = () => {
         );
         setLoader(false);
         setUser(response.data.data);
-        //console.log(response.data.data);
       } catch (error) {
         navigate("/");
         window.scrollTo({
@@ -32,13 +31,13 @@ const UserProfile = () => {
 
     fetchUser();
   }, [id]);
-  //console.log(user);
 
   if (loader) {
     return (
       <>
         <Navbar />
-        <Loader />;
+        <Loader />
+        <Footer />
       </>
     );
   } else {
@@ -46,7 +45,7 @@ const UserProfile = () => {
       <>
         <Navbar />
         <div className="bg-green-200 py-12">
-          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-5">
             <div className="md:col-span-2">
               <div className="bg-white rounded-lg shadow-lg p-6">
                 <div className="text-center">
@@ -57,7 +56,7 @@ const UserProfile = () => {
                   />
                   <h2 className="text-3xl font-semibold mt-4">{user.name}</h2>
                 </div>
-                <div className="block">
+                <div className="block mt-6">
                   <p className="text-gray-600 text-lg">
                     <span className="font-semibold text-green-400">
                       Roll No:
@@ -65,7 +64,6 @@ const UserProfile = () => {
                     {user.rollNo}
                   </p>
                   <p className="text-gray-600 text-lg">
-                    {" "}
                     <span className="font-semibold text-green-400">
                       Trade:
                     </span>{" "}
@@ -74,7 +72,7 @@ const UserProfile = () => {
                   <p className="text-gray-600 text-lg">
                     <span className="font-semibold text-green-400">
                       Profession:
-                    </span>
+                    </span>{" "}
                     {user.profession}
                   </p>
                   <p className="text-gray-600 text-lg">
@@ -82,7 +80,6 @@ const UserProfile = () => {
                     {user.startYear}-{user.endYear}
                   </p>
                 </div>
-
                 <p className="text-gray-700 text-base mt-4">{user.about}</p>
               </div>
             </div>
@@ -123,9 +120,7 @@ const UserProfile = () => {
                   </a>
                 </div>
               </div>
-              <div className="flex flex-col mt-3 items-center Userpost  space-y-4">
-                <Posts UserProfile={true} uuid={id} />
-              </div>
+              
             </div>
           </div>
         </div>
