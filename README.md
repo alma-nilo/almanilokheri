@@ -22,7 +22,6 @@ The project is structured into two main directories:
 
    ```bash
    git clone https://github.com/vishu7im/almanilokheri.git
-   
    ```
  
 2. Install dependencies for both backend and client:
@@ -35,7 +34,7 @@ The project is structured into two main directories:
 
    ```
 
-4. Setup Environment variables
+3. Setup Environment variables
    env for the backend:
    ```bash
    cd almanilokheri/backend
@@ -53,19 +52,17 @@ The project is structured into two main directories:
    cd almanilokheri/backend
    npm start
    ```
-   Start the frontend client (in a separate terminal window):
+5. Start the frontend client (in a separate terminal window):
    ```bash
-
    cd almanilokheri/client
    npm start
-
+  ```
+  Access the application in your web browser at http://localhost:3000.
   ```
 
 
-Access the application in your web browser at http://localhost:3000.
-
 ## Contributing
-Contributions are welcome! If you have any ideas, suggestions, or improvements, please feel free to open an issue or create a pull request.
+Contributions are welcome! If you have any ideas, suggestions, or      improvements, please feel free to open an issue or create a pull       request.
 
 ## License
-This project is licensed under the MIT License.s
+This project is licensed under the MIT License
