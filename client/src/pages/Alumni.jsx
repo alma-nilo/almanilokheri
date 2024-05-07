@@ -14,7 +14,7 @@ import { AuthApi } from "../context/user";
 
 import FloatingLogoButton from "../components/LogoutBtn";
 import { Box, Typography } from "@mui/material";
-import UploadModel from "../widgets/UploadModel";
+import UpdateModel from "../widgets/UpdateModel";
 
 const Alumni = () => {
   const [user, setUser] = useState({});
@@ -55,7 +55,7 @@ const Alumni = () => {
     return (
       <>
         {isUpdate ? (
-          <UploadModel
+          <UpdateModel
             isOpen={isUpdate}
             data={user}
             onClose={() => setisUpdate(false)}

@@ -81,7 +81,7 @@ const NewsBox = () => {
     }
 
     // Perform the automatic scroll
-    const scrollSpeed = 150;
+    const scrollSpeed = 3000;
     newsContainerRef.current.scrollTop += scrollDirection * scrollSpeed;
   };
 
@@ -93,7 +93,7 @@ const NewsBox = () => {
       stopAutoScroll();
 
       // Start the interval for automatic scrolling
-      scrollIntervalRef.current = setInterval(handleAutoScroll, 50); // Adjust the scrolling speed (milliseconds)
+      scrollIntervalRef.current = setInterval(handleAutoScroll, 2000); // Adjust the scrolling speed (milliseconds)
     };
 
     // Helper function to stop the automatic scrolling

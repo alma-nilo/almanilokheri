@@ -9,6 +9,7 @@ import { AlertApi } from "../context/AlertContext";
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required("Name is required"),
+  mobile: Yup.string().required("Mobile No required "),
   email: Yup.string()
     .email("Invalid email format")
     .required("Email is required"),
@@ -55,7 +56,7 @@ export default function ContactUs() {
 
               {/*  form  */}
               <Formik
-                initialValues={{ name: "", email: "", message: "" }}
+                initialValues={{ name: "", email: "", message: "", mobile: "" }}
                 validationSchema={validationSchema}
                 onSubmit={handleSubmit}
               >
@@ -96,6 +97,26 @@ export default function ContactUs() {
                     />
                     <ErrorMessage
                       name="email"
+                      component="div"
+                      className="text-red-500"
+                    />
+                  </div>
+                  <div className="mb-4">
+                    <label
+                      htmlFor="mobile"
+                      className="block text-gray-700 font-bold mb-2"
+                    >
+                      Mobile No
+                    </label>
+                    <Field
+                      type="number"
+                      id="mobile"
+                      name="mobile"
+                      className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      placeholder="Enter your Mobile No"
+                    />
+                    <ErrorMessage
+                      name="mobile"
                       component="div"
                       className="text-red-500"
                     />

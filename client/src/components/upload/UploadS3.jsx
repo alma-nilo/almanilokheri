@@ -61,7 +61,7 @@ const UploadImageToS3WithNativeSdk = ({
     const params = {
       Body: file,
       Bucket: S3_BUCKET,
-      Key: `${filed}/${file.name}_${Date.now()}`,
+      Key: `${filed}/${Date.now()}_${file.name}`,
     };
 
     try {

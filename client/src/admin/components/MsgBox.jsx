@@ -26,6 +26,7 @@ const MessageDetailView = ({ message, onClose, onDelete, fetchMessage }) => {
 
       {/* <div className="text-2xl ">{message.name}</div> */}
       <div className="text-gray-400 text-sm mt-2">{message.email}</div>
+      <div className="text-gray-400 text-sm mt-2">{message.mobile}</div>
       <div className="text-gray-400 text-sm mt-4">{message.time}</div>
 
       <div className=" bg-gray-800 mt-2 h-48 rounded-md p-2 overflow-y-auto msgBox ">

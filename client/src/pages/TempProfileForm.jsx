@@ -216,6 +216,7 @@ const Modal = ({ isOpen, onClose, onAgree }) => {
 
 export default function TempProfileForm() {
   const initalvalues = {
+    mobile:"",
     aadhaar: "",
     profession: "",
     state: "",
@@ -417,6 +418,7 @@ export default function TempProfileForm() {
     }
 
     const {
+      mobile,
       profession,
       linkdln,
       facebook,
@@ -435,6 +437,7 @@ export default function TempProfileForm() {
     const playload = {
       uuid: id,
       email: Tempdata.email,
+      mobile: mobile,
       name: InstituteCollectionValuesName,
       Trade: trade,
       profession: profession,
@@ -662,27 +665,27 @@ export default function TempProfileForm() {
                     } w-full border rounded px-3 py-2  text-green-700  border-green-400 ring-green-300 focus:outline-none ring ring-opacity-40`}
                   />
                 </div>
-                {/* <div className="mb-6">
+                <div className="mb-6">
                   <label
-                    htmlFor="aadhaar"
+                    htmlFor="mobile"
                     className="block text-gray-700 font-bold mb-2"
                   >
-                    Aadhaar{" "}
+                    Mobile No{" "}
                     <span className="text-red-400 font-bold text-2xl">*</span>
                   </label>
                   <Field
-                    type="text"
-                    id="aadhaar"
-                    name="aadhaar"
+                    type="number"
+                    id="mobile"
+                    name="mobile"
                     className="appearance-none border rounded w-full py-2 px-3  text-green-700 bg-white  focus:border-green-400 focus:ring-green-300  focus:ring focus:ring-opacity-40 leading-tight focus:outline-none focus:shadow-outline"
-                    placeholder="Aadhaar card No."
+                    placeholder="Mobile No."
                   />
                   <ErrorMessage
-                    name="aadhaar"
+                    name="mobile"
                     component="div"
                     className="text-red-500"
                   />
-                </div> */}
+                </div>
                 <PhotoUploadComponent
                   setFieldValue={setFieldValue}
                   data={Tempdata}

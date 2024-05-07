@@ -165,7 +165,7 @@ const UserProfilePage = () => {
                 title="Proof Document"
                 width="1000"
                 height="300"
-                frameBorder="0"
+                onError={(e) => console.error("Failed to load iframe:", e)}
               />
             </Box>
           </Box>
@@ -244,6 +244,7 @@ const UserProfilePage = () => {
                   height: "150px",
                   borderRadius: "50%",
                   marginBottom: "16px",
+                  objectFit: "cover",
                 }}
               />
               <Typography variant="h5" gutterBottom>
@@ -287,8 +288,12 @@ const UserProfilePage = () => {
                   </span>
                 </Typography>
                 <Typography variant="subtitle1" color="text.secondary">
-                  RollNo{" "}
+                  RollNo:{" "}
                   <span className="font-bold">{userDetails?.rollNo}</span>
+                </Typography>
+                <Typography variant="subtitle1" color="text.secondary">
+                  Mobile No:{" "}
+                  <span className="font-bold">{userDetails?.mobile}</span>
                 </Typography>
                 <Typography variant="subtitle1" color="text.secondary">
                   Trade <span className="font-bold">{userDetails?.Trade}</span>

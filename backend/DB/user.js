@@ -40,6 +40,9 @@ const UserSchema = new Schema({
     required: true,
     unique: true,
   },
+  mobile: {
+    type: String,
+  },
   rollNo: {
     type: String,
   },
@@ -174,6 +177,10 @@ const ContactUs = new Schema({
     required: true,
   },
   email: {
+    type: String,
+    required: true,
+  },
+  mobile: {
     type: String,
     required: true,
   },

@@ -69,7 +69,7 @@ const PhotoUploadComponent = ({ data, setprofileExist }) => {
         const params = {
           Body: image,
           Bucket: S3_BUCKET,
-          Key: `profile/${image.name}_${Date.now()}`,
+          Key: `profile/_${Date.now()}${image.name}`,
         };
 
         // console.log(params);

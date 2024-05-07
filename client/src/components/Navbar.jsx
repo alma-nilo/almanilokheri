@@ -203,7 +203,7 @@ export default function Navbar({ headerDash, developer }) {
                     <div className=" flex text-white ">
                       <li
                         className="LinkNav mr-3 text-white hover:text-indigo-200 cursor-pointer"
-                        onClick={() => setNavbar(false)}
+                        onClick={() => setNavbar(true)}
                       >
                         Contribute
                       </li>
@@ -288,7 +288,7 @@ export default function Navbar({ headerDash, developer }) {
                     <div className=" flex text-white ">
                       <li
                         className="LinkNav mr-3 text-white hover:text-indigo-200 cursor-pointer"
-                        onClick={() => setNavbar(false)}
+                        onClick={() => setNavbar(true)}
                       >
                         Service
                       </li>
@@ -657,7 +657,7 @@ export default function Navbar({ headerDash, developer }) {
                       <div className=" flex text-white ">
                         <li
                           className="LinkNav mr-3 text-white hover:text-indigo-200 cursor-pointer"
-                          onClick={() => setNavbar(false)}
+                          onClick={() => setNavbar(true)}
                         >
                           Contribute
                         </li>
@@ -741,7 +741,7 @@ export default function Navbar({ headerDash, developer }) {
                       <div className=" flex text-white ">
                         <li
                           className="LinkNav mr-3 text-white hover:text-indigo-200 cursor-pointer"
-                          onClick={() => setNavbar(false)}
+                          onClick={() => setNavbar(true)}
                         >
                           Service
                         </li>

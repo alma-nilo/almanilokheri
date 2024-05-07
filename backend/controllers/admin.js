@@ -13,13 +13,7 @@ import xlsx from "xlsx";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { ACCEPT, ACTIVEMAIL, BLOCKEDMAIL, REJECT } from "../mail/server.js";
-import {
-  deleteImageToStorage,
-} from "../aws/functions.js";
-
-
-
-
+import { deleteImageToStorage } from "../aws/functions.js";
 
 function getDaysInMonth() {
   const currentDate = new Date();
@@ -138,10 +132,6 @@ export const getSingleUser = async (req, res) => {
   }
 };
 
-
-
-
-
 //  UserResponse
 
 export const UserResponse = async (req, res) => {
@@ -163,10 +153,12 @@ export const UserResponse = async (req, res) => {
     }
 
     if (flage === "Accept") {
+      console.log(flage);
 
-      console.log(flage)
-
-      const newuser = await User.findOneAndUpdate({ email: email }, { status: "Approve" });
+      const newuser = await User.findOneAndUpdate(
+        { email: email },
+        { status: "Approve" }
+      );
 
       // sent mail for accept
       ACCEPT(email, data.name);
@@ -198,34 +190,29 @@ export const UserResponse = async (req, res) => {
 };
 
 export const fetch = async (req, res) => {
-
-
-
   let page = parseInt(req.query.page) || 1;
 
   const perPage = parseInt(req.query.perPage) || 6;
 
-
   const query = {
-    status: { $nin: ["Block", "Pending"] } // Mandatory condition
+    status: { $nin: ["Block", "Pending"] }, // Mandatory condition
   };
 
   if (req.query.searchName) {
-    page = 1
+    page = 1;
     query.$or = [
-      { name: { $regex: req.query.searchName, $options: 'i' } },
-      { rollNo: { $regex: req.query.searchName, $options: 'i' } } // Assuming rollNumber is the field for roll number
+      { name: { $regex: req.query.searchName, $options: "i" } },
+      { rollNo: { $regex: req.query.searchName, $options: "i" } }, // Assuming rollNumber is the field for roll number
     ];
   }
 
   if (req.query.searchTrade) {
-    page = 1
+    page = 1;
 
     query.Trade = req.query.searchTrade;
   }
 
-  console.log(query)
-
+  console.log(query);
 
   const skip = (page - 1) * perPage;
 
@@ -233,10 +220,10 @@ export const fetch = async (req, res) => {
     const totalpost = await User.countDocuments(query);
     const totalPages = Math.ceil(totalpost / perPage);
 
-    console.log("total post ", totalpost)
-    console.log("perpage:", perPage)
-    console.log("page:", page)
-    console.log(skip)
+    console.log("total post ", totalpost);
+    console.log("perpage:", perPage);
+    console.log("page:", page);
+    console.log(skip);
 
     const data = await User.find(query)
       .sort({ _id: -1 }) // Sort in descending order based on _id (timestamp)
@@ -244,14 +231,10 @@ export const fetch = async (req, res) => {
       .limit(perPage);
     // console.log({ data: data, totalPages: totalPages })
     res.status(200).json({ data: data, totalPages: totalPages });
-
   } catch (error) {
-    console.log(error)
+    console.log(error);
     res.status(500).json({ error: error.message });
   }
-
-
-
 };
 
 function shuffleArray(array) {
@@ -263,14 +246,13 @@ function shuffleArray(array) {
 }
 export const fetchhomeuser = async (req, res) => {
   try {
-
     const users = await User.aggregate([
       { $match: { status: { $nin: ["Block", "Pending"] } } },
-      { $sample: { size: 5 } }
+      { $sample: { size: 5 } },
     ]);
     res.status(200).json({ data: users });
   } catch (error) {
-    console.log(error)
+    console.log(error);
     res.status(500).json({ error: error.message });
   }
 };
@@ -346,8 +328,6 @@ export const deleteGallerypic = async (req, res) => {
     //console.log(req.query);
 
     deleteImageToStorage(image);
-
-
 
     // Find the picture by its ObjectId and delete it
     const deletedPicture = await Gallery.findByIdAndDelete(id);
@@ -625,13 +605,14 @@ export const getInstituteCollection = async (req, res) => {
 
 export const ContactUs = async (req, res) => {
   try {
-    const { name, email, message } = req.body;
+    const { name, email, message, mobile } = req.body;
 
     // Create a new ContactUs document
     const contact = new ContactUsModel({
       name,
       email,
       message,
+      mobile,
     });
 
     // Save the document to the database
@@ -754,51 +735,57 @@ export const DashBoard = async (req, res) => {
 
     const UserData = await User.aggregate([
       {
-        $match: {
-          status: { $nin: ["Pending"] }
-        }
-      },
-      {
         $group: {
           _id: null,
           AllUser: { $sum: 1 },
-          ActiveUser: { $sum: { $cond: { if: { $eq: ["$status", "Approve"] }, then: 1, else: 0 } } },
-          BlockUser: { $sum: { $cond: { if: { $eq: ["$status", "NotApprove"] }, then: 1, else: 0 } } }
-        }
-      }
-    ]);
-
-    const Allrec = await DailyDeviceRecordModel.aggregate([
-      {
-        $match: {
-          year,
-          month: currentMonth
-        }
+          ActiveUser: {
+            $sum: {
+              $cond: { if: { $eq: ["$status", "Approve"] }, then: 1, else: 0 },
+            },
+          },
+          UnVerifiedUser: {
+            $sum: {
+              $cond: {
+                if: { $eq: ["$status", "NotApprove"] },
+                then: 1,
+                else: 0,
+              },
+            },
+          },
+          BlockUser: {
+            $sum: {
+              $cond: { if: { $eq: ["$status", "Block"] }, then: 1, else: 0 },
+            },
+          },
+          PendingUser: {
+            $sum: {
+              $cond: { if: { $eq: ["$status", "Pending"] }, then: 1, else: 0 },
+            },
+          },
+        },
       },
-      {
-        $group: {
-          _id: null,
-          TotalvisitedUser: { $sum: "$count" },
-          daysInMonth: { $sum: 1 }
-        }
-      }
     ]);
 
-    const activityData = {
-      count: 0,
-      day,
-      year,
+    console.log(currentMonth, year);
+    const data = await DailyDeviceRecordModel.find({
       month: currentMonth,
-      avg: 0
-    };
+      year,
+    });
 
-    if (Allrec.length > 0) {
-      activityData.count = Allrec[0].TotalvisitedUser || 0;
-      const daysInMonth = Allrec[0].daysInMonth || 1;
-      activityData.avg = Number((activityData.count / daysInMonth).toFixed(3));
-    }
+    // Calculate the average count
+    let Totalcount = 0;
+    data.map((item) => {
+      let count = parseInt(item.count);
+      Totalcount += count;
+    });
 
-    res.status(200).json({ UserData: UserData[0], Activity: activityData });
+    const averageCount = (Totalcount / day).toFixed(2);
+
+    console.log();
+
+    res
+      .status(200)
+      .json({ UserData: UserData[0], Activity: { avg: averageCount } });
   } catch (error) {
     res.status(500).json(error);
   }
@@ -1096,13 +1083,12 @@ export const NewAdmin = async (req, res) => {
 };
 
 export const CreatePost = async (req, res) => {
-  
   const { content, url, path } = req.body;
 
-if(req.admin.status!=='Approve'){
-  return res.status(404).json({ err: "Not Verified" });
-  
-}
+  console.log(req.admin);
+  if (req.admin.status !== "Approve") {
+    return res.status(404).json({ err: "Not Verified" });
+  }
 
   try {
     // console.log(req.admin);
@@ -1170,9 +1156,6 @@ export const deletePost = async (req, res) => {
     res.status(500).json({ error: "Could not delete picture." });
   }
 };
-
-
-
 
 const TryAgainResponse = () => {
   return `<!DOCTYPE html>
@@ -1314,11 +1297,8 @@ const ApproveResponse = (referenceUser, newUser) => {
     `;
 };
 
-
-
 export const responsereferrer = async (req, res) => {
-
-  const { uuid, token, response } = req.query
+  const { uuid, token, response } = req.query;
   const key = process.env.PrivetKey;
 
   try {
@@ -1326,33 +1306,26 @@ export const responsereferrer = async (req, res) => {
 
     if (data.uuid === uuid) {
       if (response === "Approve") {
-        await User.findOneAndUpdate({ _id: data.userid }, { status: "Approve" })
-        res.send(ApproveResponse(data.referrerName, data.userName))
-        return
+        await User.findOneAndUpdate(
+          { _id: data.userid },
+          { status: "Approve" }
+        );
+        res.send(ApproveResponse(data.referrerName, data.userName));
+        return;
       } else if (response === "Reject") {
-        console.log(data)
-        await User.findByIdAndDelete(data.userid)
-        res.send(RejectResponse(data.referrerName, data.userName))
-        return
+        console.log(data);
+        await User.findByIdAndDelete(data.userid);
+        res.send(RejectResponse(data.referrerName, data.userName));
+        return;
       } else {
         res.send(TryAgainResponse());
-        return
+        return;
       }
-
-
     } else {
       res.send(TryAgainResponse());
     }
   } catch (error) {
-    console.log(error)
+    console.log(error);
     res.send(TryAgainResponse());
   }
-
-
-
-
-
-
-
-
 };

@@ -160,7 +160,7 @@ const DashHome = ({ deviceCount }) => {
         {/* GRID & CHARTS */}
         <Box
           display="grid"
-          gridTemplateColumns="repeat(12, 1fr)"
+          gridTemplateColumns="repeat(15, 1fr)"
           gridAutoRows="140px"
           gap="15px"
         >
@@ -174,7 +174,7 @@ const DashHome = ({ deviceCount }) => {
           >
             <StatBox
               title={DashData?.AllUser}
-              subtitle="All User"
+              subtitle="All Alumni"
               progress={DashData?.AllUser === 0 ? "0" : 1}
               increase={DashData?.AllUser === 0 ? "0%" : "+100%"}
               icon={
@@ -196,12 +196,8 @@ const DashHome = ({ deviceCount }) => {
           >
             <StatBox
               title={DashData?.ActiveUser}
-              subtitle="Verified User"
-              progress={
-                DashData?.ActiveUser === 0
-                  ? "0"
-                  : DashData?.ActiveUser / DashData?.AllUser
-              }
+              subtitle="Verified"
+              progress={DashData?.ActiveUser / DashData?.AllUser}
               increase={
                 DashData?.ActiveUser === 0
                   ? "+0%"
@@ -229,13 +225,44 @@ const DashHome = ({ deviceCount }) => {
             justifyContent="center"
           >
             <StatBox
-              title={DashData?.BlockUser}
-              subtitle="UnVerified User"
+              title={DashData?.UnVerifiedUser}
+              subtitle="UnVerified"
               progress={
-                DashData?.BlockUser === 0
+                DashData?.UnVerifiedUser === 0
                   ? "0"
-                  : DashData?.BlockUser / DashData?.AllUser
+                  : DashData?.UnVerifiedUser / DashData?.AllUser
               }
+              increase={
+                DashData?.UnVerifiedUser === 0
+                  ? "-0%"
+                  : "-" +
+                    (
+                      (DashData?.UnVerifiedUser / DashData?.AllUser) *
+                      100
+                    ).toFixed(2) +
+                    "%"
+              }
+              icon={
+                <NoAccountsIcon
+                  sx={{
+                    color: colors.greenAccent[600],
+                    fontSize: "26px",
+                  }}
+                />
+              }
+            />
+          </Box>
+          <Box
+            gridColumn="span 3"
+            backgroundColor={colors.primary[400]}
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+          >
+            <StatBox
+              title={DashData?.BlockUser}
+              subtitle="Block"
+              progress={DashData?.BlockUser / DashData?.AllUser}
               increase={
                 DashData?.BlockUser === 0
                   ? "-0%"
@@ -263,15 +290,17 @@ const DashHome = ({ deviceCount }) => {
             justifyContent="center"
           >
             <StatBox
-              title={DashDataActivity?.count}
-              subtitle="User Visiting"
-              progress={DashDataActivity?.count / deviceCount}
+              title={DashData?.PendingUser}
+              subtitle="Pending"
+              progress={DashData?.PendingUser / DashData?.AllUser}
               increase={
-                DashDataActivity?.day +
-                "-" +
-                DashDataActivity?.month +
-                "-" +
-                DashDataActivity?.year
+                DashData?.PendingUser === 0
+                  ? "-0%"
+                  : "-" +
+                    ((DashData?.PendingUser / DashData?.AllUser) * 100).toFixed(
+                      2
+                    ) +
+                    "%"
               }
               icon={
                 <TrafficIcon
@@ -286,7 +315,7 @@ const DashHome = ({ deviceCount }) => {
 
           {/* ROW 2 */}
           <Box
-            gridColumn="span 8"
+            gridColumn="span 11"
             gridRow="span 2"
             backgroundColor={colors.primary[400]}
           >

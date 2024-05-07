@@ -17,6 +17,7 @@ export const tempuser = async (req, res) => {
     name,
     email,
     rollNo,
+    mobile,
     Trade,
     profession,
     linkdln,
@@ -52,6 +53,7 @@ export const tempuser = async (req, res) => {
       const operation = {
         name: name,
         rollNo: rollNo,
+        mobile: mobile,
         startYear: startYear,
         endYear: endYear,
         profession: profession,
@@ -91,6 +93,7 @@ export const tempuser = async (req, res) => {
       const operation = {
         name: name,
         rollNo: rollNo,
+        mobile: mobile,
         startYear: startYear,
         endYear: endYear,
         profession: profession,
@@ -137,6 +140,7 @@ export const tempuser = async (req, res) => {
       const operation = {
         name: name,
         rollNo: rollNo,
+        mobile: mobile,
         startYear: startYear,
         endYear: endYear,
         profession: profession,

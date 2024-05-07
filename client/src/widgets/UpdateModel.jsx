@@ -8,6 +8,7 @@ import UpdatePhotoUploadComponent from "../components/upload/UpdateProfile";
 export default function UploadModel({ isOpen, onClose, data }) {
   const [formData, setFormData] = useState({
     rollNo: data?.rollNo || "",
+    mobile: data?.mobile || "",
     name: data?.name || "",
     state: data?.state || "",
     district: data?.district || "",
@@ -232,6 +233,25 @@ export default function UploadModel({ isOpen, onClose, data }) {
               className={`w-full border rounded px-3 py-2  text-green-700  border-green-400 ring-green-300 focus:outline-none ring ring-opacity-40`}
             />
           </div>
+          <div className="mb-5">
+            <label
+              htmlFor="mobile"
+              className="block text-gray-700 font-bold mb-2"
+            >
+              Mobile No{" "}
+            </label>
+            <input
+              type="number"
+              id="mobileame"
+              placeholder="Mobile No...."
+              name="mobile"
+              onChange={handleInputChange}
+              value={formData?.mobile}
+              className={`w-full border rounded px-3 py-2  text-green-700  border-green-400 ring-green-300 focus:outline-none ring ring-opacity-40  `}
+            />
+          </div>
+
+
           <div className="mb-6">
             <label
               htmlFor="profession"
