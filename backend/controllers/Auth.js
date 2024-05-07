@@ -1,12 +1,12 @@
-import {
-  User,
-  DeviceRecordModel,
-  DailyDeviceRecordModel,
-} from "../DB/user.js";
+import { User, DeviceRecordModel, DailyDeviceRecordModel } from "../DB/user.js";
 import bcrypt from "bcrypt";
 import { validate as uuidValidate } from "uuid";
 import jwt from "jsonwebtoken";
-import { ReferenceNotificationMail, WarningMail, sentotp } from "../mail/server.js";
+import {
+  ReferenceNotificationMail,
+  WarningMail,
+  sentotp,
+} from "../mail/server.js";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -30,7 +30,7 @@ export const tempuser = async (req, res) => {
     district,
     aadhaar,
     validation,
-    referral
+    referral,
   } = req.body;
 
   if (
@@ -45,11 +45,8 @@ export const tempuser = async (req, res) => {
     res.status(404).json({ msg: "invalid signature " });
   }
 
-
   try {
-
     if (validation === "proof") {
-
       const operation = {
         name: name,
         rollNo: rollNo,
@@ -65,7 +62,8 @@ export const tempuser = async (req, res) => {
         district: district,
         state: state,
         aadhaar: aadhaar,
-        status: "proof"
+        status: "NotApprove",
+        isproof: true,
       };
       // return;
       const Puser = await User.findOneAndUpdate({ uuid: uuid }, operation);
@@ -83,7 +81,8 @@ export const tempuser = async (req, res) => {
 
       // TODO:Approval Mail for users who referral
       res.status(200).json({
-        message: "success", uuid: Puser._id,
+        message: "success",
+        uuid: Puser._id,
         Token: token,
         profile: Puser.profile,
       });
@@ -108,7 +107,7 @@ export const tempuser = async (req, res) => {
         status: "NotApprove",
       };
 
-      // TODO:mail of warning 
+      // TODO:mail of warning
 
       // return;
 
@@ -126,17 +125,16 @@ export const tempuser = async (req, res) => {
 
       const token = jwt.sign(playload, process.env.PrivetKey);
 
-      WarningMail(email, name)
-      // TODO:mail of warning 
+      WarningMail(email, name);
+      // TODO:mail of warning
       res.status(200).json({
-        message: "success", Token: token,
+        message: "success",
+        Token: token,
         uuid: Puser._id,
         profile: Puser.profile,
       });
-      return
-
-    }
-    else if (validation === "Referral") {
+      return;
+    } else if (validation === "Referral") {
       const operation = {
         name: name,
         rollNo: rollNo,
@@ -171,23 +169,47 @@ export const tempuser = async (req, res) => {
 
       const token = jwt.sign(playload, process.env.PrivetKey);
 
-
       // send mail to referal user
-      const userDetails = { name: name, profilePic: Puser.profile, rollNo: rollNo, email: email, trade: Trade, profession: profession, batch: `${startYear} - ${endYear}` }
-      const referrerUser = await User.findOne({ _id: referral })
-      const referraltoken = jwt.sign({ uuid: referrerUser.uuid, userid: Puser._id, referrerName: referrerUser.name, userName: name }, process.env.PrivetKey);
-      const referralDetail = { name: referrerUser.name, email: referrerUser.email, token: referraltoken, uuid: referrerUser.uuid }
+      const userDetails = {
+        name: name,
+        profilePic: Puser.profile,
+        rollNo: rollNo,
+        email: email,
+        trade: Trade,
+        profession: profession,
+        batch: `${startYear} - ${endYear}`,
+      };
+      const referrerUser = await User.findOne({ _id: referral });
+      const referraltoken = jwt.sign(
+        {
+          uuid: referrerUser.uuid,
+          userid: Puser._id,
+          referrerName: referrerUser.name,
+          userName: name,
+        },
+        process.env.PrivetKey
+      );
+      const referralDetail = {
+        name: referrerUser.name,
+        email: referrerUser.email,
+        token: referraltoken,
+        uuid: referrerUser.uuid,
+      };
 
-      ReferenceNotificationMail(referralDetail.email, referralDetail, userDetails);
+      ReferenceNotificationMail(
+        referralDetail.email,
+        referralDetail,
+        userDetails
+      );
 
       // TODO:Approval Mail for users who referral
       res.status(200).json({
-        message: "success", uuid: Puser._id,
+        message: "success",
+        uuid: Puser._id,
         Token: token,
         profile: Puser.profile,
       });
-      return
-
+      return;
     }
 
     return;
@@ -197,31 +219,27 @@ export const tempuser = async (req, res) => {
   }
 };
 
-
 export const Referral = async (req, res) => {
-
   try {
     const { search } = req.query;
     const profiles = await User.find({
       $and: [
         {
           $or: [
-            { name: { $regex: search, $options: 'i' } }, // Case-insensitive search by name
-            { email: { $regex: search, $options: 'i' } }, // Case-insensitive search by email
-            { rollNo: { $regex: search, $options: 'i' } }, // Case-insensitive search by roll number
+            { name: { $regex: search, $options: "i" } }, // Case-insensitive search by name
+            { email: { $regex: search, $options: "i" } }, // Case-insensitive search by email
+            { rollNo: { $regex: search, $options: "i" } }, // Case-insensitive search by roll number
           ],
         },
-        { status: "Approve" }
-      ]
+        { status: "Approve" },
+      ],
     });
     res.status(200).json(profiles);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Server Error' });
+    res.status(500).json({ message: "Server Error" });
   }
-
-}
-
+};
 
 export const signup = async (req, res) => {
   const { uuid, email } = req.body;
@@ -235,16 +253,11 @@ export const signup = async (req, res) => {
 
   const Puser = await User.findOne({ uuid: uuid });
 
-
-
   if (Puser) {
-
-
     if (Puser.status === "Pending") {
       res.status(200).json({ code: 0, msg: "signup", uuid: uuid });
       return;
-    }
-    else {
+    } else {
       const playload = {
         _id: Puser._id,
         name: Puser.name,
@@ -359,20 +372,22 @@ export const getTempvalidation = async (req, res) => {
 export const tempuserdocs = async (req, res) => {
   const { data, profile, profileKey, proof, proofKey } = req.body;
   try {
-
     if (profile && profileKey) {
       // console.log("first")
-      await User.findOneAndUpdate({ _id: data._id }, { profile: profile, profilepath: profileKey })
+      await User.findOneAndUpdate(
+        { _id: data._id },
+        { profile: profile, profilepath: profileKey }
+      );
       res.status(200).json({ data: "success" });
     } else if (proof && proofKey) {
-      await User.findOneAndUpdate({ _id: data._id }, { proof: proof, proofpath: proofKey })
+      await User.findOneAndUpdate(
+        { _id: data._id },
+        { proof: proof, proofpath: proofKey }
+      );
       res.status(200).json({ data: "success" });
-
-
     } else {
       res.status(400).json({ err: "Somthing went wrong" });
     }
-
   } catch (error) {
     // console.log(error)
 
@@ -461,16 +476,12 @@ export const insertdeviceDailyRecord = async (req, res) => {
   }
 };
 
-
 export const updateprofile = async (req, res) => {
-
   try {
-    const { _id, formData } = req.body
-    await User.findOneAndUpdate({ _id: _id }, formData)
+    const { _id, formData } = req.body;
+    await User.findOneAndUpdate({ _id: _id }, formData);
     res.status(200).json({ msg: "success" });
   } catch (error) {
-
     res.status(400).json({ err: error.message });
-
   }
-}
+};

@@ -77,6 +77,10 @@ const UserSchema = new Schema({
   proof: {
     type: String,
   },
+  isproof: {
+    type: Boolean,
+    default: false,
+  },
   profilepath: {
     type: String,
   },

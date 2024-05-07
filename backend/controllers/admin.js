@@ -73,7 +73,8 @@ export const Adminlogin = async (req, res) => {
 // fetch temp user request
 export const getTempUser = async (req, res) => {
   try {
-    const data = await User.find({ status: "proof" });
+    console.log("first");
+    const data = await User.find({ isproof: true, status: "NotApprove" });
 
     let object = data.map(
       ({ uuid, name, email, rollNo, startYear, endYear }, i) => {
@@ -780,8 +781,6 @@ export const DashBoard = async (req, res) => {
     });
 
     const averageCount = (Totalcount / day).toFixed(2);
-
-    console.log();
 
     res
       .status(200)
