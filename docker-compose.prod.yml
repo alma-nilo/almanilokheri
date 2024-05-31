@@ -10,6 +10,7 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: 65072d0281127af6a924e65d
     volumes:
       - ./backup:/backup
+      - ./mongo_data:/data/db
     logging:
       options:
         max-size: "10m"
