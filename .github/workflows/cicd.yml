@@ -100,8 +100,8 @@ jobs:
     steps:
       - name: Deploy to production
         run: |
-          docker-compose pull
-          docker-compose up -d
+          docker compose pull
+          docker compose up -d
           docker image prune -f
 
       - name: DONE
