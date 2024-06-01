@@ -100,9 +100,9 @@ jobs:
     steps:
       - name: Deploy to production
         run: |
-          docker compose pull
-          docker compose up -d
-          docker image prune -f
+         sudo docker compose pull
+         sudo docker compose up -d
+         sudo docker image prune -f
 
       - name: DONE
         run: echo "Deployment complete"
