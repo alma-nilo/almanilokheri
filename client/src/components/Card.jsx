@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 export default function Card({ element }) {
   const navigate = useNavigate();
   return (
-    <div className="flex flex-col hover:cursor-pointer mx-4 justify-center max-w-xs p-6 shadow-md rounded-xl sm:px-12 bg-green-300 dark:text-gray-100">
+    <div className="flex flex-col justify-center min-w-72 w-[272px] max-w-80 p-6 mx-4 bg-green-400 shadow-md hover:cursor-pointer rounded-xl sm:px-12 dark:text-gray-100">
       <img
         onClick={() => {
           navigate(`/user/${element._id}`);
@@ -15,7 +15,7 @@ export default function Card({ element }) {
         }}
         src={element.profile}
         alt=""
-        className="w-32 h-32 mx-auto rounded-full object-cover dark:bg-gray-500 aspect-square"
+        className="object-cover p-0 m-0 mx-auto shadow-sm rounded-xl w-36 h-36 dark:bg-gray-500 aspect-square sm:w-48 sm:h-48"
       />
       <div className="space-y-4 text-center divide-y divide-gray-700">
         <div
@@ -48,7 +48,7 @@ export default function Card({ element }) {
                 behavior: "smooth",
               });
             }}
-            className="px-5 text-xs sm:text-base dark:text-gray-400"
+            className="px-5 text-xs sm:text-base dark:text-gray-100"
           >
             {element.rollNo}
           </p>
@@ -60,7 +60,7 @@ export default function Card({ element }) {
                 behavior: "smooth",
               });
             }}
-            className="px-5 text-xs sm:text-base dark:text-gray-400"
+            className="px-5 text-xs sm:text-base dark:text-gray-100"
           >
             {element.startYear + "-" + element.endYear}
           </p>
@@ -72,7 +72,7 @@ export default function Card({ element }) {
                 behavior: "smooth",
               });
             }}
-            className="px-5 text-xs sm:text-base dark:text-gray-400"
+            className="px-5 text-xs sm:text-base dark:text-gray-100"
           >
             {element.profession}
           </p>
