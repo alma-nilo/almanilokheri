@@ -366,6 +366,14 @@ export default function Navbar({ headerDash, developer }) {
                           Alumni Day (Gold/Silver)
                         </Link>
                       </li>
+                      <li className="pl-4 font-semibold hover:text-green-300 sub  ">
+                        <a
+                          href="mailto:gbn.alumni.nilokheri@gmail.com"
+                          className="hover:underline"
+                        >
+                          Email Us
+                        </a>
+                      </li>
                     </ul>
                   </li>
 
@@ -818,6 +826,14 @@ export default function Navbar({ headerDash, developer }) {
                           >
                             Alumni Day (Gold/Silver)
                           </Link>
+                        </li>
+                        <li className="pl-4 font-semibold hover:text-green-300 sub  ">
+                          <a
+                            href="mailto:gbn.alumni.nilokheri@gmail.com"
+                            className="hover:underline"
+                          >
+                            Email Us
+                          </a>
                         </li>
                       </ul>
                     </li>

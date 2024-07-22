@@ -160,18 +160,36 @@ export default function ContactUs() {
               <div className="flex flex-col mb-4">
                 <div className="flex items-center mb-2">
                   <FaMapMarkerAlt className="text-3xl text-green-600 mr-4" />
-                  <p className="text-gray-700">
-                    GBN Govt Polytechnic Nilokheri <br />
-                    Karnal, Haryana - 132117
-                  </p>
+                  <a
+                    href="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3460.937795926304!2d76.93338881448668!3d29.8372172352884!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390e699a4b3bba7b%3A0x908b6021984bb040!2sGovt.%20Engineering%20College!5e0!3m2!1sen!2sin!4v1672761455392!5m2!1sen!2sin"
+                    className="hover:text-green-500 hover:underline"
+                  >
+                    <p className="text-gray-700 hover:text-green-500">
+                      GBN Govt Polytechnic Nilokheri <br />
+                      Karnal, Haryana - 132117
+                    </p>
+                  </a>
                 </div>
-                <div className="flex items-center mb-2">
+                <div className="flex items-center mb-2 hover:text-green-500 hover:underline">
                   <FaPhone className="text-3xl text-green-600 mr-4" />
-                  <p className="text-gray-700">+91 1745-246002</p>
+                  <a href="tel:+91 1745-246002">
+                    <p className="text-gray-700 hover:text-green-500">
+                      +91 1745-246002
+                    </p>
+                  </a>
                 </div>
-                <div className="flex items-center mb-2">
-                  <FaEnvelope className="text-3xl text-green-600 mr-4" />
-                  <p className="text-gray-700">gpnilokheri@hry.nic.in</p>
+                <div className="flex items-center mb-2 mt-1">
+                  <a
+                    // href="mailto:gpnilokheri@hry.nic.in"
+                    href="mailto:mailto:gbn.alumni.nilokheri@gmail.com"
+                    className="flex justify-center items-center hover:underline hover:text-green-500"
+                  >
+                    <FaEnvelope className="text-3xl text-green-600 mr-4" />
+                    {/* <p className="text-xl ">gpnilokheri@hry.nic.in</p> */}
+                    <p className="text-lg text-gray-700 hover:text-green-500">
+                      gbn.alumni.nilokheri@gmail.com
+                    </p>
+                  </a>
                 </div>
               </div>
             </div>
