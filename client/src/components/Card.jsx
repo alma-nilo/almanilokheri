@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 export default function Card({ element }) {
   const navigate = useNavigate();
   return (
-    <div className="flex flex-col hover:cursor-pointer mx-4 justify-center max-w-xs p-6 shadow-md rounded-xl sm:px-12 bg-green-300 dark:text-gray-100">
+    <div className="flex flex-col justify-center min-w-52 max-w-56 p-6 mx-4 bg-green-400 shadow-md hover:cursor-pointer rounded-xl sm:px-10 dark:text-gray-100">
       <img
         onClick={() => {
           navigate(`/user/${element._id}`);
@@ -15,9 +15,9 @@ export default function Card({ element }) {
         }}
         src={element.profile}
         alt=""
-        className="w-32 h-32 mx-auto rounded-full object-cover dark:bg-gray-500 aspect-square"
+        className="object-contain p-0 m-0 mx-auto shadow-sm rounded-3xl w-28 h-28 dark:bg-gray-500 sm:w-32 sm:h-32"
       />
-      <div className="space-y-4 text-center divide-y divide-gray-700">
+      <div className="space-y-2 text-center divide-y divide-gray-700">
         <div
           onClick={() => {
             navigate(`/user/${element._id}`);
@@ -36,7 +36,7 @@ export default function Card({ element }) {
                 behavior: "smooth",
               });
             }}
-            className="text-xl font-semibold sm:text-2xl"
+            className="text-base font-semibold sm:text-lg"
           >
             {element.name}
           </h2>
@@ -48,7 +48,7 @@ export default function Card({ element }) {
                 behavior: "smooth",
               });
             }}
-            className="px-5 text-xs sm:text-base dark:text-gray-400"
+            className="px-5 text-xs sm:text-sm dark:text-gray-100"
           >
             {element.rollNo}
           </p>
@@ -60,7 +60,7 @@ export default function Card({ element }) {
                 behavior: "smooth",
               });
             }}
-            className="px-5 text-xs sm:text-base dark:text-gray-400"
+            className="px-5 text-xs sm:text-sm dark:text-gray-100"
           >
             {element.startYear + "-" + element.endYear}
           </p>
@@ -72,7 +72,7 @@ export default function Card({ element }) {
                 behavior: "smooth",
               });
             }}
-            className="px-5 text-xs sm:text-base dark:text-gray-400"
+            className="px-5 text-xs sm:text-sm dark:text-gray-100"
           >
             {element.profession}
           </p>

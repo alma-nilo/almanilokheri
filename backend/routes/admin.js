@@ -39,7 +39,9 @@ import {
   CreatePost,
   AllPost,
   deletePost,
-  responsereferrer
+  responsereferrer,
+  pendingUserData,
+  sendEmailToPending,
 } from "../controllers/admin.js";
 import { Router } from "express";
 import { AdminAuth } from "../middleware/admin.js";
@@ -64,6 +66,9 @@ router.get("/user", AdminAuth, getTempUser);
 router.get("/user/:id", AdminAuth, getSingleUser);
 router.post("/changePwd", AdminAuth, changePwd);
 router.get("/alluser", AdminAuth, getAllUser);
+///** get pending User */
+router.get("/pendingUser", AdminAuth, pendingUserData);
+router.post("/sendEmail", AdminAuth, sendEmailToPending);
 router.get("/fetchhomeuser", fetchhomeuser);
 router.get("/fetch", fetch);
 router.get("/getuser/:id", getoneuser);
