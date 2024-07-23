@@ -780,6 +780,20 @@ export const ContactUsRead = async (req, res) => {
   }
 };
 
+///find all users who is pending and also a reference user
+export const referencePending = async (req, res) => {
+  try {
+    const users = await User.find({
+      referral: { $ne: null },
+      status: "Pending",
+    });
+    console.log(users);
+    res.status(200).json(users);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const DashBoard = async (req, res) => {
   try {
     const now = new Date();

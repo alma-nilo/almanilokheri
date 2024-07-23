@@ -7,11 +7,10 @@ import Carousel from "../components/Carousel/MyCarousel";
 import NewsAndEvent from "../components/NewsRoom";
 import GalleryCard from "../components/GalleryCard";
 // import DeviceCounter from "../components/DeviceCounter";
-import EmailButton from "../components/EmailIcon";
 import UserLoding from "../components/UserLoding";
 // import PaidIcon from "@mui/icons-material/Paid";
 import DeviceCounter from "../components/DeviceCounter";
-import { Pagination, Dialog, DialogContent } from "@mui/material";
+import { Dialog, DialogContent } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
 export default function Home({ deviceCount }) {
@@ -61,7 +60,6 @@ export default function Home({ deviceCount }) {
         <Navbar />
 
         <DeviceCounter deviceCount={deviceCount} />
-        <EmailButton />
         <div className="my-2">
           <Carousel />
         </div>

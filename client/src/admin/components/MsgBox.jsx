@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import ClearIcon from "@mui/icons-material/Clear";
 import DeleteIcon from "@mui/icons-material/Delete";
+import MarkunreadIcon from "@mui/icons-material/Markunread";
+import { Link } from "react-router-dom";
 import { AuthApi } from "../../context/user";
 import { AlertApi } from "../../context/AlertContext";
 
@@ -32,14 +34,19 @@ const MessageDetailView = ({ message, onClose, onDelete, fetchMessage }) => {
       <div className=" bg-gray-800 mt-2 h-48 rounded-md p-2 overflow-y-auto msgBox ">
         <p className="text-gray-300 ">{message.message}</p>
       </div>
-      <div className=" flex mt-4 justify-between items-center">
+      <div className=" flex mt-2 justify-between items-center">
         <button
           onClick={() => onDelete(message._id)}
-          className="px-4 py-2 w-full mb-2 text-white bg-red-500 hover:bg-red-600 rounded"
+          className="px-4 py-2 mx-2 w-full mb-2 text-white bg-red-500 hover:bg-red-600 rounded"
         >
           <DeleteIcon /> Delete
         </button>
-
+        <a
+          href={`mailto:${message?.email}`}
+          className="px-4 py-2 mx-2 w-full mb-2 text-white bg-green-500 hover:bg-green-600 rounded"
+        >
+          Send <MarkunreadIcon />
+        </a>
         {/* <button
           onClick={onClose}
           className="px-4 py-2 text-gray-400 bg-gray-700 hover:bg-gray-600 rounded"

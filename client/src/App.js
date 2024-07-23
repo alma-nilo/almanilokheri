@@ -42,6 +42,7 @@ const AdminPanal = React.lazy(() => import("./admin/pages/AdminPanal.jsx"));
 const MonthsRecord = React.lazy(() => import("./admin/pages/MonthsRecord.jsx"));
 const DashHome = React.lazy(() => import("./admin/pages/DashHome.jsx"));
 const DashRequest = React.lazy(() => import("./admin/pages/DashRequest.jsx"));
+const PendingRef = React.lazy(() => import("./admin/pages/PendingRef.jsx"));
 const DashAlluser = React.lazy(() => import("./admin/pages/DashAllAlumni.jsx"));
 const DashNewAdmin = React.lazy(() => import("./admin/pages/DashNewAdmin.jsx"));
 const AdminGallery = React.lazy(() => import("./admin/pages/Gallery.jsx"));
@@ -293,6 +294,15 @@ function App() {
                       <AdminProtected>
                         {" "}
                         <DashRequest />
+                      </AdminProtected>
+                    }
+                  />
+                  <Route
+                    path="pendingRef"
+                    element={
+                      <AdminProtected>
+                        {" "}
+                        <PendingRef />
                       </AdminProtected>
                     }
                   />
