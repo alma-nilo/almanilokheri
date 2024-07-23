@@ -12,7 +12,13 @@ import {
 import xlsx from "xlsx";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { ACCEPT, ACTIVEMAIL, BLOCKEDMAIL, REJECT } from "../mail/server.js";
+import {
+  ACCEPT,
+  ACTIVEMAIL,
+  BLOCKEDMAIL,
+  REJECT,
+  PendingUser,
+} from "../mail/server.js";
 import { deleteImageToStorage } from "../aws/functions.js";
 
 function getDaysInMonth() {
@@ -117,7 +123,30 @@ export const getAllUser = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+//* get pending user///
+export const pendingUserData = async (req, res) => {
+  try {
+    const data = await User.find({ status: { $eq: "Pending" } });
+    // console.log(data);
+    let object = data.map(({ uuid, name, email, rollNo, status }, i) => {
+      let obj = {
+        id: i + 1,
+        name: name,
+        email: email,
+        rollNo: rollNo,
+        status: status,
+        view: uuid,
+      };
+      return obj;
+    });
 
+    res.status(200).json({ data: object });
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+
+////**get single User */
 export const getSingleUser = async (req, res) => {
   const { id } = req.params;
   try {
@@ -189,7 +218,45 @@ export const UserResponse = async (req, res) => {
     return;
   }
 };
+//// *** Send email to pending users */
 
+export const sendEmailToPending = async (req, res) => {
+  const { email, flag } = req.body;
+
+  if (!email || !flag) {
+    res.status(400).json({ Err: "invalid signature " });
+    return;
+  }
+  try {
+    if (flag === "Pending") {
+      console.log(flag);
+
+      // ensure user exist or not
+      const user = await User.findOne({ email: email });
+      if (!user) {
+        res.status(400).json({ Err: "invalid signature " });
+        return;
+      }
+      if (user.status === "Pending") {
+        // sent mail for pending user
+        PendingUser(email);
+        res.status(200).json({ msg: "Email has been sendto users " });
+        return;
+      }
+    } else {
+      console.log(error);
+      console.log("error in Pending User email");
+    }
+
+    // accept reject
+  } catch (error) {
+    //console.log(error);
+    res.status(500).json({ error: error });
+    return;
+  }
+};
+
+////***----------------------------------------- */
 export const fetch = async (req, res) => {
   let page = parseInt(req.query.page) || 1;
 
@@ -249,7 +316,7 @@ export const fetchhomeuser = async (req, res) => {
   try {
     const users = await User.aggregate([
       { $match: { status: { $nin: ["Block", "Pending"] } } },
-      { $sample: { size: 5 } },
+      { $sample: { size: 8 } },
     ]);
     res.status(200).json({ data: users });
   } catch (error) {
@@ -710,6 +777,20 @@ export const ContactUsRead = async (req, res) => {
   } catch (error) {
     console.error(error);
     clearInterval;
+  }
+};
+
+///find all users who is pending and also a reference user
+export const referencePending = async (req, res) => {
+  try {
+    const users = await User.find({
+      referral: { $ne: null },
+      status: "Pending",
+    });
+    console.log(users);
+    res.status(200).json(users);
+  } catch (error) {
+    console.error(error);
   }
 };
 

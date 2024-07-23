@@ -10,7 +10,7 @@ import GalleryCard from "../components/GalleryCard";
 import UserLoding from "../components/UserLoding";
 // import PaidIcon from "@mui/icons-material/Paid";
 import DeviceCounter from "../components/DeviceCounter";
-import { Pagination, Dialog, DialogContent } from "@mui/material";
+import { Dialog, DialogContent } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
 export default function Home({ deviceCount }) {
@@ -60,7 +60,6 @@ export default function Home({ deviceCount }) {
         <Navbar />
 
         <DeviceCounter deviceCount={deviceCount} />
-
         <div className="my-2">
           <Carousel />
         </div>

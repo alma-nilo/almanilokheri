@@ -2,6 +2,7 @@ import nodemailer from "nodemailer";
 
 import dotenv from "dotenv";
 import { Accept } from "./Templates/Accept.js";
+import { PendingUserEmail } from "./Templates/PendingUserEmail.js";
 import { Reject } from "./Templates/Reject.js";
 import { Otp } from "./Templates/Otp.js";
 import { Active } from "./Templates/Active.js";
@@ -47,6 +48,27 @@ export const ACCEPT = (email, name) => {
     }
   });
 };
+//////**Pending User */
+
+export const PendingUser = (email) => {
+  const template = PendingUserEmail(email);
+
+  const mailOptions = {
+    from: `"GBN Alumni" <${process.env.SENDER_MAIL}>`, // sender address
+    to: email,
+    subject: "Pending Register in Alumni Website!",
+    html: template,
+  };
+  transporter.sendMail(mailOptions, function (error, info) {
+    if (error) {
+      return error;
+    } else {
+      // do something useful
+      return info;
+    }
+  });
+};
+///***/-------------------------------------------------------------/ */
 export const ACTIVEMAIL = (email, name) => {
   const template = Active(name);
 
@@ -162,5 +184,3 @@ export const ReferenceNotificationMail = (email, referrer, userDetails) => {
     }
   });
 };
-
-

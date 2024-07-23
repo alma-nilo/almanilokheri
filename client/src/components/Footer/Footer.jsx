@@ -49,7 +49,10 @@ export default function Footer() {
                     src="https://cmsredesign.channeli.in/library/assets/icons/email.svg"
                     alt="email"
                   />
-                  <a class="underline" href="mailto:gpnilokheri@hry.nic.in">
+                  <a
+                    class="underline"
+                    href="mailto:gbn.alumni.nilokheri@gmail.com"
+                  >
                     gpnilokheri@hry.nic.in
                   </a>
                 </div>

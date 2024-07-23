@@ -6,6 +6,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import { AlertApi } from "../context/AlertContext";
+import EmailButton from "../components/EmailIcon";
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required("Name is required"),
@@ -39,6 +40,7 @@ export default function ContactUs() {
     <>
       <div className=" bg-slate-200 ">
         <Navbar />
+        <EmailButton />
 
         {/* content  */}
 
@@ -160,18 +162,36 @@ export default function ContactUs() {
               <div className="flex flex-col mb-4">
                 <div className="flex items-center mb-2">
                   <FaMapMarkerAlt className="text-3xl text-green-600 mr-4" />
-                  <p className="text-gray-700">
-                    GBN Govt Polytechnic Nilokheri <br />
-                    Karnal, Haryana - 132117
-                  </p>
+                  <a
+                    href="https://maps.app.goo.gl/rUZfmMu4eKHZr2Dm7"
+                    className="hover:text-green-500 hover:underline"
+                  >
+                    <p className="text-gray-700 hover:text-green-500">
+                      GBN Govt Polytechnic Nilokheri <br />
+                      Karnal, Haryana - 132117
+                    </p>
+                  </a>
                 </div>
-                <div className="flex items-center mb-2">
+                <div className="flex items-center mb-2 hover:text-green-500 hover:underline">
                   <FaPhone className="text-3xl text-green-600 mr-4" />
-                  <p className="text-gray-700">+91 1745-246002</p>
+                  <a href="tel:+91 1745-246002">
+                    <p className="text-gray-700 hover:text-green-500">
+                      +91 1745-246002
+                    </p>
+                  </a>
                 </div>
-                <div className="flex items-center mb-2">
-                  <FaEnvelope className="text-3xl text-green-600 mr-4" />
-                  <p className="text-gray-700">gpnilokheri@hry.nic.in</p>
+                <div className="flex items-center mb-2 mt-1">
+                  <a
+                    // href="mailto:gpnilokheri@hry.nic.in"
+                    href="mailto:mailto:gbn.alumni.nilokheri@gmail.com"
+                    className="flex justify-center items-center hover:underline hover:text-green-500"
+                  >
+                    <FaEnvelope className="text-3xl text-green-600 mr-4" />
+                    {/* <p className="text-xl ">gpnilokheri@hry.nic.in</p> */}
+                    <p className="text-lg text-gray-700 hover:text-green-500">
+                      gbn.alumni.nilokheri@gmail.com
+                    </p>
+                  </a>
                 </div>
               </div>
             </div>
