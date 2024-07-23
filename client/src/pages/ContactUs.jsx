@@ -183,7 +183,7 @@ export default function ContactUs() {
                 <div className="flex items-center mb-2 mt-1">
                   <a
                     // href="mailto:gpnilokheri@hry.nic.in"
-                    href="mailto:mailto:gbn.alumni.nilokheri@gmail.com"
+                    href="mailto:gbn.alumni.nilokheri@gmail.com"
                     className="flex justify-center items-center hover:underline hover:text-green-500"
                   >
                     <FaEnvelope className="text-3xl text-green-600 mr-4" />
