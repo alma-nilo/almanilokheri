@@ -1,7 +1,10 @@
 const EmailModal = ({ isOpen, onClose, onOpenEmail }) => {
+  setTimeout(() => {
+    onClose();
+  }, 20000);
   return (
     <div
-      className={`fixed inset-0 flex items-center justify-center ${
+      className={`fixed inset-0 flex items-center justify-center shadow-lg ${
         isOpen ? "visible" : "hidden"
       }`}
       style={{
@@ -24,7 +27,7 @@ const EmailModal = ({ isOpen, onClose, onOpenEmail }) => {
               href="mailto:gbn.alumni.nilokheri@gmail.com"
               className="hover:scale-105"
             >
-              Send Email
+              Email Us
             </a>
           </button>
           <button

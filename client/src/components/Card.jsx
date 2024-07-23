@@ -84,7 +84,10 @@ export default function Card({ element }) {
               }}
               className="px-5 text-xs sm:text-sm dark:text-gray-100"
             >
-              {element.profession}
+              {element.profession.length > 15
+                ? element.profession + "..."
+                : element.profession}
+              {/* {element.profession} */}
             </p>
           </div>
           <div className="flex justify-center pt-2 space-x-4 align-center">
