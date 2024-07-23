@@ -165,7 +165,7 @@ const Sidebar = () => {
               title="Pending References"
               to="/admin/pendingRef"
               icon={<WorkHistoryIcon />}
-              selected={"/admin/user"}
+              selected={"/admin/pendingRef"}
             />
             <Item
               title="Gallery"
