@@ -42,7 +42,7 @@ export default function Navbar({ headerDash, developer }) {
           <div>
             <img src={Logo} alt="GBN logo" className="h-20  m-3 " />
           </div>
-          <p class="text m-3 heading">GBN Govt. polytechnic Nilokheri</p>
+          <p className="text m-3 heading">GBN Govt. polytechnic Nilokheri</p>
         </div>
         <nav
           className={`px-4 py-1 z-40 ${isFixed ? "hidden" : ""}  bg-green-600 `}
@@ -460,7 +460,7 @@ export default function Navbar({ headerDash, developer }) {
                       to="/signUp"
                       className="inline-block w-full px-4 py-2 text-center text-gray-800 bg-white rounded-md shadow hover:bg-gray-100"
                     >
-                      Register
+                      Join Us
                     </Link>
                   )}
                 </div>
@@ -503,7 +503,7 @@ export default function Navbar({ headerDash, developer }) {
                   to="/signup"
                   className="px-4 py-2 text-gray-800 bg-white rounded-md shadow hover:bg-gray-100"
                 >
-                  Register
+                  Join Us
                 </Link>
               )}
             </div>
@@ -555,7 +555,7 @@ export default function Navbar({ headerDash, developer }) {
                           className="h-12 rounded-2xl"
                         />
                       )}
-                      <p class="text-white font-serif bold text ml-2  heading">
+                      <p className="text-white font-serif bold text ml-2  heading">
                         alma nilokheri
                       </p>
                     </div>
@@ -921,7 +921,7 @@ export default function Navbar({ headerDash, developer }) {
                         to="/signUp"
                         className="inline-block w-full px-4 py-2 text-center text-gray-800 bg-white rounded-md shadow hover:bg-gray-100"
                       >
-                        Register
+                        Join Us
                       </Link>
                     )}
                   </div>
@@ -963,7 +963,7 @@ export default function Navbar({ headerDash, developer }) {
                     to="/signup"
                     className="px-4 py-2 text-gray-800 bg-white rounded-md shadow hover:bg-gray-100"
                   >
-                    Register
+                    Join Us
                   </Link>
                 )}
               </div>

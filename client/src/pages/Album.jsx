@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import UserLoding from "../components/UserLoding";
 
@@ -14,7 +14,7 @@ export default function () {
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
 
-  const fetchGallery = async (pageNum) => {
+  const fetchGallery = useCallback(async (pageNum) => {
     let URL = `${process.env.REACT_APP_API_KEY}/admins/allgallery?page=${pageNum}&perPage=12`;
     try {
       const response = await axios.get(URL);
@@ -25,20 +25,20 @@ export default function () {
       // Handle the error if necessary
       setLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
     fetchGallery(currentPage);
   }, [currentPage]);
 
-  const handleImageClick = (image) => {
+  const handleImageClick = useCallback((image) => {
     setSelectedImage(image);
     setOpenDialog(true);
-  };
+  }, []);
 
-  const handleCloseDialog = () => {
+  const handleCloseDialog = useCallback(() => {
     setOpenDialog(false);
-  };
+  }, []);
 
   return (
     <>

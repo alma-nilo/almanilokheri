@@ -166,8 +166,8 @@ const MessageBox = ({ setShowMessage, fetchUnreadCount }) => {
           <hr className="border-gray-700 mb-4" /> {/* Line separator */}
           <div className="overflow-y-auto msgBox h-72">
             {loading ? (
-              <div class="loader-container">
-                <div class="loader">
+              <div className="loader-container">
+                <div className="loader">
                   {" "}
                   <p className="loader-text">Loading</p>
                 </div>

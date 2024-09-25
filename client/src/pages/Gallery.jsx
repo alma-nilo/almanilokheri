@@ -14,8 +14,8 @@ const GalleryComponent = () => {
               Alumni Gallery
             </h1>
           </div>
-          <div class="content-top-nav">
-            <ul class="flex p-4">
+          <div className="content-top-nav">
+            <ul className="flex p-4">
               <li>
                 <Link className="LinkNav mx-2" to="/gallery">
                   Albums

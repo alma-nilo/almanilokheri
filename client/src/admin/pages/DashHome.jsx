@@ -95,7 +95,7 @@ const DashHome = ({ deviceCount }) => {
       // console.log(response);
       setPendingRef(response.data);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
 

@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useEffect } from "react";
+import React, {
+  createContext,
+  memo,
+  useCallback,
+  useContext,
+  useEffect,
+} from "react";
 import Alert from "@mui/material/Alert";
 
 export const AlertContext = createContext();
@@ -6,17 +12,23 @@ export const AlertContext = createContext();
 export const AlertProvider = ({ children }) => {
   const [alert, setAlert] = React.useState(null);
   const [loder, setLoder] = React.useState(false);
+  // console.log("Alert provider");
 
-  const handleClose = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setAlert(null);
-  };
+  const handleClose = useCallback(
+    (event, reason) => {
+      if (reason === "clickaway") {
+        return;
+      }
+      setAlert(null);
+    },
+    [setAlert]
+  );
+
   useEffect(() => {
-    setTimeout(() => {
+    const timeout = setTimeout(() => {
       setAlert(null);
     }, 3000);
+    return () => clearTimeout(timeout);
   }, [alert]);
 
   return (

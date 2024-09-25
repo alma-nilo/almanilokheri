@@ -1,4 +1,12 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, {
+  createContext,
+  memo,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import Cookies from "js-cookie";
 import axios from "axios";
 
@@ -8,6 +16,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setuser] = useState(null);
   const [admin, setadmin] = useState(null);
   const [userReqNotification, setUserReqNotification] = useState(0);
+  // console.log("first");
 
   const Admin = () => {
     if (Cookies.get("Admin")) {
@@ -16,6 +25,7 @@ export const AuthProvider = ({ children }) => {
       setadmin(null);
     }
   };
+
   const User = () => {
     if (Cookies.get("User")) {
       setuser(JSON.parse(Cookies.get("User")));
@@ -44,6 +54,7 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     Admin();
     User();
+    // console.log("admin , user");
   }, []);
 
   return (

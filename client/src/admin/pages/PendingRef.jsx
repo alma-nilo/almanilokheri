@@ -24,7 +24,7 @@ const PendingRef = () => {
     let url = `${process.env.REACT_APP_API_KEY}/admins/pendingRef`;
     try {
       const data = await axios.get(url, config);
-      console.log(DataUser);
+      // console.log(DataUser);
       setDataUser(data.data);
     } catch (error) {}
   };

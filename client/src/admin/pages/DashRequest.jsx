@@ -45,7 +45,7 @@ const Team = () => {
       `Do you really want to send Email to ${DataUser.length} users !!!`
     );
     if (!reConfirmation) {
-      console.log("returned");
+      // console.log("returned");
       return;
     }
     const config = {
@@ -61,11 +61,11 @@ const Team = () => {
           flag: data.status,
         };
         const { dataconf } = axios.post(url, payload, config);
-        console.log(`${data.email} has been send successfully`, i);
+        // console.log(`${data.email} has been send successfully`, i);
       });
       setIsOpen(!isOpen);
     } catch (error) {
-      console.log("error in front in sending email");
+      // console.log("error in front in sending email");
     } finally {
       setIsOpen(!isOpen);
     }
