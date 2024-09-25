@@ -138,7 +138,7 @@ export default function SignUp() {
         }
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
   const handleSignupWithFaceBook = async () => {
@@ -154,7 +154,7 @@ export default function SignUp() {
         email: user.user.email,
       };
 
-      console.log(user);
+      // console.log(user);
 
       // //console.log(user.user);
       // //console.log(user._tokenResponse);

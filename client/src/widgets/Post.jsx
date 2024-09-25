@@ -95,7 +95,7 @@ const Posts = ({ UserProfile, uuid, status }) => {
         message: "Success Post Delete ",
       });
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       setAlert({
         type: "error",
         message: "Somthing went Wrong ",

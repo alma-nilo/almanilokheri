@@ -58,7 +58,7 @@ const EventDetails = () => {
               href="/"
               className="bg-green-500 text-white px-6 py-3 rounded-md hover:bg-green-600 transition-colors duration-300"
             >
-              Register
+              Join Us
             </a>
           </div>
           <p className="text-gray-800 text-lg leading-7">{event.description}</p>

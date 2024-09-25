@@ -93,7 +93,7 @@ const UpdatePhotoUploadComponent = ({ data }) => {
 
         myBucket.deleteObject(delparams, function (err, data) {
           if (err) {
-            console.log(err, err.stack);
+            // console.log(err, err.stack);
             return false; // error
           } else {
             return true; // deleted
@@ -112,7 +112,7 @@ const UpdatePhotoUploadComponent = ({ data }) => {
 
         Cookies.remove("User");
         const Token = JSON.stringify({ ...user, profile: response.Location });
-        console.log(Token);
+        // console.log(Token);
         Cookies.set("User", Token, { expires: 2 });
 
         // Clear image preview after upload

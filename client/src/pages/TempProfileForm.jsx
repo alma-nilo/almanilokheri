@@ -216,7 +216,7 @@ const Modal = ({ isOpen, onClose, onAgree }) => {
 
 export default function TempProfileForm() {
   const initalvalues = {
-    mobile:"",
+    mobile: "",
     aadhaar: "",
     profession: "",
     state: "",
@@ -325,7 +325,7 @@ export default function TempProfileForm() {
     { value: "proof", label: "Document proof related to collage" },
     {
       value: "Referral",
-      label: "Referral from Known batchmate already registered",
+      label: "Referral from Known batchmate already Join Used",
     },
   ];
 

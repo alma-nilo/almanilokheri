@@ -31,7 +31,7 @@ const UserProfile = () => {
     };
 
     fetchUser();
-  }, [id]);
+  }, [id, navigate]);
   //console.log(user);
 
   if (loader) {

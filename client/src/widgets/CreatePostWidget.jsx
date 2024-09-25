@@ -80,7 +80,7 @@ const CreatePost = ({ setpostsData, status }) => {
   };
 
   const handleSubmit = async (file) => {
-    console.log(status);
+    // console.log(status);
     if (status === "Block") {
       setAlert({
         type: "error",

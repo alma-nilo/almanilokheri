@@ -35,7 +35,7 @@ const Referral = ({ setReferralaccount }) => {
     try {
       let url = `${process.env.REACT_APP_API_KEY}/referral?search=${searchTerm}`;
       const response = await axios.get(url);
-      console.log(response.data);
+      // console.log(response.data);
       setProfiles(response.data);
     } catch (error) {
       console.error(error);

@@ -2,19 +2,19 @@ import React, { Suspense, useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 // import { logEvent } from "firebase/analytics";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Cookies from "js-cookie";
+import axios from "axios";
 
-import "./app.css";
-
-import { AlertApi } from "./context/AlertContext";
 import Loader from "./components/Loader";
+import { AlertApi } from "./context/AlertContext";
 import AdminProtected from "./auth/admin/AdminProtectedRoute";
 import AdminUnProtected from "./auth/admin/AdminUnprotectedRoute";
 import UserProtected from "./auth/admin/UserProtectedRoute.js";
 import UserUnProtected from "./auth/admin/UserUnprotected.js";
-
-import axios from "axios";
-import Cookies from "js-cookie";
 import UserProfile from "./pages/UserProfile.jsx";
+import Home from "./pages/Home";
+
+import "./app.css";
 
 const ChangePwd = React.lazy(() => import("./admin/pages/ChangePwd"));
 const Memories = React.lazy(() => import("./pages/Memories.jsx"));
@@ -55,7 +55,7 @@ const InstituteRecord = React.lazy(() =>
   import("./admin/pages/InstituteRecord")
 );
 
-const Home = React.lazy(() => import("./pages/Home"));
+// const Home = React.lazy(() => import("./pages/Home")); //// without lazy import
 const Error = React.lazy(() => import("./pages/Error/Error"));
 const Member = React.lazy(() => import("./pages/Member"));
 const Gallery = React.lazy(() => import("./pages/Gallery"));
@@ -117,13 +117,16 @@ function App() {
   // const location = window.location;
 
   useEffect(() => {
-    InsertDayRecord();
-    InsertDeviceRecord();
-    FetchDeviceRecord();
+    const timeOut = setTimeout(() => {
+      InsertDayRecord();
+      InsertDeviceRecord();
+      FetchDeviceRecord();
+    }, [10000]);
     // logEvent(analytics, "screen_view", {
     //   firebase_screen: location.pathname, // <- In my case I do not want to include search params, so 'location.pathname' is just what I want
     //   firebase_screen_class: "firebase-routes-analytics", // <- This name is up to you
     // });
+    return () => clearTimeout(timeOut);
   }, []);
 
   return (
