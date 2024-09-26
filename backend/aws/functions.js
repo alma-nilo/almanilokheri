@@ -1,11 +1,9 @@
-
 import AWS from "aws-sdk";
 import * as dotenv from "dotenv";
 dotenv.config();
 
 const S3_BUCKET = process.env.AWS_S3_BUCKET;
 const REGION = process.env.AWS_REGION;
-
 
 AWS.config.update({
   accessKeyId: process.env.AWS_Access_key,
@@ -22,17 +20,14 @@ export const deleteImageToStorage = (image) => {
 
   myBucket.deleteObject(params, function (err, data) {
     if (err) {
-      console.log(err, err.stack);
-      return false  // error
+      // console.log(err, err.stack);
+      return false; // error
     } else {
-      console.log(data)
-      console.log("done")
-      return true            // deleted
+      // console.log(data)
+      // console.log("done")
+      return true; // deleted
     }
   });
 
-  console.log("func")
-
+  // console.log("func")
 };
-
-

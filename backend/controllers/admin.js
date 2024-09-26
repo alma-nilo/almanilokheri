@@ -183,7 +183,7 @@ export const UserResponse = async (req, res) => {
     }
 
     if (flage === "Accept") {
-      console.log(flage);
+      // console.log(flage);
 
       const newuser = await User.findOneAndUpdate(
         { email: email },
@@ -229,7 +229,7 @@ export const sendEmailToPending = async (req, res) => {
   }
   try {
     if (flag === "Pending") {
-      console.log(flag);
+      // console.log(flag);
 
       // ensure user exist or not
       const user = await User.findOne({ email: email });
@@ -244,8 +244,8 @@ export const sendEmailToPending = async (req, res) => {
         return;
       }
     } else {
-      console.log(error);
-      console.log("error in Pending User email");
+      // console.log(error);
+      // console.log("error in Pending User email");
     }
 
     // accept reject
@@ -280,7 +280,7 @@ export const fetch = async (req, res) => {
     query.Trade = req.query.searchTrade;
   }
 
-  console.log(query);
+  // console.log(query);
 
   const skip = (page - 1) * perPage;
 
@@ -288,10 +288,10 @@ export const fetch = async (req, res) => {
     const totalpost = await User.countDocuments(query);
     const totalPages = Math.ceil(totalpost / perPage);
 
-    console.log("total post ", totalpost);
-    console.log("perpage:", perPage);
-    console.log("page:", page);
-    console.log(skip);
+    // console.log("total post ", totalpost);
+    // console.log("perpage:", perPage);
+    // console.log("page:", page);
+    // console.log(skip);
 
     const data = await User.find(query)
       .sort({ _id: -1 }) // Sort in descending order based on _id (timestamp)
@@ -300,7 +300,7 @@ export const fetch = async (req, res) => {
     // console.log({ data: data, totalPages: totalPages })
     res.status(200).json({ data: data, totalPages: totalPages });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     res.status(500).json({ error: error.message });
   }
 };
@@ -320,7 +320,7 @@ export const fetchhomeuser = async (req, res) => {
     ]);
     res.status(200).json({ data: users });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     res.status(500).json({ error: error.message });
   }
 };
@@ -787,7 +787,7 @@ export const referencePending = async (req, res) => {
       referral: { $ne: null },
       status: "Pending",
     });
-    console.log(users);
+    // console.log(users);
     res.status(200).json(users);
   } catch (error) {
     console.error(error);
@@ -848,7 +848,7 @@ export const DashBoard = async (req, res) => {
       },
     ]);
 
-    console.log(currentMonth, year);
+    // console.log(currentMonth, year);
     const data = await DailyDeviceRecordModel.find({
       month: currentMonth,
       year,
@@ -1165,7 +1165,7 @@ export const NewAdmin = async (req, res) => {
 export const CreatePost = async (req, res) => {
   const { content, url, path } = req.body;
 
-  console.log(req.admin);
+  // console.log(req.admin);
   if (req.admin.status !== "Approve") {
     return res.status(404).json({ err: "Not Verified" });
   }
@@ -1393,7 +1393,7 @@ export const responsereferrer = async (req, res) => {
         res.send(ApproveResponse(data.referrerName, data.userName));
         return;
       } else if (response === "Reject") {
-        console.log(data);
+        // console.log(data);
         await User.findByIdAndDelete(data.userid);
         res.send(RejectResponse(data.referrerName, data.userName));
         return;
@@ -1405,7 +1405,7 @@ export const responsereferrer = async (req, res) => {
       res.send(TryAgainResponse());
     }
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     res.send(TryAgainResponse());
   }
 };
