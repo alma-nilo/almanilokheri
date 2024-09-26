@@ -244,7 +244,7 @@ export const Referral = async (req, res) => {
 export const signup = async (req, res) => {
   const { uuid, email } = req.body;
 
-  console.log(uuid, email);
+  // console.log(uuid, email);
 
   if (!uuid || !email) {
     res.status(404).json({ msg: "fields required " });

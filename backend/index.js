@@ -14,7 +14,6 @@ import Admin from "./routes/admin.js";
 
 const DB = process.env.DATABASE_KEY;
 
-
 // console.log("env DATABASE_KEY : ", process.env.DATABASE_KEY)
 // console.log("env PrivetKey : ", process.env.PrivetKey)
 // console.log("env SENDER_MAIL : ", process.env.SENDER_MAIL)
@@ -55,10 +54,9 @@ app.use(cors());
 
 if (process.env.NODE_ENV !== "production") {
   app.use((req, res, next) => {
-    console.log(req.body)
-    next()
-
-  })
+    // console.log(req.body)
+    next();
+  });
 }
 
 app.get("/", (req, res) => {
@@ -73,7 +71,8 @@ mongoose
   .connect(DB)
   .then(() => {
     if (process.env.NODE_ENV === "production") {
-      const fullchainPath = "/etc/letsencrypt/live/almanilokheri.in/fullchain.pem";
+      const fullchainPath =
+        "/etc/letsencrypt/live/almanilokheri.in/fullchain.pem";
       const privkeyPath = "/etc/letsencrypt/live/almanilokheri.in/privkey.pem";
 
       https
@@ -81,17 +80,19 @@ mongoose
           // need change pem file
           {
             cert: fs.readFileSync(fullchainPath),
-            key: fs.readFileSync(privkeyPath)
+            key: fs.readFileSync(privkeyPath),
           },
           app
         )
-        .listen(PORT, () => console.info(`[Server] > Listening on port ${PORT}`));
+        .listen(PORT, () =>
+          console.info(`[Server] > Listening on port ${PORT}`)
+        );
     } else {
-      app.listen(PORT, () => console.info(`[Server] > Listening on port ${PORT}`));
+      app.listen(PORT, () =>
+        console.info(`[Server] > Listening on port ${PORT}`)
+      );
     }
   })
   .catch((e) => {
-    console.log(e.message);
+    // console.log(e.message);
   });
-
-

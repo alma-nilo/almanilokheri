@@ -75,7 +75,7 @@ const LineChart = ({ isDashboard = false }) => {
 
   useEffect(() => {
     fetchTraffic();
-  }, []);
+  }, [month, year]);
 
   return (
     <>

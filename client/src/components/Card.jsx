@@ -88,7 +88,7 @@ export default function Card({ element }) {
                 }}
                 className="text-xs sm:w-full  overflow-hidden sm:text-sm dark:text-gray-100"
               >
-                {element.profession.length > 20
+                {element.profession?.length > 20
                   ? element.profession.slice(0, 20) + "..."
                   : element.profession}
                 {/* {element.profession} */}
