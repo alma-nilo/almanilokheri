@@ -122,7 +122,7 @@ export default function Member() {
                 onChange={(e) => setSelectedTrade(e.target.value)}
               >
                 <option value="">Select Trade</option>
-                {Tradearr.map((trade, index) => (
+                {Tradearr?.map((trade, index) => (
                   <option key={index} value={trade}>
                     {trade}
                   </option>

@@ -5,7 +5,7 @@ import Logo from "../Assets/Logo.jpeg";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthApi } from "../context/user";
 import { Avatar } from "@mui/material";
-import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
+// import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
 
 export default function Navbar({ headerDash, developer }) {
   const [navbar, setNavbar] = useState(false);
@@ -79,7 +79,7 @@ export default function Navbar({ headerDash, developer }) {
                     }}
                     to="/"
                   >
-                    <p className="font-serif bold text text-white">
+                    <p className="font-serif bold text lg:text-[24px] text-[20px] text-white">
                       alma nilokheri
                     </p>
                   </Link>
@@ -131,7 +131,7 @@ export default function Navbar({ headerDash, developer }) {
               >
                 <ul className="items-center justify-center space-y-8 md:flex md:space-x-6 md:space-y-0">
                   <li
-                    className="text-white hover:text-indigo-200"
+                    className="text-white hover:text-indigo-200 hover:underline"
                     onClick={() => {
                       setNavbar(false);
                       window.scrollTo({
@@ -154,7 +154,7 @@ export default function Navbar({ headerDash, developer }) {
                     </Link>
                   </li>
                   <li
-                    className="text-white hover:text-indigo-200"
+                    className="text-white hover:text-indigo-200 hover:underline"
                     onClick={() => {
                       setNavbar(false);
                       window.scrollTo({
@@ -173,12 +173,13 @@ export default function Navbar({ headerDash, developer }) {
                       }}
                       to="/gallery/memories"
                     >
-                      Memories
+                      Posts
                     </Link>
                   </li>
 
                   <li
-                    className="text-white hover:text-indigo-200"
+                    className="text-white hover:text-indigo-200 hover:underline"
+                    title="Find your friends"
                     onClick={() => setNavbar(false)}
                   >
                     <Link
@@ -191,7 +192,7 @@ export default function Navbar({ headerDash, developer }) {
                       }}
                       to="/member"
                     >
-                      Member
+                      Members
                     </Link>
                   </li>
 
@@ -202,15 +203,15 @@ export default function Navbar({ headerDash, developer }) {
                   <li className="relative group">
                     <div className=" flex text-white ">
                       <li
-                        className="LinkNav mr-3 text-white hover:text-indigo-200 cursor-pointer"
+                        className="LinkNav mr-3 text-white hover:text-indigo-200 hover:underline cursor-pointer"
                         onClick={() => setNavbar(true)}
                       >
                         Contribute
                       </li>
                     </div>
 
-                    <ul className="absolute w-40  p-2 z-50 hidden top-4 left-2  mt-2  bg-green-600 text-white group-hover:block">
-                      <li className="pl-4 font-semibold hover:text-green-400 sub ">
+                    <ul className="absolute w-40  p-2 z-50 hidden top-4 left-2  mt-2  space-y-5 border-green-900 border rounded-br-3xl rounded-md shadow-2xl bg-green-600 text-white group-hover:block">
+                      <li className="pl-4 font-semibold hover:text-green-400 sub hover:scale-110 ">
                         <Link
                           className=""
                           onClick={() => {
@@ -224,7 +225,7 @@ export default function Navbar({ headerDash, developer }) {
                           Job Opportunities
                         </Link>
                       </li>
-                      <li className="pl-4 font-semibold hover:text-green-400 sub ">
+                      <li className="pl-4 font-semibold hover:text-green-400 sub hover:scale-110 ">
                         <Link
                           className=""
                           onClick={() => {
@@ -238,7 +239,7 @@ export default function Navbar({ headerDash, developer }) {
                           Invite Friend
                         </Link>
                       </li>
-                      <li className="pl-4 font-semibold hover:text-green-400 sub ">
+                      <li className="pl-4 font-semibold hover:text-green-400 sub hover:scale-110 ">
                         <Link
                           className=""
                           onClick={() => {
@@ -252,7 +253,7 @@ export default function Navbar({ headerDash, developer }) {
                           Donate/Gift
                         </Link>
                       </li>
-                      <li className="pl-4 font-semibold hover:text-green-400 sub ">
+                      <li className="pl-4 font-semibold hover:text-green-400 sub hover:scale-110 ">
                         <Link
                           className=""
                           onClick={() => {
@@ -266,7 +267,7 @@ export default function Navbar({ headerDash, developer }) {
                           Suggestions
                         </Link>
                       </li>
-                      <li className="pl-4 font-semibold hover:text-green-400 sub ">
+                      <li className="pl-4 font-semibold hover:text-green-400 sub hover:scale-110 ">
                         <Link
                           className=""
                           onClick={() => {
@@ -287,14 +288,14 @@ export default function Navbar({ headerDash, developer }) {
                   <li className="relative group">
                     <div className=" flex text-white ">
                       <li
-                        className="LinkNav mr-3 text-white hover:text-indigo-200 cursor-pointer"
+                        className="LinkNav mr-3 text-white hover:text-indigo-200 hover:underline cursor-pointer"
                         onClick={() => setNavbar(true)}
                       >
                         Service
                       </li>
                     </div>
-                    <ul className="absolute w-40  p-2 z-50 hidden top-4 left-2  mt-2  bg-green-600 text-white group-hover:block">
-                      <li className="pl-4 font-semibold hover:text-green-300 sub  ">
+                    <ul className="absolute w-40  p-2 z-50 hidden top-4 left-2  mt-2 space-y-5 border-green-900 border rounded-br-3xl rounded-md shadow-2xl bg-green-600 text-white group-hover:block">
+                      <li className="pl-4 font-semibold hover:scale-110 hover:text-green-300 sub  ">
                         <Link
                           className=""
                           onClick={() => {
@@ -309,7 +310,7 @@ export default function Navbar({ headerDash, developer }) {
                         </Link>
                       </li>
 
-                      <li className="pl-4 font-semibold hover:text-green-300 sub ">
+                      <li className="pl-4 font-semibold hover:scale-110 hover:text-green-300 sub ">
                         {" "}
                         <Link
                           className=""
@@ -324,7 +325,7 @@ export default function Navbar({ headerDash, developer }) {
                           Plan for Campus Visit
                         </Link>
                       </li>
-                      <li className="pl-4 font-semibold hover:text-green-300 sub ">
+                      <li className="pl-4 font-semibold hover:scale-110 hover:text-green-300 sub ">
                         <Link
                           className=""
                           onClick={() => {
@@ -338,7 +339,7 @@ export default function Navbar({ headerDash, developer }) {
                           Success Stories
                         </Link>
                       </li>
-                      <li className="pl-4 font-semibold hover:text-green-300 sub ">
+                      <li className="pl-4 font-semibold hover:scale-110 hover:text-green-300 sub ">
                         <Link
                           className=""
                           onClick={() => {
@@ -352,7 +353,7 @@ export default function Navbar({ headerDash, developer }) {
                           I Card
                         </Link>
                       </li>
-                      <li className="pl-4 font-semibold hover:text-green-300 sub ">
+                      <li className="pl-4 font-semibold hover:scale-110 hover:text-green-300  sub  ">
                         <Link
                           className=""
                           onClick={() => {
@@ -366,7 +367,7 @@ export default function Navbar({ headerDash, developer }) {
                           Alumni Day (Gold/Silver)
                         </Link>
                       </li>
-                      <li className="pl-4 font-semibold hover:text-green-300 sub  ">
+                      <li className="pl-4 font-semibold hover:scale-110 hover:text-slate-100 sub  ">
                         <a
                           href="mailto:gbn.alumni.nilokheri@gmail.com"
                           className="hover:underline"
@@ -380,7 +381,7 @@ export default function Navbar({ headerDash, developer }) {
                   {/*  new tab  */}
 
                   <li
-                    className="text-white hover:text-indigo-200"
+                    className="text-white hover:text-indigo-200 hover:underline"
                     onClick={() => setNavbar(false)}
                   >
                     <Link
@@ -397,7 +398,7 @@ export default function Navbar({ headerDash, developer }) {
                     </Link>
                   </li>
                   <li
-                    className="text-white hover:text-indigo-200"
+                    className="text-white hover:text-indigo-200 hover:underline"
                     onClick={() => setNavbar(false)}
                   >
                     <Link
@@ -414,7 +415,7 @@ export default function Navbar({ headerDash, developer }) {
                     </Link>
                   </li>
                   <li
-                    className="text-white hover:text-indigo-200"
+                    className="text-white hover:text-indigo-200 hover:underline"
                     onClick={() => setNavbar(false)}
                   >
                     <Link
@@ -458,7 +459,7 @@ export default function Navbar({ headerDash, developer }) {
                         });
                       }}
                       to="/signUp"
-                      className="inline-block w-full px-4 py-2 text-center text-gray-800 bg-white rounded-md shadow hover:bg-gray-100"
+                      className="inline-block text-base md:text-lg w-full px-4 py-2 text-center text-balance text-gray-800 bg-white rounded-md shadow hover:bg-gray-100"
                     >
                       Join Us
                     </Link>
@@ -606,7 +607,7 @@ export default function Navbar({ headerDash, developer }) {
                 >
                   <ul className="items-center justify-center space-y-8 md:flex md:space-x-6 md:space-y-0">
                     <li
-                      className="text-white hover:text-indigo-200"
+                      className="text-white hover:text-indigo-200 hover:underline"
                       onClick={() => setNavbar(false)}
                     >
                       <Link
@@ -623,7 +624,7 @@ export default function Navbar({ headerDash, developer }) {
                       </Link>
                     </li>
                     <li
-                      className="text-white hover:text-indigo-200"
+                      className="text-white hover:text-indigo-200 hover:underline"
                       onClick={() => setNavbar(false)}
                     >
                       <Link
@@ -641,7 +642,7 @@ export default function Navbar({ headerDash, developer }) {
                     </li>
 
                     <li
-                      className="text-white hover:text-indigo-200"
+                      className="text-white hover:text-indigo-200 hover:underline"
                       onClick={() => setNavbar(false)}
                     >
                       <Link
@@ -664,7 +665,7 @@ export default function Navbar({ headerDash, developer }) {
                     <li className="relative group">
                       <div className=" flex text-white ">
                         <li
-                          className="LinkNav mr-3 text-white hover:text-indigo-200 cursor-pointer"
+                          className="LinkNav mr-3 text-white hover:text-indigo-200 hover:underline cursor-pointer"
                           onClick={() => setNavbar(true)}
                         >
                           Contribute
@@ -748,7 +749,7 @@ export default function Navbar({ headerDash, developer }) {
                     <li className="relative group">
                       <div className=" flex text-white ">
                         <li
-                          className="LinkNav mr-3 text-white hover:text-indigo-200 cursor-pointer"
+                          className="LinkNav mr-3 text-white hover:text-indigo-200 hover:underline cursor-pointer"
                           onClick={() => setNavbar(true)}
                         >
                           Service
@@ -841,7 +842,7 @@ export default function Navbar({ headerDash, developer }) {
                     {/*  new tab  */}
 
                     <li
-                      className="text-white hover:text-indigo-200"
+                      className="text-white hover:text-indigo-200 hover:underline"
                       onClick={() => setNavbar(false)}
                     >
                       <Link
@@ -858,7 +859,7 @@ export default function Navbar({ headerDash, developer }) {
                       </Link>
                     </li>
                     <li
-                      className="text-white hover:text-indigo-200"
+                      className="text-white hover:text-indigo-200 hover:underline"
                       onClick={() => setNavbar(false)}
                     >
                       <Link
@@ -875,7 +876,7 @@ export default function Navbar({ headerDash, developer }) {
                       </Link>
                     </li>
                     <li
-                      className="text-white hover:text-indigo-200"
+                      className="text-white hover:text-indigo-200 hover:underline"
                       onClick={() => setNavbar(false)}
                     >
                       <Link
