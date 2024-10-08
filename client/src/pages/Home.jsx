@@ -70,7 +70,7 @@ export default function Home({ deviceCount }) {
           <Navbar />
 
           <DeviceCounter deviceCount={deviceCount} />
-          <div className="my-2">
+          <div className="">
             <Carousel />
           </div>
 

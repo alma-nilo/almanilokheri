@@ -53,7 +53,7 @@ export default function Footer() {
                     className="underline"
                     href="mailto:gbn.alumni.nilokheri@gmail.com"
                   >
-                    gpnilokheri@hry.nic.in
+                    gbn.alumni.nilokheri@gmail.com
                   </a>
                 </div>
               </div>

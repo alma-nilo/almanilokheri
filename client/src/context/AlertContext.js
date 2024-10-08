@@ -1,6 +1,5 @@
 import React, {
   createContext,
-  memo,
   useCallback,
   useContext,
   useEffect,

@@ -124,14 +124,12 @@ body,
   display: none;
 }
 
-.postfix{
+.postfix {
   overflow-x: scroll;
 }
 .postfix::-webkit-scrollbar {
   display: none;
 }
-
-
 
 .content {
   width: 80%;
@@ -142,7 +140,7 @@ body,
 }
 
 .Userpost {
-height: 70vh;
+  height: 70vh;
   overflow-y: scroll;
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
@@ -150,7 +148,7 @@ height: 70vh;
 
 .Userpost::-webkit-scrollbar {
   display: none;
-} 
+}
 .content::-webkit-scrollbar {
   display: none;
 }
@@ -182,7 +180,8 @@ height: 70vh;
   /* font-weight: 200; */
   /* font-size: large; */
 }
-.sub{
+.sub {
+  padding-bottom: 5px;
   border-bottom: #888 1px solid;
 }
 
