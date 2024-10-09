@@ -34,6 +34,56 @@ export default function Navbar({ headerDash, developer }) {
   return (
     <div>
       <header ref={headerRef} className="bg-white shadow-lg">
+        <div className="hidden sm:flex sm:flex-row justify-around items-center w-full max-w-screen-2xl mx-auto p-3 bg-black h-10 ">
+          <span className="font-semibold text-base hover:text-green-400 text-white  hover:underline hover:scale-105">
+            <a
+              href="https://www.google.com/maps?ll=29.837213,76.935578&z=14&t=m&hl=en&gl=IN&mapclient=embed&cid=10415524260629688384"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-map-pin"
+              >
+                <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" />
+                <circle cx="12" cy="10" r="3" />
+              </svg>
+              &nbsp; Location{" "}
+            </a>
+          </span>
+          <span className="font-semibold text-base text-white  hover:text-green-400 hover:underline hover:scale-105">
+            <a
+              href="mailto:gbn.alumni.nilokheri@gmail.com"
+              className="flex items-center "
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-mail"
+              >
+                <rect width="20" height="16" x="2" y="4" rx="2" />
+                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+              </svg>
+              &nbsp; gbn.alumni.nilokheri@gmail.com
+            </a>
+          </span>
+        </div>
         <div
           className={` ${
             headerDash ? "hidden" : ""
