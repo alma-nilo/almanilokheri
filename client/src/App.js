@@ -1,6 +1,7 @@
 import React, { Suspense, useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 // import { logEvent } from "firebase/analytics";
+import "./app.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Cookies from "js-cookie";
 import axios from "axios";
@@ -11,11 +12,10 @@ import AdminProtected from "./auth/admin/AdminProtectedRoute";
 import AdminUnProtected from "./auth/admin/AdminUnprotectedRoute";
 import UserProtected from "./auth/admin/UserProtectedRoute.js";
 import UserUnProtected from "./auth/admin/UserUnprotected.js";
-import UserProfile from "./pages/UserProfile.jsx";
 import Home from "./pages/Home";
 
-import "./app.css";
-
+// import UserProfile from "./pages/UserProfile.jsx";
+const UserProfile = React.lazy(() => import("./pages/UserProfile"));
 const ChangePwd = React.lazy(() => import("./admin/pages/ChangePwd"));
 const Memories = React.lazy(() => import("./pages/Memories.jsx"));
 const Album = React.lazy(() => import("./pages/Album.jsx"));
@@ -73,6 +73,7 @@ const AdminLoginPage = React.lazy(() =>
 
 function App() {
   const [deviceCount, setDeviceCount] = useState(0);
+  const { loder } = AlertApi();
 
   const InsertDayRecord = async (uuid) => {
     let DeviceId = Cookies.get("DeviceId");
@@ -109,19 +110,12 @@ function App() {
       setDeviceCount(res.data.data.count);
     } catch (error) {}
   };
-
-  const { loder } = AlertApi();
-
-  // const
-
-  // const location = window.location;
-
   useEffect(() => {
     const timeOut = setTimeout(() => {
       InsertDayRecord();
       InsertDeviceRecord();
       FetchDeviceRecord();
-    }, [10000]);
+    }, [30000]);
     // logEvent(analytics, "screen_view", {
     //   firebase_screen: location.pathname, // <- In my case I do not want to include search params, so 'location.pathname' is just what I want
     //   firebase_screen_class: "firebase-routes-analytics", // <- This name is up to you
@@ -148,7 +142,7 @@ function App() {
                 <Route path="/aboutUs" element={<AboutUs />} />
                 <Route path="/contactUs" element={<ContactUs />} />
 
-                {/* serice */}
+                {/* services */}
                 <Route
                   path="/service/facility"
                   element={
@@ -256,7 +250,7 @@ function App() {
                   path="/alumni"
                   element={
                     <UserProtected>
-                      <Alumni />{" "}
+                      <Alumni />
                     </UserProtected>
                   }
                 />
@@ -267,7 +261,6 @@ function App() {
                   path="/adminlogin"
                   element={
                     <AdminUnProtected>
-                      {" "}
                       <AdminLoginPage />
                     </AdminUnProtected>
                   }
@@ -277,7 +270,6 @@ function App() {
                   path="/admin"
                   element={
                     <AdminProtected>
-                      {" "}
                       <AdminPanal />
                     </AdminProtected>
                   }
@@ -286,7 +278,6 @@ function App() {
                     path=""
                     element={
                       <AdminProtected>
-                        {" "}
                         <DashHome deviceCount={deviceCount} />
                       </AdminProtected>
                     }
@@ -295,7 +286,6 @@ function App() {
                     path="req"
                     element={
                       <AdminProtected>
-                        {" "}
                         <DashRequest />
                       </AdminProtected>
                     }
@@ -304,7 +294,6 @@ function App() {
                     path="pendingRef"
                     element={
                       <AdminProtected>
-                        {" "}
                         <PendingRef />
                       </AdminProtected>
                     }
@@ -313,7 +302,6 @@ function App() {
                     path="user"
                     element={
                       <AdminProtected>
-                        {" "}
                         <DashAlluser />
                       </AdminProtected>
                     }
@@ -322,7 +310,6 @@ function App() {
                     path="new"
                     element={
                       <AdminProtected>
-                        {" "}
                         <DashNewAdmin />
                       </AdminProtected>
                     }
@@ -331,7 +318,6 @@ function App() {
                     path="gallery"
                     element={
                       <AdminProtected>
-                        {" "}
                         <AdminGallery />
                       </AdminProtected>
                     }
@@ -341,7 +327,6 @@ function App() {
                     path="tempuser/:id"
                     element={
                       <AdminProtected>
-                        {" "}
                         <Response />
                       </AdminProtected>
                     }
@@ -358,7 +343,6 @@ function App() {
                     path="news"
                     element={
                       <AdminProtected>
-                        {" "}
                         <AdminNews />
                       </AdminProtected>
                     }
@@ -367,7 +351,6 @@ function App() {
                     path="events"
                     element={
                       <AdminProtected>
-                        {" "}
                         <AdminEvents />
                       </AdminProtected>
                     }
@@ -376,7 +359,6 @@ function App() {
                     path="Record"
                     element={
                       <AdminProtected>
-                        {" "}
                         <InstituteRecord />
                       </AdminProtected>
                     }
@@ -385,7 +367,6 @@ function App() {
                     path="monthsRecord/:month/:year"
                     element={
                       <AdminProtected>
-                        {" "}
                         <MonthsRecord />
                       </AdminProtected>
                     }
@@ -394,7 +375,6 @@ function App() {
                     path="pwd"
                     element={
                       <AdminProtected>
-                        {" "}
                         <ChangePwd />
                       </AdminProtected>
                     }

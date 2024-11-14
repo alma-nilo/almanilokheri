@@ -1,8 +1,8 @@
-import React from "react";
+import { memo } from "react";
 import { Email, LinkedIn, Facebook, Twitter } from "@mui/icons-material";
 import { Link, useNavigate } from "react-router-dom";
 
-export default function Card({ element }) {
+const Card = memo(({ element }) => {
   const navigate = useNavigate();
   // console.log(element);
   return (
@@ -133,4 +133,5 @@ export default function Card({ element }) {
       </div>
     </>
   );
-}
+});
+export default Card;

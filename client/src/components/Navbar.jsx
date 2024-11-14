@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, memo } from "react";
 import React from "react";
 
 import Logo from "../Assets/Logo.jpeg";
@@ -7,7 +7,7 @@ import { AuthApi } from "../context/user";
 import { Avatar } from "@mui/material";
 // import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
 
-export default function Navbar({ headerDash, developer }) {
+const Navbar = memo(({ headerDash, developer }) => {
   const [navbar, setNavbar] = useState(false);
   const [isFixed, setIsFixed] = useState(false);
 
@@ -20,12 +20,11 @@ export default function Navbar({ headerDash, developer }) {
   useEffect(() => {
     const handleScroll = () => {
       if (headerRef.current) {
-        setIsFixed(window.pageYOffset > headerRef.current.offsetTop);
+        setIsFixed(window.scrollY > 85);
       }
     };
-
+    // console.log(headerRef.current);
     window.addEventListener("scroll", handleScroll);
-
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
@@ -687,7 +686,7 @@ export default function Navbar({ headerDash, developer }) {
                         }}
                         to="/gallery/memories"
                       >
-                        Memories
+                        Posts
                       </Link>
                     </li>
 
@@ -721,8 +720,8 @@ export default function Navbar({ headerDash, developer }) {
                           Contribute
                         </li>
                       </div>
-                      <ul className="absolute w-40  p-2 z-50 hidden top-4 left-2  mt-2  bg-green-500 text-white group-hover:block">
-                        <li className="pl-4 font-semibold hover:text-green-300 sub ">
+                      <ul className="absolute w-40  p-2 z-50 hidden top-4 left-2  mt-2 space-y-5 border-green-900 border rounded-br-3xl rounded-md shadow-2xl bg-green-600 text-white group-hover:block">
+                        <li className="pl-4 font-semibold hover:scale-110 hover:text-green-300 sub ">
                           <Link
                             className=""
                             onClick={() => {
@@ -736,7 +735,7 @@ export default function Navbar({ headerDash, developer }) {
                             Job Opportunities
                           </Link>
                         </li>
-                        <li className="pl-4 font-semibold hover:text-green-300 sub ">
+                        <li className="pl-4 font-semibold hover:scale-110 hover:text-green-300 sub ">
                           <Link
                             className=""
                             onClick={() => {
@@ -750,7 +749,7 @@ export default function Navbar({ headerDash, developer }) {
                             Invite Friend
                           </Link>
                         </li>
-                        <li className="pl-4 font-semibold hover:text-green-300 sub ">
+                        <li className="pl-4 font-semibold hover:scale-110 hover:text-green-300 sub ">
                           <Link
                             className=""
                             onClick={() => {
@@ -764,7 +763,7 @@ export default function Navbar({ headerDash, developer }) {
                             Donate/Gift
                           </Link>
                         </li>
-                        <li className="pl-4 font-semibold hover:text-green-300 sub ">
+                        <li className="pl-4 font-semibold hover:scale-110 hover:text-green-300 sub ">
                           <Link
                             className=""
                             onClick={() => {
@@ -778,7 +777,7 @@ export default function Navbar({ headerDash, developer }) {
                             Suggestions
                           </Link>
                         </li>
-                        <li className="pl-4 font-semibold hover:text-green-300 sub ">
+                        <li className="pl-4 font-semibold hover:scale-110 hover:text-green-300 sub ">
                           <Link
                             className=""
                             onClick={() => {
@@ -805,8 +804,8 @@ export default function Navbar({ headerDash, developer }) {
                           Service
                         </li>
                       </div>
-                      <ul className="absolute w-40  p-2 z-50 hidden top-4 left-2  mt-2  bg-green-500 text-white group-hover:block">
-                        <li className="pl-4 font-semibold hover:text-green-300 sub  ">
+                      <ul className="absolute w-40  p-2 z-50 hidden top-4 left-2  mt-2 space-y-5 border-green-900 border rounded-br-3xl rounded-md shadow-2xl bg-green-600 text-white group-hover:block">
+                        <li className="pl-4 font-semibold hover:scale-110 hover:text-green-300 sub  ">
                           <Link
                             className=""
                             onClick={() => {
@@ -821,7 +820,7 @@ export default function Navbar({ headerDash, developer }) {
                           </Link>
                         </li>
 
-                        <li className="pl-4 font-semibold hover:text-green-300 sub ">
+                        <li className="pl-4 font-semibold hover:scale-110 hover:text-green-300 sub ">
                           {" "}
                           <Link
                             className=""
@@ -836,7 +835,7 @@ export default function Navbar({ headerDash, developer }) {
                             Plan for Campus Visit
                           </Link>
                         </li>
-                        <li className="pl-4 font-semibold hover:text-green-300 sub ">
+                        <li className="pl-4 font-semibold hover:scale-110 hover:text-green-300 sub ">
                           <Link
                             className=""
                             onClick={() => {
@@ -850,7 +849,7 @@ export default function Navbar({ headerDash, developer }) {
                             Success Stories
                           </Link>
                         </li>
-                        <li className="pl-4 font-semibold hover:text-green-300 sub ">
+                        <li className="pl-4 font-semibold hover:scale-110 hover:text-green-300 sub ">
                           <Link
                             className=""
                             onClick={() => {
@@ -864,7 +863,7 @@ export default function Navbar({ headerDash, developer }) {
                             I Card
                           </Link>
                         </li>
-                        <li className="pl-4 font-semibold hover:text-green-300 sub ">
+                        <li className="pl-4 font-semibold hover:scale-110 hover:text-green-300 sub ">
                           <Link
                             className=""
                             onClick={() => {
@@ -878,7 +877,7 @@ export default function Navbar({ headerDash, developer }) {
                             Alumni Day (Gold/Silver)
                           </Link>
                         </li>
-                        <li className="pl-4 font-semibold hover:text-green-300 sub  ">
+                        <li className="pl-4 font-semibold hover:scale-110 hover:text-green-300 sub  ">
                           <a
                             href="mailto:gbn.alumni.nilokheri@gmail.com"
                             className="hover:underline"
@@ -1025,4 +1024,6 @@ export default function Navbar({ headerDash, developer }) {
       {/* ... */}
     </div>
   );
-}
+});
+
+export default Navbar;

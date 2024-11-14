@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer/Footer";
 import axios from "axios";
@@ -20,7 +20,7 @@ export default function Member() {
     setSearchTerm(event.target.value);
   };
 
-  const loadMoreMember = async () => {
+  const loadMoreMember = useCallback(async () => {
     try {
       // Fetch more posts from your API using Axios
 
@@ -53,11 +53,12 @@ export default function Member() {
         setPage(page + 1);
       } else {
         setHasMore(false);
+        setLoading(false);
       }
     } catch (error) {
       console.error("Error fetching more posts:", error);
     }
-  };
+  }, [searchTerm, selectedBatch, selectedTrade]);
 
   useEffect(() => {
     console.log("Search terms changed. Resetting page...");

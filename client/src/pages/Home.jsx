@@ -5,6 +5,7 @@ import React, {
   lazy,
   useCallback,
   Fragment,
+  useMemo,
 } from "react";
 import axios from "axios";
 import { Dialog, DialogContent } from "@mui/material";
@@ -61,7 +62,7 @@ export default function Home({ deviceCount }) {
     setOpenDialog(true);
     setSelectedImage(null);
   }, []);
-  const handleImageClick = useCallback((image) => {
+  const handleImageClick = useMemo((image) => {
     setSelectedImage(image);
     setOpenDialog(true);
   }, []);
@@ -130,7 +131,7 @@ export default function Home({ deviceCount }) {
               </p>
               <div className="flex items-center justify-end w-full">
                 <Link
-                  to={`${user ? "/alumni" : "/signup"}`}
+                  to={`/gallery`}
                   className="w-1/2 text-center hover:scale-110  mt-5 text-white hit-fit px-2 py-1 rounded-md text-base bg-blue-500 hover:bg-indigo-500 transition-colors duration-200 ease-linear"
                 >
                   Go To Gallery

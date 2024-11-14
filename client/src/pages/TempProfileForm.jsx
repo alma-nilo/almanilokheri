@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import { AlertApi } from "../context/AlertContext";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
@@ -12,6 +12,7 @@ import Referral from "../components/Referral";
 import { AuthApi } from "../context/user";
 import Cookies from "js-cookie";
 import { Close } from "@mui/icons-material";
+import { City, State } from "country-state-city";
 
 const validationSchema = Yup.object({
   profession: Yup.string().required("Profession is required"),
@@ -26,29 +27,28 @@ const validationSchema = Yup.object({
     .required("Ending year is required")
     .test(
       "is-greater",
-      "Ending year must be greater than or equal to starting year",
+      "Ending year must be greater than starting year",
       function (value) {
         const { startYear } = this.parent;
-        return value >= startYear;
+        return value > startYear;
       }
     ),
 });
 
-const Modal = ({ isOpen, onClose, onAgree }) => {
+const Modal = memo(({ isOpen, onClose, onAgree }) => {
   if (!isOpen) return null;
-
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       <div
         className="absolute inset-0 bg-gray-800 opacity-75"
         onClick={onClose}
       ></div>
-      <div className="z-50 relative flex flex-col item-start bg-white p-8 rounded-lg max-w-md modal-content">
+      <div className="z-50 relative flex flex-col item-start bg-white p-8 rounded-lg max-w-2xl modal-content">
         <h2 className="text-2xl font-bold mb-4">Terms and Conditions</h2>
         <h2 className="text-xl font-semibold mb-2 text-gray-700 text-left">
           # Introduction
         </h2>
-        <p className="text-sm text-gray-600 leading-relaxed text-left">
+        <p className="text-base text-gray-700 leading-relaxed text-left">
           Welcome to Guru BrahmaNand Ji Govt. Polytechnic Alumni Platform! These
           terms and conditions outline the rules and regulations for the use of
           our platform. By accessing this platform, we assume you accept these
@@ -74,7 +74,7 @@ const Modal = ({ isOpen, onClose, onAgree }) => {
         <h2 className="text-xl font-semibold mb-2 text-gray-700 text-left">
           # Suspicious Activity
         </h2>
-        <p className="text-sm text-gray-600 leading-relaxed text-left">
+        <p className="text-base text-gray-700 leading-relaxed text-left">
           If we find any suspicious activity, we reserve the right to remove you
           and your post from Guru BrahmaNand Ji Govt. Polytechnic Alumni
           Platform without notice.
@@ -82,7 +82,7 @@ const Modal = ({ isOpen, onClose, onAgree }) => {
         <h2 className="text-xl font-semibold mb-2 text-gray-700 text-left">
           # Cookies
         </h2>
-        <p className="text-sm text-gray-600 leading-relaxed text-left">
+        <p className="text-base text-gray-700 leading-relaxed text-left">
           We employ the use of cookies. By accessing Guru BrahmaNand Ji Govt.
           Polytechnic Alumni Platform, you agreed to use cookies in agreement
           with the Guru BrahmaNand Ji Govt. Polytechnic's Privacy Policy.
@@ -90,7 +90,7 @@ const Modal = ({ isOpen, onClose, onAgree }) => {
         <h2 className="text-xl font-semibold mb-2 text-gray-700 text-left">
           # License
         </h2>
-        <p className="text-sm text-gray-600 leading-relaxed text-left">
+        <p className="text-base text-gray-700 leading-relaxed text-left">
           Unless otherwise stated, Guru BrahmaNand Ji Govt. Polytechnic and/or
           its licensors own the intellectual property rights for all material on
           Guru BrahmaNand Ji Govt. Polytechnic Alumni Platform. All intellectual
@@ -101,7 +101,7 @@ const Modal = ({ isOpen, onClose, onAgree }) => {
         <h2 className="text-xl font-semibold mb-2 text-gray-700 text-left">
           # Restrictions
         </h2>
-        <p className="text-sm text-gray-600 leading-relaxed text-left">
+        <p className="text-base text-gray-700 leading-relaxed text-left">
           You are specifically restricted from all of the following: publishing
           any Guru BrahmaNand Ji Govt. Polytechnic Alumni Platform material in
           any other media; selling, sublicensing and/or otherwise
@@ -129,7 +129,7 @@ const Modal = ({ isOpen, onClose, onAgree }) => {
         <h2 className="text-xl font-semibold mb-2 text-gray-700 text-left">
           # Your Content
         </h2>
-        <p className="text-sm text-gray-600 leading-relaxed text-left">
+        <p className="text-base text-gray-700 leading-relaxed text-left">
           In these terms and conditions, "Your Content" shall mean any audio,
           video text, images or other material you choose to display on Guru
           BrahmaNand Ji Govt. Polytechnic Alumni Platform. By displaying Your
@@ -144,7 +144,7 @@ const Modal = ({ isOpen, onClose, onAgree }) => {
         <h2 className="text-xl font-semibold mb-2 text-gray-700 text-left">
           # No warranties
         </h2>
-        <p className="text-sm text-gray-600 leading-relaxed text-left">
+        <p className="text-base text-gray-700 leading-relaxed text-left">
           This platform is provided "as is," with all faults, and Guru
           BrahmaNand Ji Govt. Polytechnic express no representations or
           warranties, of any kind related to Guru BrahmaNand Ji Govt.
@@ -155,7 +155,7 @@ const Modal = ({ isOpen, onClose, onAgree }) => {
         <h2 className="text-xl font-semibold mb-2 text-gray-700 text-left">
           # Limitation of liability
         </h2>
-        <p className="text-sm text-gray-600 leading-relaxed text-left">
+        <p className="text-base text-gray-700 leading-relaxed text-left">
           In no event shall Guru BrahmaNand Ji Govt. Polytechnic, nor any of its
           officers, directors and employees, shall be held liable for anything
           arising out of or in any way connected with your use of Guru
@@ -185,13 +185,11 @@ const Modal = ({ isOpen, onClose, onAgree }) => {
           remaining
         </p>
         <div className="mt-4 flex justify-end">
-          {" "}
           <div>
             <button
               onClick={onClose}
               className="text-white hover:bg-red-700 rounded-lg w-16 h-8 mr-2 bg-red-500"
             >
-              {" "}
               close
             </button>
             <button
@@ -201,7 +199,6 @@ const Modal = ({ isOpen, onClose, onAgree }) => {
               }}
               className="text-white hover:bg-green-700 rounded-lg w-16 h-8 mr-2 bg-green-500"
             >
-              {" "}
               Agree
             </button>
           </div>
@@ -212,9 +209,9 @@ const Modal = ({ isOpen, onClose, onAgree }) => {
       </div>
     </div>
   );
-};
+});
 
-export default function TempProfileForm() {
+const TempProfileForm = memo(() => {
   const initalvalues = {
     mobile: "",
     aadhaar: "",
@@ -236,20 +233,19 @@ export default function TempProfileForm() {
   const [selectedState, setSelectedState] = useState("");
   const [selectedvalidation, setSelectedvalidation] = useState("");
   const [selectedDistrict, setSelectedDistrict] = useState("");
+  const [selectedStateCode, setSelectedStateCode] = useState("");
   const [Duplicate, setDuplicate] = useState(false);
   const [Referralaccount, setReferralaccount] = useState(null);
-
   const [InstituteCollectionValuesName, setInstituteCollectionValuesName] =
     useState("");
-
   const [InstituteValueFind, setInstituteValueFind] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isTermsAccepted, setIsTermsAccepted] = useState(false);
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [Tempdata, setTempdata] = useState(null);
 
+  const navigate = useNavigate();
   const { id } = useParams();
   const { setAlert } = AlertApi();
   const { setuser } = AuthApi();
@@ -271,42 +267,42 @@ export default function TempProfileForm() {
     yearOptions.push(year);
   }
 
-  const states = [
-    "Andhra Pradesh",
-    "Arunachal Pradesh",
-    "Assam",
-    "Bihar",
-    "Chhattisgarh",
-    "Goa",
-    "Gujarat",
-    "Haryana",
-    "Himachal Pradesh",
-    "Jharkhand",
-    "Karnataka",
-    "Kerala",
-    "Madhya Pradesh",
-    "Maharashtra",
-    "Manipur",
-    "Meghalaya",
-    "Mizoram",
-    "Nagaland",
-    "Odisha",
-    "Punjab",
-    "Rajasthan",
-    "Sikkim",
-    "Tamil Nadu",
-    "Telangana",
-    "Tripura",
-    "Uttar Pradesh",
-    "Uttarakhand",
-    "West Bengal",
-    "Andaman and Nicobar Islands",
-    "Chandigarh",
-    "Dadra and Nagar Haveli and Daman and Diu",
-    "Delhi",
-    "Lakshadweep",
-    "Puducherry",
-  ];
+  // const states = [
+  //   "Andhra Pradesh",
+  //   "Arunachal Pradesh",
+  //   "Assam",
+  //   "Bihar",
+  //   "Chhattisgarh",
+  //   "Goa",
+  //   "Gujarat",
+  //   "Haryana",
+  //   "Himachal Pradesh",
+  //   "Jharkhand",
+  //   "Karnataka",
+  //   "Kerala",
+  //   "Madhya Pradesh",
+  //   "Maharashtra",
+  //   "Manipur",
+  //   "Meghalaya",
+  //   "Mizoram",
+  //   "Nagaland",
+  //   "Odisha",
+  //   "Punjab",
+  //   "Rajasthan",
+  //   "Sikkim",
+  //   "Tamil Nadu",
+  //   "Telangana",
+  //   "Tripura",
+  //   "Uttar Pradesh",
+  //   "Uttarakhand",
+  //   "West Bengal",
+  //   "Andaman and Nicobar Islands",
+  //   "Chandigarh",
+  //   "Dadra and Nagar Haveli and Daman and Diu",
+  //   "Delhi",
+  //   "Lakshadweep",
+  //   "Puducherry",
+  // ];
 
   const Tradearr = [
     "Computer Engineering",
@@ -325,75 +321,71 @@ export default function TempProfileForm() {
     { value: "proof", label: "Document proof related to collage" },
     {
       value: "Referral",
-      label: "Referral from Known batchmate already Join Used",
+      label: "Referral from Known batch mate already Join Used",
     },
   ];
 
-  const districtsByState = {
-    "Andhra Pradesh": ["Visakhapatnam", "Guntur", "Krishna"],
-    "Arunachal Pradesh": ["Itanagar", "Tawang", "Changlang"],
-    Assam: ["Guwahati", "Dibrugarh", "Jorhat"],
-    Bihar: ["Patna", "Gaya", "Muzaffarpur"],
-    Chhattisgarh: ["Raipur", "Bilaspur", "Durg"],
-    Goa: ["North Goa", "South Goa"],
-    Gujarat: ["Ahmedabad", "Surat", "Vadodara"],
-    Haryana: [
-      "Ambala",
-      "Bhiwani",
-      "Faridabad",
-      "Gurugram",
-      "Jind",
-      "Hisar",
-      "Jhajjar",
-      "Kaithal",
-      "Karnal",
-      "Kurukshetra",
-      "Mahendragarh",
-      "Nuh",
-      "Palwal",
-      "Panchkula",
-      "Panipat",
-      "Rewari",
-      "Rohtak",
-      "Sirsa",
-      "Sonipat",
-      "Yamunanagar",
-      "Fatehabad",
-      "Charkhi Dadri",
-    ],
-    "Himachal Pradesh": ["Shimla", "Kullu", "Mandi"],
-    Jharkhand: ["Ranchi", "Jamshedpur", "Dhanbad"],
-    Karnataka: ["Bangalore", "Mysore", "Hubli"],
-    Kerala: ["Thiruvananthapuram", "Kochi", "Kozhikode"],
-    "Madhya Pradesh": ["Bhopal", "Indore", "Jabalpur"],
-    Maharashtra: ["Mumbai", "Pune", "Nagpur"],
-    Manipur: ["Imphal", "Bishnupur", "Thoubal"],
-    Meghalaya: ["Shillong", "Tura", "Jowai"],
-    Mizoram: ["Aizawl", "Lunglei", "Champhai"],
-    Nagaland: ["Kohima", "Dimapur", "Mokokchung"],
-    Odisha: ["Bhubaneswar", "Cuttack", "Rourkela"],
-    Punjab: ["Ludhiana", "Amritsar", "Jalandhar"],
-    Rajasthan: ["Jaipur", "Udaipur", "Jodhpur"],
-    Sikkim: ["Gangtok", "Namchi", "Mangan"],
-    "Tamil Nadu": ["Chennai", "Coimbatore", "Madurai"],
-    Telangana: ["Hyderabad", "Warangal", "Nizamabad"],
-    Tripura: ["Agartala", "Dharmanagar", "Udaipur"],
-    "Uttar Pradesh": ["Lucknow", "Kanpur", "Agra", "Haripur"],
-    Uttarakhand: ["Dehradun", "Haridwar", "Nainital"],
-    "West Bengal": ["Kolkata", "Howrah", "Durgapur"],
-    "Andaman and Nicobar Islands": ["Port Blair", "Havelock", "Diglipur"],
-    Chandigarh: ["Chandigarh"],
-    "Dadra and Nagar Haveli and Daman and Diu": ["Daman", "Diu", "Silvassa"],
-    Delhi: ["New Delhi", "South Delhi", "North Delhi"],
-    Lakshadweep: ["Kavaratti", "Agatti", "Amini"],
-    Puducherry: ["Puducherry", "Karaikal", "Mahe"],
-  };
+  // const districtsByState = {
+  //   "Andhra Pradesh": ["Visakhapatnam", "Guntur", "Krishna"],
+  //   "Arunachal Pradesh": ["Itanagar", "Tawang", "Changlang"],
+  //   Assam: ["Guwahati", "Dibrugarh", "Jorhat"],
+  //   Bihar: ["Patna", "Gaya", "Muzaffarpur"],
+  //   Chhattisgarh: ["Raipur", "Bilaspur", "Durg"],
+  //   Goa: ["North Goa", "South Goa"],
+  //   Gujarat: ["Ahmedabad", "Surat", "Vadodara"],
+  //   Haryana: [
+  //     "Ambala",
+  //     "Bhiwani",
+  //     "Faridabad",
+  //     "Gurugram",
+  //     "Jind",
+  //     "Hisar",
+  //     "Jhajjar",
+  //     "Kaithal",
+  //     "Karnal",
+  //     "Kurukshetra",
+  //     "Mahendragarh",
+  //     "Nuh",
+  //     "Palwal",
+  //     "Panchkula",
+  //     "Panipat",
+  //     "Rewari",
+  //     "Rohtak",
+  //     "Sirsa",
+  //     "Sonipat",
+  //     "Yamunanagar",
+  //     "Fatehabad",
+  //     "Charkhi Dadri",
+  //   ],
+  //   "Himachal Pradesh": ["Shimla", "Kullu", "Mandi"],
+  //   Jharkhand: ["Ranchi", "Jamshedpur", "Dhanbad"],
+  //   Karnataka: ["Bangalore", "Mysore", "Hubli"],
+  //   Kerala: ["Thiruvananthapuram", "Kochi", "Kozhikode"],
+  //   "Madhya Pradesh": ["Bhopal", "Indore", "Jabalpur"],
+  //   Maharashtra: ["Mumbai", "Pune", "Nagpur"],
+  //   Manipur: ["Imphal", "Bishnupur", "Thoubal"],
+  //   Meghalaya: ["Shillong", "Tura", "Jowai"],
+  //   Mizoram: ["Aizawl", "Lunglei", "Champhai"],
+  //   Nagaland: ["Kohima", "Dimapur", "Mokokchung"],
+  //   Odisha: ["Bhubaneswar", "Cuttack", "Rourkela"],
+  //   Punjab: ["Ludhiana", "Amritsar", "Jalandhar"],
+  //   Rajasthan: ["Jaipur", "Udaipur", "Jodhpur"],
+  //   Sikkim: ["Gangtok", "Namchi", "Mangan"],
+  //   "Tamil Nadu": ["Chennai", "Coimbatore", "Madurai"],
+  //   Telangana: ["Hyderabad", "Warangal", "Nizamabad"],
+  //   Tripura: ["Agartala", "Dharmanagar", "Udaipur"],
+  //   "Uttar Pradesh": ["Lucknow", "Kanpur", "Agra", "Haripur"],
+  //   Uttarakhand: ["Dehradun", "Haridwar", "Nainital"],
+  //   "West Bengal": ["Kolkata", "Howrah", "Durgapur"],
+  //   "Andaman and Nicobar Islands": ["Port Blair", "Havelock", "Diglipur"],
+  //   Chandigarh: ["Chandigarh"],
+  //   "Dadra and Nagar Haveli and Daman and Diu": ["Daman", "Diu", "Silvassa"],
+  //   Delhi: ["New Delhi", "South Delhi", "North Delhi"],
+  //   Lakshadweep: ["Kavaratti", "Agatti", "Amini"],
+  //   Puducherry: ["Puducherry", "Karaikal", "Mahe"],
+  // };
 
-  const handleSubmit = async (values, actions) => {
-    // Handle form submission here
-    // console.log("first");
-    // console.log(values);
-
+  const handleSubmit = useCallback(async (values, actions) => {
     if (!RollNo) {
       setAlert({ type: "error", message: "RollNo are required" });
       return;
@@ -413,7 +405,10 @@ export default function TempProfileForm() {
       setAlert({ type: "error", message: "Validation are required" });
       return;
     } else if (!isTermsAccepted) {
-      setAlert({ type: "error", message: "Please Accept terms and condition" });
+      setAlert({
+        type: "error",
+        message: "Please Accept terms and condition",
+      });
       return;
     }
 
@@ -467,13 +462,13 @@ export default function TempProfileForm() {
       setIsOpen(true);
       // Handle any further logic here if needed
     } catch (error) {
-      console.error("Axios Error:", error);
+      // console.error("Axios Error:", error);
 
       setAlert({ type: "error", message: "Somthing Went Wrong" });
     }
 
     actions.setSubmitting(false);
-  };
+  }, []);
 
   const fetchuser = async (paramId) => {
     let url = `${process.env.REACT_APP_API_KEY}/signup/${paramId}`;
@@ -511,13 +506,14 @@ export default function TempProfileForm() {
 
   useEffect(() => {
     fetchuser(id);
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     getInstituteCollection(RollNo);
   }, [RollNo]);
 
   const handleStateChange = (value) => {
+    setSelectedStateCode(value);
     setSelectedState(value);
     setSelectedDistrict(""); // Reset district when state changes
   };
@@ -597,7 +593,7 @@ export default function TempProfileForm() {
                     htmlFor="rollNo"
                     className="block text-gray-700 font-bold mb-2"
                   >
-                    Roll No{" "}
+                    Roll No
                     <span className="text-red-400 font-bold text-2xl">*</span>
                   </label>
                   <input
@@ -605,9 +601,10 @@ export default function TempProfileForm() {
                     id="rollNo"
                     name="rollNo"
                     onChange={(e) => {
-                      setTimeout(() => {
+                      let timeout = setTimeout(() => {
                         setRollNo(e.target.value);
                       }, 500);
+                      return () => clearTimeout(timeout);
                     }}
                     className={`${
                       Duplicate ? "bg-red-200" : "bg-white"
@@ -616,7 +613,7 @@ export default function TempProfileForm() {
                   />
                   {Duplicate ? (
                     <p className="text-red-500 mt-2">
-                      This RollNo Already Used{" "}
+                      This RollNo Already Used
                     </p>
                   ) : (
                     ""
@@ -627,7 +624,7 @@ export default function TempProfileForm() {
                     htmlFor="email"
                     className="block text-gray-700 font-bold mb-2 "
                   >
-                    Email{" "}
+                    Email
                     <span className="text-red-400 font-bold text-2xl">*</span>
                   </label>
                   <Field
@@ -644,7 +641,7 @@ export default function TempProfileForm() {
                     htmlFor="name"
                     className="block text-gray-700 font-bold mb-2"
                   >
-                    Name{" "}
+                    Name
                     <span className="text-red-400 font-bold text-2xl">*</span>
                   </label>
                   <input
@@ -670,15 +667,28 @@ export default function TempProfileForm() {
                     htmlFor="mobile"
                     className="block text-gray-700 font-bold mb-2"
                   >
-                    Mobile No{" "}
+                    Mobile No
                     <span className="text-red-400 font-bold text-2xl">*</span>
                   </label>
                   <Field
-                    type="number"
+                    // as="input"
+                    // type="number"
                     id="mobile"
                     name="mobile"
-                    className="appearance-none border rounded w-full py-2 px-3  text-green-700 bg-white  focus:border-green-400 focus:ring-green-300  focus:ring focus:ring-opacity-40 leading-tight focus:outline-none focus:shadow-outline"
-                    placeholder="Mobile No."
+                    // placeholder="Mobile No."
+                    render={({
+                      field /* { name, value, onChange, onBlur } */,
+                    }) => (
+                      <input
+                        {...field}
+                        type="tel"
+                        className="appearance-none border rounded w-full py-2 px-3  text-green-700 bg-white  focus:border-green-400 focus:ring-green-300  focus:ring focus:ring-opacity-40 leading-tight focus:outline-none focus:shadow-outline"
+                        placeholder="Mobile No."
+                        maxLength={12}
+                        minLength={10}
+                        autoComplete="true"
+                      />
+                    )}
                   />
                   <ErrorMessage
                     name="mobile"
@@ -696,7 +706,7 @@ export default function TempProfileForm() {
                     htmlFor="trade"
                     className="block text-gray-700 font-bold mb-2"
                   >
-                    Trade{" "}
+                    Trade
                     <span className="text-red-400 font-bold text-2xl">*</span>
                   </label>
                   <Field
@@ -722,7 +732,7 @@ export default function TempProfileForm() {
                     htmlFor="batch"
                     className="block text-gray-700 font-bold mb-2"
                   >
-                    Batch{" "}
+                    Batch
                     <span className="text-red-400 font-bold text-2xl">*</span>
                   </label>
                   <div className="flex">
@@ -773,7 +783,7 @@ export default function TempProfileForm() {
                     htmlFor="state"
                     className="block text-gray-700 font-bold mb-2"
                   >
-                    State{" "}
+                    State
                     <span className="text-red-400 font-bold text-2xl">*</span>
                   </label>
                   <select
@@ -783,11 +793,18 @@ export default function TempProfileForm() {
                     className="w-full appearance-none border rounded py-2 px-3 leading-tight focus:outline-none focus:shadow-outline text-green-700 bg-white focus:border-green-400 focus:ring-green-300 focus:ring focus:ring-opacity-40"
                   >
                     <option value="">Select State</option>
+                    {State?.getStatesOfCountry("IN").map((state) => (
+                      <option key={state.isoCode} value={state.isoCode}>
+                        {state.name}
+                      </option>
+                    ))}
+                    {/* 
                     {states.map((state) => (
                       <option key={state} value={state}>
                         {state}
                       </option>
-                    ))}
+                    ))} 
+                     */}
                   </select>
                 </div>
                 {/* District Section */}
@@ -796,7 +813,7 @@ export default function TempProfileForm() {
                     htmlFor="district"
                     className="block text-gray-700 font-bold mb-2"
                   >
-                    District{" "}
+                    District
                     <span className="text-red-400 font-bold text-2xl">*</span>
                   </label>
                   <select
@@ -806,12 +823,21 @@ export default function TempProfileForm() {
                     className="w-full appearance-none border rounded py-2 px-3 leading-tight focus:outline-none focus:shadow-outline text-green-700 bg-white focus:border-green-400 focus:ring-green-300 focus:ring focus:ring-opacity-40"
                   >
                     <option value="">Select District</option>
+                    {/* districtsByState[selectedState].map((district) => ( //{" "}
+                    <option key={district} value={district}>
+                     {district}
+                    {" "}
+                    </option>
+                    )) */}
                     {selectedState &&
-                      districtsByState[selectedState].map((district) => (
-                        <option key={district} value={district}>
-                          {district}
-                        </option>
-                      ))}
+                      selectedStateCode &&
+                      City.getCitiesOfState("IN", selectedStateCode).map(
+                        (city) => (
+                          <option key={city?.name} value={city?.name}>
+                            {city?.name}
+                          </option>
+                        )
+                      )}
                   </select>
                 </div>
                 <div className="mb-6">
@@ -819,7 +845,7 @@ export default function TempProfileForm() {
                     htmlFor="profession"
                     className="block text-gray-700 font-bold mb-2"
                   >
-                    Profession{" "}
+                    Profession
                     <span className="text-red-400 font-bold text-2xl">*</span>
                   </label>
                   <Field
@@ -900,7 +926,7 @@ export default function TempProfileForm() {
                     htmlFor="about"
                     className="block text-gray-700 font-bold mb-2"
                   >
-                    Tell us something interesting about yourself{" "}
+                    Tell us something interesting about yourself
                     <span className="text-red-400 font-bold text-2xl">*</span>
                   </label>
                   <Field
@@ -922,7 +948,7 @@ export default function TempProfileForm() {
                     htmlFor="validation"
                     className="block text-gray-700 font-bold mb-2"
                   >
-                    Validation{" "}
+                    Validation
                     <span className="text-red-400 font-bold text-2xl">*</span>
                   </label>
                   <select
@@ -966,7 +992,7 @@ export default function TempProfileForm() {
                       onChange={() => setIsTermsAccepted(!isTermsAccepted)}
                     />
                     <span className="ml-2 text-sm">
-                      I accept the{" "}
+                      I accept this
                       <span
                         className="text-sm  text-red-500"
                         onClick={handleAccept}
@@ -995,4 +1021,5 @@ export default function TempProfileForm() {
       )}
     </>
   );
-}
+});
+export default TempProfileForm;
