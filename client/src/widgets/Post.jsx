@@ -1,5 +1,5 @@
 // Posts.js
-import React, { useState } from "react";
+import { useState, memo } from "react";
 import { Paper, Avatar, Typography, Box, IconButton } from "@mui/material";
 import { DeleteForever } from "@mui/icons-material";
 import axios from "axios";
@@ -11,7 +11,7 @@ import { AlertApi } from "../context/AlertContext";
 import CreatePost from "./CreatePostWidget";
 import { useLocation } from "react-router-dom";
 
-const Posts = ({ UserProfile, uuid, status }) => {
+const Posts = memo(({ UserProfile, uuid, status }) => {
   const [postsData, setpostsData] = useState([]);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
@@ -21,6 +21,7 @@ const Posts = ({ UserProfile, uuid, status }) => {
   const { user } = AuthApi();
   const { setAlert } = AlertApi();
   const { pathname } = useLocation();
+
   const loadMorePosts = async () => {
     try {
       // Fetch more posts from your API using Axios
@@ -209,6 +210,6 @@ const Posts = ({ UserProfile, uuid, status }) => {
       </div>
     </>
   );
-};
+});
 
 export default Posts;

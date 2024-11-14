@@ -5,6 +5,7 @@ import React, {
   lazy,
   useCallback,
   Fragment,
+  useMemo,
 } from "react";
 import axios from "axios";
 import { Dialog, DialogContent } from "@mui/material";
@@ -61,7 +62,7 @@ export default function Home({ deviceCount }) {
     setOpenDialog(true);
     setSelectedImage(null);
   }, []);
-  const handleImageClick = useCallback((image) => {
+  const handleImageClick = useMemo((image) => {
     setSelectedImage(image);
     setOpenDialog(true);
   }, []);

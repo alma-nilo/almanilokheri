@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import { memo } from "react";
 
-const GalleryCard = ({ image, handleImageClick }) => {
+const GalleryCard = memo(({ image, handleImageClick }) => {
   return (
     <div
       onClick={() => {
@@ -23,6 +23,6 @@ const GalleryCard = ({ image, handleImageClick }) => {
       </div>
     </div>
   );
-};
+});
 
 export default GalleryCard;
