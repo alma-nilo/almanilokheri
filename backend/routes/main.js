@@ -12,8 +12,9 @@ import {
   tempuserdocs,
   Referral,
   updateprofile,
-
+  bulkSignUp
 } from "../controllers/Auth.js";
+
 const router = Router();
 
 router.post("/signup", signup);
@@ -34,6 +35,7 @@ router.get("/deviceRecord", getDeviceRecord);
 router.post("/deviceDailyRecord", insertdeviceDailyRecord);
 router.get("/referral", Referral);
 router.post("/updateprofile", updateprofile);
+router.post("/bulkSignUp", bulkSignUp)
 
 
 export default router;

@@ -62,7 +62,7 @@ if (process.env.NODE_ENV !== "production") {
 app.get("/", (req, res) => {
   res.send("gbn server");
 });
-//  routes
+
 app.use(main);
 app.use("/admins", Admin);
 
