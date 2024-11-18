@@ -1,6 +1,7 @@
 import { User, DeviceRecordModel, DailyDeviceRecordModel } from "../DB/user.js";
 import bcrypt from "bcrypt";
 import { validate as uuidValidate } from "uuid";
+import { v4 as uuidv4 } from "uuid";
 import jwt from "jsonwebtoken";
 import {
   ReferenceNotificationMail,
@@ -243,15 +244,15 @@ export const Referral = async (req, res) => {
 
 export const signup = async (req, res) => {
   const { uuid, email } = req.body;
-
   // console.log(uuid, email);
 
   if (!uuid || !email) {
     res.status(404).json({ msg: "fields required " });
     return;
   }
+  
 
-  const Puser = await User.findOne({ uuid: uuid });
+  const Puser = await User.findOne({ email: email });
 
   if (Puser) {
     if (Puser.status === "Pending") {
@@ -485,3 +486,45 @@ export const updateprofile = async (req, res) => {
     res.status(400).json({ err: error.message });
   }
 };
+
+
+// Bulk signUp controller
+
+export const bulkSignUp = async (req, res) => {
+  try {
+    const users = req.body;
+
+    // Check if users array is provided
+    if (!Array.isArray(users) || users.length === 0) {
+      return res.status(400).json({ message: "Array of users is required" });
+    }
+
+    // Generate new user objects with UUIDs
+    const newUsers = users.map((user) => ({
+      uuid: uuidv4(),
+      email: user.email.toLowerCase(),
+      name: user.name,
+      status: user.status,
+      endYear: user.endYear,
+      startYear: user.startYear,
+      profile: user.profile,
+      rollNo: user.rollNo,
+      trade: user.trade || "Mechanical Engineering",
+      profession: user.profession, 
+    }));
+
+    // Insert the new users into the database in bulk
+    await User.insertMany(newUsers);
+
+    return res
+      .status(201)
+      .json({ message: "Users added successfully", users: newUsers });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Server error" });
+  }
+};
+
+
+
+
