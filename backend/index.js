@@ -11,6 +11,7 @@ dotenv.config();
 //  routes
 import main from "./routes/main.js";
 import Admin from "./routes/admin.js";
+import { User } from "./DB/user.js";
 
 const DB = process.env.DATABASE_KEY;
 
@@ -96,3 +97,14 @@ mongoose
   .catch((e) => {
     // console.log(e.message);
   });
+
+// let flag = false;
+// const bulkSave = async () => {
+//   const data = fs.readFileSync("./userData.json");
+//   if (flag !== true) {
+//     await User.insertMany(data);
+//     flag = true;
+//   }
+// };
+
+// bulkSave()

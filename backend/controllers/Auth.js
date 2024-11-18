@@ -244,15 +244,15 @@ export const Referral = async (req, res) => {
 
 export const signup = async (req, res) => {
   const { uuid, email } = req.body;
-
   // console.log(uuid, email);
 
   if (!uuid || !email) {
     res.status(404).json({ msg: "fields required " });
     return;
   }
+  
 
-  const Puser = await User.findOne({ uuid: uuid });
+  const Puser = await User.findOne({ email: email });
 
   if (Puser) {
     if (Puser.status === "Pending") {
@@ -502,14 +502,14 @@ export const bulkSignUp = async (req, res) => {
     // Generate new user objects with UUIDs
     const newUsers = users.map((user) => ({
       uuid: uuidv4(),
-      email: user.email,
+      email: user.email.toLowerCase(),
       name: user.name,
       status: user.status,
       endYear: user.endYear,
       startYear: user.startYear,
       profile: user.profile,
       rollNo: user.rollNo,
-      trade: user.trade,
+      trade: user.trade || "Mechanical Engineering",
       profession: user.profession, 
     }));
 
