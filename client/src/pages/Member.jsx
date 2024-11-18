@@ -9,7 +9,7 @@ import UserLoding from "../components/UserLoding";
 
 export default function Member() {
   const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedBatch, setSelectedBatch] = useState("all");
   const [selectedTrade, setSelectedTrade] = useState("");
@@ -20,17 +20,14 @@ export default function Member() {
     setSearchTerm(event.target.value);
   };
 
-  const loadMoreMember = useCallback(async () => {
+  const loadMoreMember = async () => {
     try {
       // Fetch more posts from your API using Axios
-
       let url = `${process.env.REACT_APP_API_KEY}/admins/fetch?page=${page}`;
-
       // Add search parameters if available
       if (searchTerm) {
         url += `&searchName=${searchTerm}`;
       }
-
       if (selectedTrade) {
         url += `&searchTrade=${selectedTrade}`;
       }
@@ -46,32 +43,31 @@ export default function Member() {
             // Filter out items with duplicate _id from prevItems
             return !prevItems.some((prevItem) => prevItem._id === newItem._id);
           });
-
           // Concatenate uniqueNewData with prevItems
           return [...prevItems, ...uniqueNewData];
         });
         setPage(page + 1);
-      } else {
-        setHasMore(false);
         setLoading(false);
+      } else {
+        setLoading(false);
+        setHasMore(false);
       }
     } catch (error) {
       console.error("Error fetching more posts:", error);
     }
-  }, [searchTerm, selectedBatch, selectedTrade]);
+  };
 
   useEffect(() => {
-    console.log("Search terms changed. Resetting page...");
-    setUsers([]);
+    // console.log("Search terms changed. Resetting page...");
     setPage(1);
+    setUsers([]);
     // Introduce a delay of 1 second before fetching data
     const timeout = setTimeout(() => {
       loadMoreMember();
     }, 500);
-
     // Clear timeout to avoid multiple fetch calls
     return () => clearTimeout(timeout);
-  }, [selectedBatch, selectedTrade, searchTerm]);
+  }, [searchTerm, selectedBatch, selectedTrade]);
 
   const Tradearr = [
     "Computer Engineering",
@@ -144,6 +140,20 @@ export default function Member() {
                 ))}
               </div>
             </InfiniteScroll>
+            {!loading && users.length === 0 && (
+              <p className="sm:text-2xl text-xl text-slate-500 font-medium w-full text-balance">
+                No result found for{" "}
+                {selectedBatch || selectedTrade || searchTerm ? (
+                  <p className="text-amber-500 underline inline">
+                    {selectedBatch ? selectedBatch + "     Batch      " : "  "}
+                    {searchTerm ? searchTerm + "  " : " "}
+                    {selectedTrade ? selectedTrade + "    trade    " : "  "}
+                  </p>
+                ) : (
+                  ""
+                )}
+              </p>
+            )}
           </div>
         )}
       </div>

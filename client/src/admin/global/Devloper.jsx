@@ -1,19 +1,7 @@
-import React, { useState } from "react";
 import { FaGithub, FaInstagram, FaLinkedin, FaEnvelope } from "react-icons/fa";
-import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
-
-import { Link, useNavigate } from "react-router-dom";
-import { Avatar } from "@mui/material";
-
-import Logo from "../../Assets/Logo.jpeg";
-import { AuthApi } from "../../context/user";
 import Navbar from "../../components/Navbar";
 
 const MeetTheDeveloper = () => {
-  const [navbar, setNavbar] = useState(false);
-  const navigate = useNavigate();
-
-  const { user } = AuthApi();
   return (
     <>
       <div className=" bg-slate-200 ">
@@ -35,6 +23,7 @@ const MeetTheDeveloper = () => {
               <div className="lg:w-2/5 flex justify-center items-center flex-col mb-6 lg:mb-0">
                 <img
                   src="https://raw.githubusercontent.com/vishu7im/personal-asset/vishal/vishal.jpeg"
+                  alt="Vishal Munday"
                   className="rounded-full w-72 h-72 object-cover object-center border-4 border-white"
                 />
 

@@ -6,7 +6,7 @@ import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import Header from "../components/Header";
 import { AuthApi } from "../../context/user";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -15,7 +15,7 @@ const AllAlumni = () => {
   const { admin } = AuthApi();
   const navigate = useNavigate();
 
-  const fetch = async () => {
+  const fetch = useCallback(async () => {
     const config = {
       headers: {
         authorization: `Berer ${admin?.token}`,
@@ -27,7 +27,7 @@ const AllAlumni = () => {
       const { data } = await axios.get(url, config);
       setDataUser(data.data);
     } catch (error) {}
-  };
+  }, [admin?.token]);
 
   const HandleView = (uid) => {
     navigate(`/admin/user/${uid}`);
@@ -116,7 +116,7 @@ const AllAlumni = () => {
 
   useEffect(() => {
     fetch();
-  }, [admin]);
+  }, [fetch]);
 
   return (
     <Box m="0px 10px 10px 10px">

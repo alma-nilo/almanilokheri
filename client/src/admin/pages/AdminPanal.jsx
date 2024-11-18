@@ -1,6 +1,5 @@
 import Sidebar from "../global/Sidebar";
 import Topbar from "../global/Topbar";
-
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "../../theme";
 import { useEffect, useState } from "react";

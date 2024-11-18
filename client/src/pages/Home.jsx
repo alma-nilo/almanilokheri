@@ -55,7 +55,7 @@ export default function Home({ deviceCount }) {
   useEffect(() => {
     fetchuser();
     fetchgallery();
-  }, []);
+  }, [fetchuser, fetchgallery]);
 
   const handleCloseDialog = useCallback(() => {
     // console.log("first");

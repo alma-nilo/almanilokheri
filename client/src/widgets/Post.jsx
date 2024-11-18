@@ -1,6 +1,6 @@
 // Posts.js
-import { useState, memo } from "react";
-import { Paper, Avatar, Typography, Box, IconButton } from "@mui/material";
+import { useState, memo, useCallback } from "react";
+import { Paper, Avatar, Typography, Box } from "@mui/material";
 import { DeleteForever } from "@mui/icons-material";
 import axios from "axios";
 import { useEffect } from "react";
@@ -22,7 +22,7 @@ const Posts = memo(({ UserProfile, uuid, status }) => {
   const { setAlert } = AlertApi();
   const { pathname } = useLocation();
 
-  const loadMorePosts = async () => {
+  const loadMorePosts = useCallback(async () => {
     try {
       // Fetch more posts from your API using Axios
 
@@ -54,11 +54,11 @@ const Posts = memo(({ UserProfile, uuid, status }) => {
     } catch (error) {
       console.error("Error fetching more posts:", error);
     }
-  };
+  }, [page, uuid, setpostsData, setPage, setHasMore]);
 
   useEffect(() => {
     loadMorePosts();
-  }, [uuid]);
+  }, [loadMorePosts]);
 
   // console.log(postsData);
   // for deletion
@@ -148,7 +148,7 @@ const Posts = memo(({ UserProfile, uuid, status }) => {
                 </Typography>
                 {post.image && (
                   <Box mt="1rem">
-                    <img src={post.image} alt="Post Image" className="w-full" />
+                    <img src={post.image} alt="Post" className="w-full" />
                   </Box>
                 )}
               </Paper>
