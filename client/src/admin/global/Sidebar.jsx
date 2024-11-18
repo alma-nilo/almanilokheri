@@ -14,7 +14,6 @@ import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import LockPersonIcon from "@mui/icons-material/LockPerson";
 import WorkHistoryIcon from "@mui/icons-material/WorkHistory";
-import Logo from "../Assets/Logo.jpeg";
 
 import { AuthApi } from "../../context/user";
 
@@ -100,7 +99,9 @@ const Sidebar = () => {
                   alt="profile-user"
                   width="100px"
                   height="100px"
-                  src={Logo}
+                  src={
+                    "https://images.pexels.com/photos/8059110/pexels-photo-8059110.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                  }
                   style={{
                     cursor: "pointer",
                     borderRadius: "100px 100px",
