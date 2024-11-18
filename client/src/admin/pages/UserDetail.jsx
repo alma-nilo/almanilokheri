@@ -29,6 +29,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import Loader from "../../components/Loader";
 import { AlertApi } from "../../context/AlertContext";
 import { AuthApi } from "../../context/user";
+import { EmailOutlined } from "@mui/icons-material";
 
 const UserProfilePage = () => {
   const theme = useTheme();
@@ -175,6 +176,7 @@ const UserProfilePage = () => {
 
         <Box
           display="flex"
+          position="relative"
           alignItems="center"
           justifyContent="center"
           minHeight="100vh"
@@ -215,7 +217,7 @@ const UserProfilePage = () => {
                   height: "150px",
                   borderRadius: "50%",
                   marginBottom: "16px",
-                  objectFit:"cover"
+                  objectFit: "cover",
                 }}
               />
               <Typography variant="h5" gutterBottom>
@@ -317,6 +319,17 @@ const UserProfilePage = () => {
               </Box>
             </Box>
           </Card>
+
+          {/* Email Icon */}
+          <div
+            className="w-15 absolute top-20 right-5  z-10 h-15 rounded-full bg-green-500 p-4 hover:bg-green-600 hover:scale-90 focus:scale-95 active:bg-green-600  "
+            title={`Send Email to  ${userDetails?.name}`}
+            onClick={() => {
+              window.open(`mailto:${userDetails?.email}`);
+            }}
+          >
+            <EmailOutlined color="#fff" sx={{ fontSize: "20px" }} />
+          </div>
 
           {/* Accept */}
 

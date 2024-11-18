@@ -21,6 +21,7 @@ import GalleryCard from "../components/GalleryCard";
 import Loader from "../components/Loader";
 import { AuthApi } from "../context/user";
 import { Link } from "react-router-dom";
+import VideoPlayer from "../components/VideoPlayer";
 const DeviceCounter = lazy(() => import("../components/DeviceCounter"));
 // import DeviceCounter from "../components/DeviceCounter";
 // import PaidIcon from "@mui/icons-material/Paid";
@@ -111,7 +112,7 @@ export default function Home({ deviceCount }) {
               </p>
               <div className="flex items-center justify-end w-full">
                 <Link
-                  to={`${user ? "/alumni" : "/signup"}`}
+                  to={"/contactUs"}
                   className="w-1/2 text-center hover:scale-110  mt-5 text-white hit-fit px-2 py-1 rounded-md text-base bg-yellow-500 hover:bg-orange-400 transition-colors duration-200 ease-linear"
                 >
                   Contact Us
@@ -248,6 +249,9 @@ export default function Home({ deviceCount }) {
               </div>
             </div>
           </div>
+        </div>
+        <div className="sm:border-0 border border-green-500  relative  bg-gradient-to-r from-green-200 to-teal-200 via-emerald-100  overflow-y-auto">
+          <VideoPlayer />
         </div>
         <Footer />
       </Suspense>
