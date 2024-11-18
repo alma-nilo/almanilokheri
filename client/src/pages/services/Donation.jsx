@@ -23,7 +23,7 @@ const DonationPage = () => {
             <div className="text-center">
               <img
                 src="/giveaway.png"
-                alt="Donation Image 1"
+                alt="Donation 1"
                 className="w-full h-64 object-contain mb-4 rounded-md"
                 onClick={() =>
                   window.open(
@@ -36,7 +36,7 @@ const DonationPage = () => {
             <div className="text-center">
               <img
                 src="/qrcode.png"
-                alt="Donation Image 2"
+                alt="Donation 2"
                 className="w-full h-64 object-contain mb-4 rounded-md"
               />
             </div>

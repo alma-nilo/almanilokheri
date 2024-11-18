@@ -385,102 +385,122 @@ const TempProfileForm = memo(() => {
   //   Puducherry: ["Puducherry", "Karaikal", "Mahe"],
   // };
 
-  const handleSubmit = useCallback(async (values, actions) => {
-    if (!RollNo) {
-      setAlert({ type: "error", message: "RollNo are required" });
-      return;
-    } else if (!InstituteCollectionValuesName) {
-      setAlert({ type: "error", message: "Name are required" });
-      return;
-    } else if (!profileExist) {
-      setAlert({ type: "error", message: "profile are required" });
-      return;
-    } else if (selectedvalidation === "proof" && !proofExist) {
-      setAlert({ type: "error", message: "Proof are required" });
-      return;
-    } else if (selectedvalidation === "Referral" && !Referralaccount) {
-      setAlert({ type: "error", message: "reference are required" });
-      return;
-    } else if (!selectedvalidation) {
-      setAlert({ type: "error", message: "Validation are required" });
-      return;
-    } else if (!isTermsAccepted) {
-      setAlert({
-        type: "error",
-        message: "Please Accept terms and condition",
-      });
-      return;
-    }
+  const handleSubmit = useCallback(
+    async (values, actions) => {
+      if (!RollNo) {
+        setAlert({ type: "error", message: "RollNo are required" });
+        return;
+      } else if (!InstituteCollectionValuesName) {
+        setAlert({ type: "error", message: "Name are required" });
+        return;
+      } else if (!profileExist) {
+        setAlert({ type: "error", message: "profile are required" });
+        return;
+      } else if (selectedvalidation === "proof" && !proofExist) {
+        setAlert({ type: "error", message: "Proof are required" });
+        return;
+      } else if (selectedvalidation === "Referral" && !Referralaccount) {
+        setAlert({ type: "error", message: "reference are required" });
+        return;
+      } else if (!selectedvalidation) {
+        setAlert({ type: "error", message: "Validation are required" });
+        return;
+      } else if (!isTermsAccepted) {
+        setAlert({
+          type: "error",
+          message: "Please Accept terms and condition",
+        });
+        return;
+      }
 
-    const {
-      mobile,
-      profession,
-      linkdln,
-      facebook,
-      twitter,
-      about,
-      startYear,
-      endYear,
-      aadhaar,
-      trade,
-    } = values;
-    // console.log(values);
+      const {
+        mobile,
+        profession,
+        linkdln,
+        facebook,
+        twitter,
+        about,
+        startYear,
+        endYear,
+        aadhaar,
+        trade,
+      } = values;
+      // console.log(values);
 
-    // //console.log(values);
-    actions.setSubmitting(true);
+      // //console.log(values);
+      actions.setSubmitting(true);
 
-    const playload = {
-      uuid: id,
-      email: Tempdata.email,
-      mobile: mobile,
-      name: InstituteCollectionValuesName,
-      Trade: trade,
-      profession: profession,
-      rollNo: RollNo,
-      aadhaar: aadhaar,
-      validation: selectedvalidation,
-      linkdln: linkdln,
-      facebook: facebook,
-      twitter: twitter,
-      about: about,
-      startYear: startYear,
-      endYear: endYear,
-      state: selectedState,
-      district: selectedDistrict,
-      referral: Referralaccount?._id,
-    };
+      const playload = {
+        uuid: id,
+        email: Tempdata.email,
+        mobile: mobile,
+        name: InstituteCollectionValuesName,
+        Trade: trade,
+        profession: profession,
+        rollNo: RollNo,
+        aadhaar: aadhaar,
+        validation: selectedvalidation,
+        linkdln: linkdln,
+        facebook: facebook,
+        twitter: twitter,
+        about: about,
+        startYear: startYear,
+        endYear: endYear,
+        state: selectedState,
+        district: selectedDistrict,
+        referral: Referralaccount?._id,
+      };
 
-    const url = `${process.env.REACT_APP_API_KEY}/tempuserinfo`;
+      const url = `${process.env.REACT_APP_API_KEY}/tempuserinfo`;
 
-    try {
-      const res = await axios.post(url, playload);
+      try {
+        const res = await axios.post(url, playload);
 
-      actions.resetForm();
-      setuser(res.data);
-      const Token = JSON.stringify(res.data);
-      Cookies.set("User", Token, { expires: 2 });
-      setIsOpen(true);
-      // Handle any further logic here if needed
-    } catch (error) {
-      // console.error("Axios Error:", error);
+        actions.resetForm();
+        setuser(res.data);
+        const Token = JSON.stringify(res.data);
+        Cookies.set("User", Token, { expires: 2 });
+        setIsOpen(true);
+        // Handle any further logic here if needed
+      } catch (error) {
+        // console.error("Axios Error:", error);
 
-      setAlert({ type: "error", message: "Somthing Went Wrong" });
-    }
+        setAlert({ type: "error", message: "Somthing Went Wrong" });
+      }
 
-    actions.setSubmitting(false);
-  }, []);
+      actions.setSubmitting(false);
+    },
+    [
+      InstituteCollectionValuesName,
+      Referralaccount,
+      RollNo,
+      Tempdata.email,
+      id,
+      isTermsAccepted,
+      profileExist,
+      proofExist,
+      selectedDistrict,
+      selectedState,
+      selectedvalidation,
+      setAlert,
+      setuser,
+    ]
+  );
 
-  const fetchuser = async (paramId) => {
-    let url = `${process.env.REACT_APP_API_KEY}/signup/${paramId}`;
+  const fetchuser = useCallback(
+    async (paramId) => {
+      let url = `${process.env.REACT_APP_API_KEY}/signup/${paramId}`;
 
-    try {
-      const res = await axios.post(url);
-      setTempdata(res.data.data);
-      setLoading(false);
-    } catch (error) {
-      navigate("/signup");
-    }
-  };
+      try {
+        const res = await axios.post(url);
+        setTempdata(res.data.data);
+        setLoading(false);
+      } catch (error) {
+        navigate("/signup");
+      }
+    },
+    [navigate]
+  );
 
   const getInstituteCollection = async (rollNo) => {
     const url = `${process.env.REACT_APP_API_KEY}/admins/getInstituteCollection?rollNo=${rollNo}`;
@@ -506,7 +526,7 @@ const TempProfileForm = memo(() => {
 
   useEffect(() => {
     fetchuser(id);
-  }, [id]);
+  }, [fetchuser, id]);
 
   useEffect(() => {
     getInstituteCollection(RollNo);

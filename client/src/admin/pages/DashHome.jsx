@@ -1,23 +1,18 @@
 import { Box, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
-
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import NoAccountsIcon from "@mui/icons-material/NoAccounts";
-import GroupsIcon from "@mui/icons-material/Groups";
 import WorkHistoryIcon from "@mui/icons-material/WorkHistory";
-
 import TrafficIcon from "@mui/icons-material/Traffic";
-
 import Header from "../components/Header";
 import LineChart from "../components/LineChart";
 import StatBox from "../components/StatBox";
-
-import { useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import { AuthApi } from "../../context/user";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { CleaningServices } from "@mui/icons-material";
-const DashHome = ({ deviceCount }) => {
+
+const DashHome = memo(({ deviceCount }) => {
   const [DashData, setDashData] = useState(null);
   const [DashDataActivity, setDashDataActivity] = useState(null);
   const [pendingRef, setPendingRef] = useState([]);
@@ -61,7 +56,7 @@ const DashHome = ({ deviceCount }) => {
 
   const navigate = useNavigate();
 
-  const fetchDashboardDetail = async () => {
+  const fetchDashboardDetail = useCallback(async () => {
     // debugger;
     const url = `${process.env.REACT_APP_API_KEY}/admins/Dashboard`;
 
@@ -78,11 +73,11 @@ const DashHome = ({ deviceCount }) => {
     } catch (error) {
       //console.log(error);
     }
-  };
+  }, [admin?.token]);
 
   //*** fetch pending refrence users */
 
-  const fetchPendingReference = async () => {
+  const fetchPendingReference = useCallback(async () => {
     const url = `${process.env.REACT_APP_API_KEY}/admins/pendingRef`;
 
     const config = {
@@ -97,9 +92,9 @@ const DashHome = ({ deviceCount }) => {
     } catch (error) {
       // console.log(error);
     }
-  };
+  }, [admin?.tokens]);
 
-  const fetchTrafficMonthData = async () => {
+  const fetchTrafficMonthData = useCallback(async () => {
     const url = `${process.env.REACT_APP_API_KEY}/admins/monthsTrafficData`;
 
     const config = {
@@ -112,9 +107,9 @@ const DashHome = ({ deviceCount }) => {
       // //console.log(response.data.data);
       setTrafficMonths(response.data.Traffic);
     } catch (error) {}
-  };
+  }, [admin?.token]);
 
-  const setMonthRecord = () => {
+  const setMonthRecord = useCallback(() => {
     const now = new Date();
     const currentYear = now.getFullYear();
     const currentMonthIndex = now.getMonth();
@@ -163,15 +158,18 @@ const DashHome = ({ deviceCount }) => {
 
     setTrafficRecordData(arr);
     // //console.log(arr);
-  };
+  }, []);
   useEffect(() => {
     fetchDashboardDetail();
     fetchTrafficMonthData();
     setMonthRecord();
     fetchPendingReference();
-  }, [admin]);
-
-  // console.log(pendingRef);
+  }, [
+    fetchDashboardDetail,
+    fetchPendingReference,
+    fetchTrafficMonthData,
+    setMonthRecord,
+  ]);
 
   return (
     <>
@@ -477,6 +475,6 @@ const DashHome = ({ deviceCount }) => {
       </Box>
     </>
   );
-};
+});
 
 export default DashHome;

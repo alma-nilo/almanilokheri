@@ -5,10 +5,9 @@ import { tokens } from "../../theme";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import Header from "../components/Header";
 import { AuthApi } from "../../context/user";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import PendingModal from "../components/PendingModal";
 import PendingUserEmail from "../components/PendingUserEmail";
 
 const Team = () => {
@@ -18,7 +17,7 @@ const Team = () => {
   const { admin } = AuthApi();
   const navigate = useNavigate();
 
-  const fetch = async () => {
+  const fetch = useCallback(async () => {
     const config = {
       headers: {
         authorization: `Berer ${admin?.token}`,
@@ -29,7 +28,7 @@ const Team = () => {
       const { data } = await axios.get(url, config);
       setDataUser(data.data);
     } catch (error) {}
-  };
+  }, [admin?.token]);
 
   const HandleView = (uuid) => {
     navigate(`/admin/tempuser/${uuid}`);
@@ -55,14 +54,15 @@ const Team = () => {
     };
     let url = `${process.env.REACT_APP_API_KEY}/admins/sendEmail`;
     try {
-      DataUser.map((data, i) => {
+      const promises = DataUser.map(async (data, i) => {
         const payload = {
           email: data.email,
           flag: data.status,
         };
-        const { dataconf } = axios.post(url, payload, config);
+        const { dataconf } = await axios.post(url, payload, config);
         // console.log(`${data.email} has been send successfully`, i);
       });
+      await Promise.all(promises);
       setIsOpen(!isOpen);
     } catch (error) {
       // console.log("error in front in sending email");
@@ -127,7 +127,7 @@ const Team = () => {
   ];
   useEffect(() => {
     fetch();
-  }, [admin]);
+  }, [fetch]);
 
   return (
     <Box m="0px 10px 10px 10px">

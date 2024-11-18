@@ -3,8 +3,6 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 // import { AlertApi } from "../../context/alert";
 // import { AuthApi } from "../../context/user";
-import axios from "axios";
-
 const CreateAdminForm = () => {
   let initialValues = {
     name: "",

@@ -2,15 +2,10 @@
 import EmailModal from "./EmailModal";
 import { useState } from "react";
 import IconButton from "@mui/material/IconButton";
-import Cookies from "js-cookie";
-import { useNavigate } from "react-router-dom";
-import { AuthApi } from "../context/user";
 import { EmailOutlined } from "@mui/icons-material";
 
 const EmailButton = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const navigate = useNavigate();
-  const { setuser } = AuthApi();
   const onClose = () => {
     setIsOpen(false);
   };

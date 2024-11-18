@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import ClearIcon from "@mui/icons-material/Clear";
 import DeleteIcon from "@mui/icons-material/Delete";
 import MarkunreadIcon from "@mui/icons-material/Markunread";
-import { Link } from "react-router-dom";
 import { AuthApi } from "../../context/user";
 import { AlertApi } from "../../context/AlertContext";
 
@@ -67,7 +66,7 @@ const MessageBox = ({ setShowMessage, fetchUnreadCount }) => {
   const { setAlert } = AlertApi();
   const { admin } = AuthApi();
 
-  const fetchMessage = async () => {
+  const fetchMessage = useCallback(async () => {
     try {
       setloading(true);
       const URL = `${process.env.REACT_APP_API_KEY}/admins/contactUs`;
@@ -80,7 +79,7 @@ const MessageBox = ({ setShowMessage, fetchUnreadCount }) => {
       setMessage(response.data);
       setloading(false);
     } catch (error) {}
-  };
+  }, [admin?.token]);
 
   // Function to handle opening the delete confirmation dialog
   const handleDeleteClick = (messageIndex) => {
@@ -120,7 +119,7 @@ const MessageBox = ({ setShowMessage, fetchUnreadCount }) => {
 
   useEffect(() => {
     fetchMessage();
-  }, [admin]);
+  }, [fetchMessage]);
 
   return (
     <>

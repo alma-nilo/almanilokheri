@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from "react";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
-
 import { Box, Typography, IconButton } from "@mui/material";
 import AWS from "aws-sdk";
-
 import { EditOutlined, DeleteOutlined } from "@mui/icons-material";
-
 import Dropzone from "react-dropzone";
 import FlexBetween from "../FlexBetween";
 import { AlertApi } from "../../context/AlertContext";
@@ -101,7 +98,6 @@ const UpdatePhotoUploadComponent = ({ data }) => {
         });
 
         let url = `${process.env.REACT_APP_API_KEY}/tempuserdocs`;
-
         await axios.post(url, {
           data: data,
           profile: response.Location,
