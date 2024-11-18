@@ -250,7 +250,6 @@ export const signup = async (req, res) => {
     res.status(404).json({ msg: "fields required " });
     return;
   }
-  
 
   const Puser = await User.findOne({ email: email });
 
@@ -487,7 +486,6 @@ export const updateprofile = async (req, res) => {
   }
 };
 
-
 // Bulk signUp controller
 
 export const bulkSignUp = async (req, res) => {
@@ -510,7 +508,7 @@ export const bulkSignUp = async (req, res) => {
       profile: user.profile,
       rollNo: user.rollNo,
       trade: user.trade || "Mechanical Engineering",
-      profession: user.profession, 
+      profession: user.profession,
     }));
 
     // Insert the new users into the database in bulk
@@ -524,7 +522,3 @@ export const bulkSignUp = async (req, res) => {
     return res.status(500).json({ message: "Server error" });
   }
 };
-
-
-
-
