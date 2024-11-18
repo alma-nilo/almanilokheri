@@ -9,7 +9,7 @@ import { AuthApi } from "../../context/user";
 import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
+import { users } from "../data/userData.js";
 const AllAlumni = () => {
   const [DataUser, setDataUser] = useState([]);
   const { admin } = AuthApi();
@@ -113,6 +113,24 @@ const AllAlumni = () => {
       },
     },
   ];
+  async function addNewUser() {
+    try {
+      const response = await axios.post(
+        `${process.env.REACT_APP_API_KEY}/bulkSignUp`,
+        users
+      );
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const handleAddNewUser = () => {
+    let confirmAdd = prompt("Are you sure you want to add new user?");
+    if (confirmAdd) {
+      addNewUser();
+    }
+  };
 
   useEffect(() => {
     fetch();
@@ -152,6 +170,15 @@ const AllAlumni = () => {
       >
         <DataGrid checkboxSelection rows={DataUser} columns={columns} />
       </Box>
+
+      <div
+        className="absolute top-20 right-10 max-w-40 min-w-fit overflow-auto h-10  "
+        onClick={handleAddNewUser}
+      >
+        <div className="py-2 px-4 rounded-lg bg-green-500 hover:bg-green-600 hover:scale-95  ">
+          <button className="text-white font-medium"> Add new Users</button>
+        </div>
+      </div>
     </Box>
   );
 };
