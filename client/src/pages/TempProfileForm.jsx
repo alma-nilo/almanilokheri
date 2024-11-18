@@ -432,7 +432,7 @@ const TempProfileForm = memo(() => {
 
       const playload = {
         uuid: id,
-        email: Tempdata.email,
+        email: Tempdata?.email,
         mobile: mobile,
         name: InstituteCollectionValuesName,
         Trade: trade,
@@ -474,7 +474,7 @@ const TempProfileForm = memo(() => {
       InstituteCollectionValuesName,
       Referralaccount,
       RollNo,
-      Tempdata.email,
+      Tempdata?.email,
       id,
       isTermsAccepted,
       profileExist,
@@ -493,7 +493,7 @@ const TempProfileForm = memo(() => {
 
       try {
         const res = await axios.post(url);
-        setTempdata(res.data.data);
+        setTempdata(res.data?.data);
         setLoading(false);
       } catch (error) {
         navigate("/signup");
@@ -651,7 +651,7 @@ const TempProfileForm = memo(() => {
                     type="email"
                     id="email"
                     name="email"
-                    value={Tempdata.email}
+                    value={Tempdata?.email}
                     className="appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline  text-green-700 bg-green-100  border-green-400 ring-green-300  ring ring-opacity-40"
                     readOnly
                   />
