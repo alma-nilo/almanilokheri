@@ -497,19 +497,30 @@ export const bulkSignUp = async (req, res) => {
       return res.status(400).json({ message: "Array of users is required" });
     }
 
-    // Generate new user objects with UUIDs
-    const newUsers = users.map((user) => ({
-      uuid: uuidv4(),
-      email: user.email.toLowerCase(),
-      name: user.name,
-      status: user.status,
-      endYear: user.endYear,
-      startYear: user.startYear,
-      profile: user.profile,
-      rollNo: user.rollNo,
-      trade: user.trade || "Mechanical Engineering",
-      profession: user.profession,
-    }));
+    // Fetch all existing users' emails from the database
+    const existingUsers = await User.find({}, 'email');
+    const existingEmails = existingUsers.map((user) => user.email);
+
+    // Filter out users that already exist
+    const newUsers = users
+      .filter((user) => !existingEmails.includes(user.email.toLowerCase()))
+      .map((user) => ({
+        uuid: uuidv4(),
+        email: user.email.toLowerCase(),
+        name: user.name,
+        status: user.status,
+        endYear: user.endYear,
+        startYear: user.startYear,
+        profile: user.profile,
+        rollNo: user.rollNo,
+        trade: user.trade || "Mechanical Engineering",
+        profession: user.profession,
+      }));
+
+    // If no new users to add, return a response
+    if (newUsers.length === 0) {
+      return res.status(200).json({ message: "No new users to add" });
+    }
 
     // Insert the new users into the database in bulk
     await User.insertMany(newUsers);
