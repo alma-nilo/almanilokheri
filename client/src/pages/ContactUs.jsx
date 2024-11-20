@@ -6,6 +6,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import { AlertApi } from "../context/AlertContext";
+import EmailButton from "../components/EmailIcon";
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required("Name is required"),
@@ -39,6 +40,7 @@ export default function ContactUs() {
     <>
       <div className=" bg-slate-200 ">
         <Navbar />
+        <EmailButton />
 
         {/* content  */}
 
@@ -161,7 +163,7 @@ export default function ContactUs() {
                 <div className="flex items-center mb-2">
                   <FaMapMarkerAlt className="text-3xl text-green-600 mr-4" />
                   <a
-                    href="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3460.937795926304!2d76.93338881448668!3d29.8372172352884!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390e699a4b3bba7b%3A0x908b6021984bb040!2sGovt.%20Engineering%20College!5e0!3m2!1sen!2sin!4v1672761455392!5m2!1sen!2sin"
+                    href="https://maps.app.goo.gl/rUZfmMu4eKHZr2Dm7"
                     className="hover:text-green-500 hover:underline"
                   >
                     <p className="text-gray-700 hover:text-green-500">
@@ -181,7 +183,7 @@ export default function ContactUs() {
                 <div className="flex items-center mb-2 mt-1">
                   <a
                     // href="mailto:gpnilokheri@hry.nic.in"
-                    href="mailto:mailto:gbn.alumni.nilokheri@gmail.com"
+                    href="mailto:gbn.alumni.nilokheri@gmail.com"
                     className="flex justify-center items-center hover:underline hover:text-green-500"
                   >
                     <FaEnvelope className="text-3xl text-green-600 mr-4" />

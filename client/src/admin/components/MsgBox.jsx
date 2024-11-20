@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import ClearIcon from "@mui/icons-material/Clear";
 import DeleteIcon from "@mui/icons-material/Delete";
+import MarkunreadIcon from "@mui/icons-material/Markunread";
 import { AuthApi } from "../../context/user";
 import { AlertApi } from "../../context/AlertContext";
 
@@ -32,14 +33,18 @@ const MessageDetailView = ({ message, onClose, onDelete, fetchMessage }) => {
       <div className=" bg-gray-800 mt-2 h-48 rounded-md p-2 overflow-y-auto msgBox ">
         <p className="text-gray-300 ">{message.message}</p>
       </div>
-      <div className=" flex mt-4 justify-between items-center">
+      <div className=" flex my-2 justify-between items-center">
         <button
           onClick={() => onDelete(message._id)}
-          className="px-4 py-2 w-full mb-2 text-white bg-red-500 hover:bg-red-600 rounded"
+          className="px-4 py-2 mx-2 w-full mb-2 text-white bg-red-500 hover:bg-red-600 rounded"
         >
           <DeleteIcon /> Delete
         </button>
-
+        <button className="px-4 py-2 flex justify-center items-center mx-2 w-full mb-2 text-white bg-green-500 hover:bg-green-600 rounded">
+          <a href={`mailto:${message.email}`}>
+            Send <MarkunreadIcon />
+          </a>
+        </button>
         {/* <button
           onClick={onClose}
           className="px-4 py-2 text-gray-400 bg-gray-700 hover:bg-gray-600 rounded"
@@ -61,7 +66,7 @@ const MessageBox = ({ setShowMessage, fetchUnreadCount }) => {
   const { setAlert } = AlertApi();
   const { admin } = AuthApi();
 
-  const fetchMessage = async () => {
+  const fetchMessage = useCallback(async () => {
     try {
       setloading(true);
       const URL = `${process.env.REACT_APP_API_KEY}/admins/contactUs`;
@@ -74,7 +79,7 @@ const MessageBox = ({ setShowMessage, fetchUnreadCount }) => {
       setMessage(response.data);
       setloading(false);
     } catch (error) {}
-  };
+  }, [admin?.token]);
 
   // Function to handle opening the delete confirmation dialog
   const handleDeleteClick = (messageIndex) => {
@@ -114,7 +119,7 @@ const MessageBox = ({ setShowMessage, fetchUnreadCount }) => {
 
   useEffect(() => {
     fetchMessage();
-  }, [admin]);
+  }, [fetchMessage]);
 
   return (
     <>
@@ -160,8 +165,8 @@ const MessageBox = ({ setShowMessage, fetchUnreadCount }) => {
           <hr className="border-gray-700 mb-4" /> {/* Line separator */}
           <div className="overflow-y-auto msgBox h-72">
             {loading ? (
-              <div class="loader-container">
-                <div class="loader">
+              <div className="loader-container">
+                <div className="loader">
                   {" "}
                   <p className="loader-text">Loading</p>
                 </div>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import EventsUploadFrom from "../components/EventsUploadFrom";
 
 import EventView from "../components/EventView";
@@ -9,7 +9,7 @@ const Events = () => {
   const [eventList, seteventList] = useState([]);
   const { admin } = AuthApi();
 
-  const fetchEvent = async () => {
+  const fetchEvent = useCallback(async () => {
     // Handle the form submission here
 
     const url = `${process.env.REACT_APP_API_KEY}/admins/event`;
@@ -24,10 +24,10 @@ const Events = () => {
 
       seteventList(res.data.data);
     } catch (error) {}
-  };
+  }, [admin?.token]);
   useEffect(() => {
     fetchEvent();
-  }, [admin]);
+  }, [fetchEvent]);
 
   return (
     <div className={`min-h-screen  `}>

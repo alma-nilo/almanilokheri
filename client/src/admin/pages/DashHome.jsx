@@ -1,24 +1,21 @@
 import { Box, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
-
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import NoAccountsIcon from "@mui/icons-material/NoAccounts";
-import GroupsIcon from "@mui/icons-material/Groups";
-
+import WorkHistoryIcon from "@mui/icons-material/WorkHistory";
 import TrafficIcon from "@mui/icons-material/Traffic";
-
 import Header from "../components/Header";
 import LineChart from "../components/LineChart";
-
 import StatBox from "../components/StatBox";
-
-import { useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import { AuthApi } from "../../context/user";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-const DashHome = ({ deviceCount }) => {
+
+const DashHome = memo(({ deviceCount }) => {
   const [DashData, setDashData] = useState(null);
   const [DashDataActivity, setDashDataActivity] = useState(null);
+  const [pendingRef, setPendingRef] = useState([]);
   const [TrafficMonths, setTrafficMonths] = useState([
     {
       id: "Month",
@@ -59,7 +56,7 @@ const DashHome = ({ deviceCount }) => {
 
   const navigate = useNavigate();
 
-  const fetchDashboardDetail = async () => {
+  const fetchDashboardDetail = useCallback(async () => {
     // debugger;
     const url = `${process.env.REACT_APP_API_KEY}/admins/Dashboard`;
 
@@ -76,9 +73,28 @@ const DashHome = ({ deviceCount }) => {
     } catch (error) {
       //console.log(error);
     }
-  };
+  }, [admin?.token]);
 
-  const fetchTrafficMonthData = async () => {
+  //*** fetch pending refrence users */
+
+  const fetchPendingReference = useCallback(async () => {
+    const url = `${process.env.REACT_APP_API_KEY}/admins/pendingRef`;
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${admin?.token}`,
+      },
+    };
+    try {
+      const response = await axios.get(url, config);
+      // console.log(response);
+      setPendingRef(response.data);
+    } catch (error) {
+      // console.log(error);
+    }
+  }, [admin?.tokens]);
+
+  const fetchTrafficMonthData = useCallback(async () => {
     const url = `${process.env.REACT_APP_API_KEY}/admins/monthsTrafficData`;
 
     const config = {
@@ -91,9 +107,9 @@ const DashHome = ({ deviceCount }) => {
       // //console.log(response.data.data);
       setTrafficMonths(response.data.Traffic);
     } catch (error) {}
-  };
+  }, [admin?.token]);
 
-  const setMonthRecord = () => {
+  const setMonthRecord = useCallback(() => {
     const now = new Date();
     const currentYear = now.getFullYear();
     const currentMonthIndex = now.getMonth();
@@ -142,12 +158,18 @@ const DashHome = ({ deviceCount }) => {
 
     setTrafficRecordData(arr);
     // //console.log(arr);
-  };
+  }, []);
   useEffect(() => {
     fetchDashboardDetail();
     fetchTrafficMonthData();
     setMonthRecord();
-  }, [admin]);
+    fetchPendingReference();
+  }, [
+    fetchDashboardDetail,
+    fetchPendingReference,
+    fetchTrafficMonthData,
+    setMonthRecord,
+  ]);
 
   return (
     <>
@@ -165,7 +187,7 @@ const DashHome = ({ deviceCount }) => {
           gap="15px"
         >
           {/* ROW 1 */}
-          <Box
+          {/* <Box
             gridColumn="span 3"
             backgroundColor={colors.primary[400]}
             display="flex"
@@ -179,6 +201,37 @@ const DashHome = ({ deviceCount }) => {
               increase={DashData?.AllUser === 0 ? "0%" : "+100%"}
               icon={
                 <GroupsIcon
+                  sx={{
+                    color: colors.greenAccent[600],
+                    fontSize: "26px",
+                  }}
+                />
+              }
+            />
+          </Box> */}
+          {/* ////****pending reference */}
+          <Box
+            gridColumn="span 3"
+            backgroundColor={colors.primary[400]}
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+          >
+            <StatBox
+              title={pendingRef?.length}
+              subtitle="Pending Reference"
+              progress={pendingRef.length === 0 ? "0" : 1}
+              increase={
+                pendingRef?.length === 0
+                  ? "-0%"
+                  : "-" +
+                    ((pendingRef?.length / DashData?.AllUser) * 100).toFixed(
+                      2
+                    ) +
+                    "%"
+              }
+              icon={
+                <WorkHistoryIcon
                   sx={{
                     color: colors.greenAccent[600],
                     fontSize: "26px",
@@ -365,7 +418,6 @@ const DashHome = ({ deviceCount }) => {
               <LineChart isDashboard={true} data={TrafficMonths} />
             </Box>
           </Box>
-
           <Box
             gridColumn="span 4"
             gridRow="span 2"
@@ -423,6 +475,6 @@ const DashHome = ({ deviceCount }) => {
       </Box>
     </>
   );
-};
+});
 
 export default DashHome;

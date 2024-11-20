@@ -6,16 +6,16 @@ import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import Header from "../components/Header";
 import { AuthApi } from "../../context/user";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
+import { users } from "../data/userData.js";
 const AllAlumni = () => {
   const [DataUser, setDataUser] = useState([]);
   const { admin } = AuthApi();
   const navigate = useNavigate();
 
-  const fetch = async () => {
+  const fetch = useCallback(async () => {
     const config = {
       headers: {
         authorization: `Berer ${admin?.token}`,
@@ -27,7 +27,7 @@ const AllAlumni = () => {
       const { data } = await axios.get(url, config);
       setDataUser(data.data);
     } catch (error) {}
-  };
+  }, [admin?.token]);
 
   const HandleView = (uid) => {
     navigate(`/admin/user/${uid}`);
@@ -113,10 +113,28 @@ const AllAlumni = () => {
       },
     },
   ];
+  async function addNewUser() {
+    try {
+      const response = await axios.post(
+        `${process.env.REACT_APP_API_KEY}/bulkSignUp`,
+        users
+      );
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const handleAddNewUser = () => {
+    let confirmAdd = prompt("Are you sure you want to add new user?");
+    if (confirmAdd) {
+      addNewUser();
+    }
+  };
 
   useEffect(() => {
     fetch();
-  }, [admin]);
+  }, [fetch]);
 
   return (
     <Box m="0px 10px 10px 10px">
@@ -152,6 +170,15 @@ const AllAlumni = () => {
       >
         <DataGrid checkboxSelection rows={DataUser} columns={columns} />
       </Box>
+
+      <div
+        className="absolute top-20 right-10 max-w-40 min-w-fit overflow-auto h-10  "
+        onClick={handleAddNewUser}
+      >
+        <div className="py-2 px-4 rounded-lg bg-green-500 hover:bg-green-600 hover:scale-95  ">
+          <button className="text-white font-medium"> Add new Users</button>
+        </div>
+      </div>
     </Box>
   );
 };

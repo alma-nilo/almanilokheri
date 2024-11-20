@@ -1,8 +1,8 @@
 import { ResponsiveLine } from "@nivo/line";
 import { Box, useTheme } from "@mui/material";
-import { useParams, useSearchParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { tokens } from "../../theme";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Logo from "../../Assets/Logo.jpeg";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { Typography, AppBar, Toolbar, IconButton } from "@mui/material";
@@ -56,7 +56,7 @@ const LineChart = ({ isDashboard = false }) => {
   const { month, year } = useParams();
   //console.log(month, year);
 
-  const fetchTraffic = async () => {
+  const fetchTraffic = useCallback(async () => {
     const url = `${process.env.REACT_APP_API_KEY}/admins/OneMonthTrafficData?month=${month}&year=${year}`;
 
     const config = {
@@ -71,11 +71,11 @@ const LineChart = ({ isDashboard = false }) => {
       setaverage(response.data.Average);
       settotal(response.data.Total);
     } catch (error) {}
-  };
+  }, [month, year, admin?.token]);
 
   useEffect(() => {
     fetchTraffic();
-  }, []);
+  }, [fetchTraffic]);
 
   return (
     <>

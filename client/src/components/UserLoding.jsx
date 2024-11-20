@@ -1,6 +1,6 @@
-import React from "react";
+import { memo } from "react";
 
-const Spinner = ({ text }) => {
+const Spinner = memo(({ text }) => {
   return (
     <div className="flex justify-center items-center h-full">
       <svg
@@ -29,6 +29,6 @@ const Spinner = ({ text }) => {
       </span>
     </div>
   );
-};
+});
 
 export default Spinner;

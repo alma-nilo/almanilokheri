@@ -1,6 +1,6 @@
 // Posts.js
-import React, { useState } from "react";
-import { Paper, Avatar, Typography, Box, IconButton } from "@mui/material";
+import { useState, memo, useCallback } from "react";
+import { Paper, Avatar, Typography, Box } from "@mui/material";
 import { DeleteForever } from "@mui/icons-material";
 import axios from "axios";
 import { useEffect } from "react";
@@ -11,7 +11,7 @@ import { AlertApi } from "../context/AlertContext";
 import CreatePost from "./CreatePostWidget";
 import { useLocation } from "react-router-dom";
 
-const Posts = ({ UserProfile, uuid, status }) => {
+const Posts = memo(({ UserProfile, uuid, status }) => {
   const [postsData, setpostsData] = useState([]);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
@@ -21,7 +21,8 @@ const Posts = ({ UserProfile, uuid, status }) => {
   const { user } = AuthApi();
   const { setAlert } = AlertApi();
   const { pathname } = useLocation();
-  const loadMorePosts = async () => {
+
+  const loadMorePosts = useCallback(async () => {
     try {
       // Fetch more posts from your API using Axios
 
@@ -53,11 +54,11 @@ const Posts = ({ UserProfile, uuid, status }) => {
     } catch (error) {
       console.error("Error fetching more posts:", error);
     }
-  };
+  }, [page, uuid, setpostsData, setPage, setHasMore]);
 
   useEffect(() => {
     loadMorePosts();
-  }, [uuid]);
+  }, [loadMorePosts]);
 
   // console.log(postsData);
   // for deletion
@@ -95,7 +96,7 @@ const Posts = ({ UserProfile, uuid, status }) => {
         message: "Success Post Delete ",
       });
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       setAlert({
         type: "error",
         message: "Somthing went Wrong ",
@@ -147,7 +148,7 @@ const Posts = ({ UserProfile, uuid, status }) => {
                 </Typography>
                 {post.image && (
                   <Box mt="1rem">
-                    <img src={post.image} alt="Post Image" className="w-full" />
+                    <img src={post.image} alt="Post" className="w-full" />
                   </Box>
                 )}
               </Paper>
@@ -209,6 +210,6 @@ const Posts = ({ UserProfile, uuid, status }) => {
       </div>
     </>
   );
-};
+});
 
 export default Posts;

@@ -13,6 +13,7 @@ import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import LockPersonIcon from "@mui/icons-material/LockPerson";
+import WorkHistoryIcon from "@mui/icons-material/WorkHistory";
 
 import { AuthApi } from "../../context/user";
 
@@ -158,6 +159,13 @@ const Sidebar = () => {
               to="/admin/user"
               icon={<ContactsOutlinedIcon />}
               selected={"/admin/user"}
+            />
+            {/* //*** Pending references */}
+            <Item
+              title="Pending References"
+              to="/admin/pendingRef"
+              icon={<WorkHistoryIcon />}
+              selected={"/admin/pendingRef"}
             />
             <Item
               title="Gallery"

@@ -20,6 +20,27 @@ html {
   max-height: calc(100vh); /* Adjust the value according to your layout */
   overflow-y: auto;
 }
+.modal-content::-webkit-scrollbar {
+  width: 10px;
+  border-radius: 20px;
+  margin-left: 1px;
+  background-color: rgb(56, 95, 17);
+}
+.modal-content::-webkit-scrollbar-thumb {
+  width: 10px;
+  background-color: rgb(95, 255, 32);
+  border-radius: 20px;
+}
+.scrollbar::-webkit-scrollbar {
+  background-color: lightblue;
+  border-radius: 20px;
+  width: 10px;
+}
+.scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 255, 0, 0.616);
+  border-radius: 20px;
+  width: 10px;
+}
 
 /* clg logo  */
 
@@ -124,14 +145,12 @@ body,
   display: none;
 }
 
-.postfix{
+.postfix {
   overflow-x: scroll;
 }
 .postfix::-webkit-scrollbar {
   display: none;
 }
-
-
 
 .content {
   width: 80%;
@@ -142,7 +161,7 @@ body,
 }
 
 .Userpost {
-height: 70vh;
+  height: 70vh;
   overflow-y: scroll;
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
@@ -150,7 +169,7 @@ height: 70vh;
 
 .Userpost::-webkit-scrollbar {
   display: none;
-} 
+}
 .content::-webkit-scrollbar {
   display: none;
 }
@@ -182,7 +201,8 @@ height: 70vh;
   /* font-weight: 200; */
   /* font-size: large; */
 }
-.sub{
+.sub {
+  padding-bottom: 5px;
   border-bottom: #888 1px solid;
 }
 

@@ -165,18 +165,18 @@ export default function UploadModel({ isOpen, onClose, data }) {
     "Puducherry",
   ];
 
-  const Tradearr = [
-    "Computer Engineering",
-    "Civil Engineering",
-    "Mechanical Engineering",
-    "Electrical Engineering",
-    "Electronics Engineering",
-    "Instrumentation and Control Engineering",
-    "Production Engineering",
-    "Mechatronics Engineering",
-    "Information Technology",
-    "Electronics & Communication Engineering",
-  ];
+  // const Tradearr = [
+  //   "Computer Engineering",
+  //   "Civil Engineering",
+  //   "Mechanical Engineering",
+  //   "Electrical Engineering",
+  //   "Electronics Engineering",
+  //   "Instrumentation and Control Engineering",
+  //   "Production Engineering",
+  //   "Mechatronics Engineering",
+  //   "Information Technology",
+  //   "Electronics & Communication Engineering",
+  // ];
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
@@ -250,7 +250,6 @@ export default function UploadModel({ isOpen, onClose, data }) {
               className={`w-full border rounded px-3 py-2  text-green-700  border-green-400 ring-green-300 focus:outline-none ring ring-opacity-40  `}
             />
           </div>
-
 
           <div className="mb-6">
             <label

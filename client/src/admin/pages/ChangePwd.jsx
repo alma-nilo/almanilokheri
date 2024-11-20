@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { memo } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
@@ -23,7 +23,7 @@ const pwdSchema = Yup.object().shape({
     .required("Required"),
 });
 
-const ChangePwd = () => {
+const ChangePwd = memo(() => {
   const { setAlert } = AlertApi();
 
   const { admin } = AuthApi();
@@ -165,6 +165,6 @@ const ChangePwd = () => {
       </Formik>
     </div>
   );
-};
+});
 
 export default ChangePwd;

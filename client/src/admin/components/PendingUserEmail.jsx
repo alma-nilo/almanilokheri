@@ -1,5 +1,4 @@
 // ! floating Pending User Send Email //
-import { useState } from "react";
 import IconButton from "@mui/material/IconButton";
 import NewReleasesIcon from "@mui/icons-material/NewReleases";
 import PendingModal from "./PendingModal";

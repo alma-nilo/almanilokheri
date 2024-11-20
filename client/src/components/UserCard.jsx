@@ -1,8 +1,8 @@
-import React from "react";
+import { memo } from "react";
 import { FaLinkedin, FaFacebook, FaTwitter } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
-const UserCard = ({ user }) => {
+const UserCard = memo(({ user }) => {
   const navigate = useNavigate();
   return (
     <div className="w-full md:w-1/2 lg:w-1/3 p-4 ">
@@ -122,7 +122,7 @@ const UserCard = ({ user }) => {
               });
             }}
           >
-            {user?.about.slice(0, 30)}....{" "}
+            {user?.about?.slice(0, 30)}....{" "}
             <span
               onClick={() => {
                 navigate(`/user/${user?._id}`);
@@ -140,6 +140,6 @@ const UserCard = ({ user }) => {
       </div>
     </div>
   );
-};
+});
 
 export default UserCard;

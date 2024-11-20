@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from "react";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
-
 import { Box, Typography, IconButton } from "@mui/material";
 import AWS from "aws-sdk";
-
 import { EditOutlined, DeleteOutlined } from "@mui/icons-material";
-
 import Dropzone from "react-dropzone";
 import FlexBetween from "../FlexBetween";
 import { AlertApi } from "../../context/AlertContext";
@@ -93,7 +90,7 @@ const UpdatePhotoUploadComponent = ({ data }) => {
 
         myBucket.deleteObject(delparams, function (err, data) {
           if (err) {
-            console.log(err, err.stack);
+            // console.log(err, err.stack);
             return false; // error
           } else {
             return true; // deleted
@@ -101,7 +98,6 @@ const UpdatePhotoUploadComponent = ({ data }) => {
         });
 
         let url = `${process.env.REACT_APP_API_KEY}/tempuserdocs`;
-
         await axios.post(url, {
           data: data,
           profile: response.Location,
@@ -112,7 +108,7 @@ const UpdatePhotoUploadComponent = ({ data }) => {
 
         Cookies.remove("User");
         const Token = JSON.stringify({ ...user, profile: response.Location });
-        console.log(Token);
+        // console.log(Token);
         Cookies.set("User", Token, { expires: 2 });
 
         // Clear image preview after upload

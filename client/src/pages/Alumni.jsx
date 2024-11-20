@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
@@ -46,7 +46,7 @@ const Alumni = () => {
     };
 
     fetchUser();
-  }, [User]);
+  }, [navigate, setuser]);
   // console.log(User);
 
   if (loader) {

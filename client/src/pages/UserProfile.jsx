@@ -31,7 +31,7 @@ const UserProfile = () => {
     };
 
     fetchUser();
-  }, [id]);
+  }, [id, navigate]);
   //console.log(user);
 
   if (loader) {
@@ -101,6 +101,7 @@ const UserProfile = () => {
                   <a
                     href={`mailto:${user.email}`}
                     target="_blank"
+                    rel="noreferrer"
                     className="text-green-500 hover:text-green-700"
                   >
                     <FaEnvelope className="text-3xl" />

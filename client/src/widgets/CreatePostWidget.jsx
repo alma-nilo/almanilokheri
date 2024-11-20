@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { memo, useState } from "react";
 import {
   Box,
   Divider,
@@ -34,7 +34,7 @@ const myBucket = new AWS.S3({
   region: REGION,
 });
 
-const CreatePost = ({ setpostsData, status }) => {
+const CreatePost = memo(({ setpostsData, status }) => {
   const [progress, setProgress] = useState(1);
   const [containsImage, setContainsImage] = useState(false);
   const [image, setImage] = useState(null);
@@ -80,7 +80,7 @@ const CreatePost = ({ setpostsData, status }) => {
   };
 
   const handleSubmit = async (file) => {
-    console.log(status);
+    // console.log(status);
     if (status === "Block") {
       setAlert({
         type: "error",
@@ -278,6 +278,6 @@ const CreatePost = ({ setpostsData, status }) => {
       </div>
     </Paper>
   );
-};
+});
 
 export default CreatePost;

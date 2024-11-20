@@ -5,71 +5,35 @@ import { tokens } from "../../theme";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import Header from "../components/Header";
 import { AuthApi } from "../../context/user";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import PendingUserEmail from "../components/PendingUserEmail";
 
-const Team = () => {
+const PendingRef = () => {
   const [DataUser, setDataUser] = useState([]);
-  const [isOpen, setIsOpen] = useState(false);
 
   const { admin } = AuthApi();
   const navigate = useNavigate();
 
-  const fetch = useCallback(async () => {
+  const fetch = async () => {
     const config = {
       headers: {
         authorization: `Berer ${admin?.token}`,
       },
     };
-    let url = `${process.env.REACT_APP_API_KEY}/admins/pendingUser`;
+    let url = `${process.env.REACT_APP_API_KEY}/admins/pendingRef`;
     try {
-      const { data } = await axios.get(url, config);
+      const data = await axios.get(url, config);
+      // console.log(DataUser);
       setDataUser(data.data);
     } catch (error) {}
-  }, [admin?.token]);
+  };
 
   const HandleView = (uuid) => {
     navigate(`/admin/tempuser/${uuid}`);
   };
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-
-  //// *** modal And Email Send Logic goes here   **/
-  const onSendPending = async () => {
-    /// ! send email
-    // eslint-disable-next-line no-restricted-globals
-    const reConfirmation = confirm(
-      `Do you really want to send Email to ${DataUser.length} users !!!`
-    );
-    if (!reConfirmation) {
-      // console.log("returned");
-      return;
-    }
-    const config = {
-      headers: {
-        authorization: `Berer ${admin?.token}`,
-      },
-    };
-    let url = `${process.env.REACT_APP_API_KEY}/admins/sendEmail`;
-    try {
-      const promises = DataUser.map(async (data, i) => {
-        const payload = {
-          email: data.email,
-          flag: data.status,
-        };
-        const { dataconf } = await axios.post(url, payload, config);
-        // console.log(`${data.email} has been send successfully`, i);
-      });
-      await Promise.all(promises);
-      setIsOpen(!isOpen);
-    } catch (error) {
-      // console.log("error in front in sending email");
-    } finally {
-      setIsOpen(!isOpen);
-    }
-  };
 
   const columns = [
     { field: "id", headerName: "ID" },
@@ -127,16 +91,13 @@ const Team = () => {
   ];
   useEffect(() => {
     fetch();
-  }, [fetch]);
+  }, [admin]);
 
   return (
     <Box m="0px 10px 10px 10px">
-      <Header title="Alumni Request" subtitle="Managing the Member" />
-      <PendingUserEmail
-        isOpen={isOpen}
-        setIsOpen={setIsOpen}
-        countOfPending={DataUser.length}
-        onSendPending={onSendPending}
+      <Header
+        title="Pending References"
+        subtitle="Managing the Pending References of Users"
       />
       <Box
         m="0px 5px 0 0"
@@ -173,4 +134,4 @@ const Team = () => {
   );
 };
 
-export default Team;
+export default PendingRef;
