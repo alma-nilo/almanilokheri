@@ -4,40 +4,40 @@ import Navbar from "../../components/Navbar";
 const MeetTheDeveloper = () => {
   return (
     <>
-      <div className="bg-slate-200">
-        {/* Navbar */}
+      <div className=" bg-slate-200 ">
+        {/* content  */}
+
         <Navbar developer={true} />
 
-        {/* Developer Section */}
-        <div className="bg-green-400 py-10">
+        {/* content  */}
+
+        <div className="bg-green-400 py-6">
           <div className="max-w-5xl mx-auto px-6 lg:px-8">
-            <div className="text-center">
-              <h1 className="text-3xl lg:text-5xl text-white font-bold mb-6">
-                Meet the Developer
+            <div className="flex justify-center">
+              <h1 className="text-2xl lg:text-4xl text-white font-bold mb-6">
+                Developer
               </h1>
             </div>
 
             <div className="flex flex-col lg:flex-row items-center lg:items-start justify-between">
-              {/* Profile Section */}
-              <div className="lg:w-2/5 flex flex-col items-center mb-6 lg:mb-0">
+              <div className="lg:w-2/5 flex justify-center items-center flex-col mb-6 lg:mb-0">
                 <img
                   src="https://raw.githubusercontent.com/vishu7im/personal-asset/vishal/vishal.jpeg"
                   alt="Vishal Munday"
-                  className="rounded-full w-72 h-72 object-cover border-4 border-white shadow-lg"
+                  className="rounded-full w-72 h-72 object-cover object-center border-4 border-white"
                 />
 
-                <h2 className="text-2xl lg:text-3xl text-white font-semibold mt-6">
+                <h1 className="text-2xl lg:text-4xl text-white font-semibold my-6">
                   Vishal Munday
-                </h2>
-
-                <div className="flex justify-center mt-6 space-x-6">
+                </h1>
+                <div className="flex justify-center mt-4 space-x-8">
                   <a
                     href="https://www.linkedin.com/in/vishal-munday-869024223/"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-white hover:text-gray-200"
-                    aria-label="LinkedIn"
                   >
+                    <span className="sr-only">LinkedIn</span>
                     <FaLinkedin className="text-4xl" />
                   </a>
                   <a
@@ -45,8 +45,8 @@ const MeetTheDeveloper = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-white hover:text-gray-200"
-                    aria-label="Email"
                   >
+                    <span className="sr-only">Mail</span>
                     <FaEnvelope className="text-4xl" />
                   </a>
                   <a
@@ -54,8 +54,8 @@ const MeetTheDeveloper = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-white hover:text-gray-200"
-                    aria-label="GitHub"
                   >
+                    <span className="sr-only">GitHub</span>
                     <FaGithub className="text-4xl" />
                   </a>
                   <a
@@ -63,49 +63,42 @@ const MeetTheDeveloper = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-white hover:text-gray-200"
-                    aria-label="Instagram"
                   >
+                    <span className="sr-only">Twitter</span>
                     <FaInstagram className="text-4xl" />
                   </a>
                 </div>
               </div>
-
-              {/* About Section */}
               <div className="lg:w-3/5 text-white">
-                <p className="text-lg lg:text-xl mb-6">
-                  Hello! My name is <span className="font-semibold">Vishal</span>, a Computer Engineering student
-                  from the batch of <span className="font-semibold">2021–2024</span>, ID: <span className="font-semibold">210090800122</span>.
-                  I am the developer behind this website.
+                <p className="text-xl lg:text-2xl mb-4">
+                  Hi there! My name is Vishal, <br />
+                  <p className="mb-4">
+                    Computer Engg "2021-2024" , 210090800122
+                  </p>
+                  and I'm the developer behind this website. I'm a passionate
+                  web developer with experience in the MERN stack, as well as
+                  other web development technologies.
                 </p>
-
-                <p className="text-lg lg:text-xl mb-6">
-                  I am a passionate web developer with expertise in the MERN
-                  stack and other modern web technologies. This website is a
-                  project that showcases my skills and provides a platform for
-                  alumni of <span className="font-semibold">GBN Govt Polytechnic Nilokheri</span> to connect, collaborate,
-                  and stay in touch.
+                <p className="text-xl lg:text-2xl mb-4">
+                  I created this website as a project to showcase my skills and
+                  provide a platform for alumni of GBN Govt Polytechnic
+                  Nilokheri to connect and stay in touch with each other.
                 </p>
-
-                <p className="text-lg lg:text-xl mb-6">
+                <p className="text-xl lg:text-2xl">
                   If you have any feedback, suggestions, or just want to say hi,
-                  I’d love to hear from you! Feel free to reach out via the{" "}
-                  <a
-                    href="/contactus"
-                    className="underline hover:text-gray-300 transition"
-                  >
-                    Contact Us
+                  feel free to reach out to me using the contact form on the{" "}
+                  <a href="/contactus" className="underline">
+                    Contact Us page
                   </a>{" "}
-                  page. I’m always happy to connect with fellow developers and
-                  members of our alumni community.
-                </p>
-
-                <p className="text-lg lg:text-xl">
-                  Thank you for visiting, and I hope you enjoy exploring the website!
+                  of this website. I'm always happy to hear from fellow
+                  developers and members of the alumni community.
                 </p>
               </div>
             </div>
           </div>
         </div>
+
+        {/* content  */}
       </div>
     </>
   );
