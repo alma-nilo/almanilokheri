@@ -222,6 +222,7 @@ export default function Home({ deviceCount }) {
             </div>
           )}
 
+
           <div className="flex   sm:my-4 md:my-4 flex-col p-4 md:flex-row items-center justify-center h-auto md:h-60">
             <div className="w-full md:w-1/2 lg:w-1/3 p-4">
               <div className="flex rounded-lg overflow-hidden contribution-card">
@@ -250,9 +251,7 @@ export default function Home({ deviceCount }) {
             </div>
           </div>
         </div>
-        <div className="sm:border-0 border border-green-500  relative  bg-gradient-to-r from-green-200 to-teal-200 via-emerald-100  overflow-y-auto">
-          <VideoPlayer />
-        </div>
+
         <Footer />
       </Suspense>
     </>
