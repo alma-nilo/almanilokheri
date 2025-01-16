@@ -99,9 +99,8 @@ const Sidebar = () => {
                   alt="profile-user"
                   width="100px"
                   height="100px"
-                  src={
-                    "https://images.pexels.com/photos/8059110/pexels-photo-8059110.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                  }
+                  src={"./logo192.png"}
+                  // "https://images.pexels.com/photos/8059110/pexels-photo-8059110.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
                   style={{
                     cursor: "pointer",
                     borderRadius: "100px 100px",

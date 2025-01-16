@@ -1,11 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Logo from "../../Assets/Logo.jpeg";
+import VideoPlayer from "../VideoPlayer";
 
 export default function Footer() {
   return (
     <div>
       <footer id="footer" className="bg-green-200 text-black">
+        <div className="mt-5 z-0 p-0.5 w-11/12 mx-auto max-h-fit   flex items-center flex-col justify-center sm:border-0 border border-green-500  relative  bg-gradient-to-r from-green-200 to-green-200 via-emerald-100 ">
+          <VideoPlayer />
+        </div>
         <div className="p-8 flex sm:justify-between justify-center items-center">
           <div className="hidden sm:block">
             <div className="flex flex-col sm:flex-row items-center">
