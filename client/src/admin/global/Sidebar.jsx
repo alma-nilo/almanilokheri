@@ -16,6 +16,7 @@ import LockPersonIcon from "@mui/icons-material/LockPerson";
 import WorkHistoryIcon from "@mui/icons-material/WorkHistory";
 
 import { AuthApi } from "../../context/user";
+import { AddToPhotosRounded } from "@mui/icons-material";
 
 const Item = ({ title, to, icon, selected }) => {
   const theme = useTheme();
@@ -189,6 +190,12 @@ const Sidebar = () => {
               to="/admin/Record"
               icon={<GroupsIcon />}
               selected={"/admin/Record"}
+            />
+            <Item
+              title="User Add Record"
+              to="/admin/AddNew"
+              icon={<AddToPhotosRounded />}
+              selected={"/admin/AddNew"}
             />
             <Item
               title="Change Password"

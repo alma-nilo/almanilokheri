@@ -51,7 +51,10 @@ const UserProfile = () => {
               <div className="bg-white rounded-lg shadow-lg p-6">
                 <div className="text-center">
                   <img
-                    src={user.profile}
+                    src={
+                      user.profile ??
+                      "https://cdn.pixabay.com/photo/2016/11/08/15/21/user-1808597_640.png"
+                    }
                     alt={`${user.name}'s Profile`}
                     className="w-32 h-32 rounded-full mx-auto object-cover"
                   />

@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer/Footer";
 import axios from "axios";
@@ -11,7 +11,7 @@ export default function Member() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedBatch, setSelectedBatch] = useState("all");
+  const [selectedBatch, setSelectedBatch] = useState(null);
   const [selectedTrade, setSelectedTrade] = useState("");
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
@@ -30,6 +30,9 @@ export default function Member() {
       }
       if (selectedTrade) {
         url += `&searchTrade=${selectedTrade}`;
+      }
+      if (selectedBatch) {
+        url += `&searchBatch=${selectedBatch}`;
       }
 
       const response = await axios.get(url);
@@ -92,13 +95,12 @@ export default function Member() {
           <div className="container mx-auto px-4 py-8">
             <div className="flex items-center mb-6">
               <select
-                className="w-1/3 p-2 border rounded-md bg-white text-gray-900 mr-2"
+                className="w-1/3 h-fit max-h-72 overflow-y-auto p-2 border rounded-md bg-white text-gray-900 mr-2"
                 value={selectedBatch}
                 onChange={(e) => setSelectedBatch(e.target.value)}
               >
                 <option value="all">All Batches</option>
-                {/* You can adjust the batch range as needed */}
-                {Array.from({ length: 2023 - 1947 + 1 }, (_, index) => (
+                {Array.from({ length: 2024 - 1947 + 1 }, (_, index) => (
                   <option key={index} value={1947 + index}>
                     {1947 + index}
                   </option>

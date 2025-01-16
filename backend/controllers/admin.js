@@ -273,10 +273,16 @@ export const fetch = async (req, res) => {
       { rollNo: { $regex: req.query.searchName, $options: "i" } }, // Assuming rollNumber is the field for roll number
     ];
   }
+  if (req.query.searchBatch && req.query.searchBatch !== "all") {
+    page = 1;
+    query.$or = [
+      { startYear: { $regex: req.query.searchBatch, $options: "i" } },
+      { endYear: { $regex: req.query.searchBatch, $options: "i" } },
+    ];
+  }
 
   if (req.query.searchTrade) {
     page = 1;
-
     query.Trade = req.query.searchTrade;
   }
 

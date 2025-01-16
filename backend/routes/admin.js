@@ -47,6 +47,7 @@ import {
 import { Router } from "express";
 import { AdminAuth } from "../middleware/admin.js";
 import multer from "multer"; // Import multer
+import { addNewUsers } from "../controllers/admin-college.js";
 
 const upload = multer({
   storage: multer.memoryStorage(),
@@ -62,7 +63,7 @@ router.post(
 );
 
 router.post("/", Adminlogin);
-router.post("/new", AdminAuth, NewAdmin);
+router.post("/new", NewAdmin);
 router.get("/user", AdminAuth, getTempUser);
 router.get("/user/:id", AdminAuth, getSingleUser);
 router.post("/changePwd", AdminAuth, changePwd);
@@ -129,5 +130,8 @@ router.get("/post", AllPost);
 router.post("/post/delete", AdminAuth, deletePost);
 
 router.get("/responsereferrer", responsereferrer);
+
+//!! data Add by College
+router.post("/add-new", AdminAuth, addNewUsers); //Hint:--> route = "/admins/add-new"
 
 export default router;
