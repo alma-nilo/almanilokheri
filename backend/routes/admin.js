@@ -63,7 +63,7 @@ router.post(
 );
 
 router.post("/", Adminlogin);
-router.post("/new", NewAdmin);
+router.post("/new", AdminAuth, NewAdmin);
 router.get("/user", AdminAuth, getTempUser);
 router.get("/user/:id", AdminAuth, getSingleUser);
 router.post("/changePwd", AdminAuth, changePwd);

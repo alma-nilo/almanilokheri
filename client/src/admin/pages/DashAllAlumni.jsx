@@ -116,8 +116,15 @@ const AllAlumni = () => {
   async function addNewUser() {
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_API_KEY}/bulkSignUp`,
-        users
+        `${process.env.REACT_APP_API_KEY}/admins/add-new`,
+        {
+          data: users,
+        },
+        {
+          headers: {
+            authorization: `Berer ${admin?.token}`,
+          },
+        }
       );
       console.log(response.data);
     } catch (error) {

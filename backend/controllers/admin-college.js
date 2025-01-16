@@ -47,7 +47,7 @@ export const addNewUsers = async (req, res) => {
       //update user for addition of new  fields
       // console.log(email.toLowerCase());
       const user = await User.updateOne(
-        { email: { $regex: new ReqExp(`^${email}$`, "i") } },
+        { email: { $regex: new RegExp(`^${email}$`, "i") } },
         {
           name,
           rollNo,
