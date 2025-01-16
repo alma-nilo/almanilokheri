@@ -13,6 +13,7 @@ import AdminUnProtected from "./auth/admin/AdminUnprotectedRoute";
 import UserProtected from "./auth/admin/UserProtectedRoute.js";
 import UserUnProtected from "./auth/admin/UserUnprotected.js";
 import Home from "./pages/Home";
+import AddNewUsers from "./admin/pages/AddNewUser.jsx";
 
 // import UserProfile from "./pages/UserProfile.jsx";
 const UserProfile = React.lazy(() => import("./pages/UserProfile"));
@@ -319,6 +320,14 @@ function App() {
                     element={
                       <AdminProtected>
                         <AdminGallery />
+                      </AdminProtected>
+                    }
+                  />
+                  <Route
+                    path="AddNew"
+                    element={
+                      <AdminProtected>
+                        <AddNewUsers />
                       </AdminProtected>
                     }
                   />

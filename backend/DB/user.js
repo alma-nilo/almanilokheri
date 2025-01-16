@@ -49,6 +49,10 @@ const UserSchema = new Schema({
   aadhaar: {
     type: String,
   },
+  isManual: {
+    type: Boolean,
+    default: false,
+  },
   referral: {
     type: Schema.Types.ObjectId,
   },

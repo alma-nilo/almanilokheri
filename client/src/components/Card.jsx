@@ -9,26 +9,21 @@ const Card = memo(({ element }) => {
     <>
       <div className="flex sm:flex-row  flex-col justify-center min-w-max max-w-fit mx-4 bg-green-400 shadow-md hover:cursor-pointer rounded-xl sm:px-10 dark:text-gray-100">
         <div className="flex px-4  sm:py-2 py-6 justify-center items-center">
-          {element.profile ? (
-            <img
-              onClick={() => {
-                navigate(`/user/${element._id}`);
-                window.scrollTo({
-                  top: 0,
-                  behavior: "smooth",
-                });
-              }}
-              src={element.profile}
-              alt=""
-              className="object-cover p-0 m-0 mx-auto shadow-sm rounded-full w-32 h-32 dark:bg-gray-500 sm:w-32 sm:h-32"
-            />
-          ) : (
-            <img
-              src="https://static.vecteezy.com/system/resources/previews/036/280/651/non_2x/default-avatar-profile-icon-social-media-user-image-gray-avatar-icon-blank-profile-silhouette-illustration-vector.jpg"
-              alt=""
-              className="object-cover p-0 m-0 mx-auto shadow-sm rounded-full w-28 h-28 dark:bg-gray-500 sm:w-32 sm:h-32"
-            />
-          )}
+          <img
+            onClick={() => {
+              navigate(`/user/${element._id}`);
+              window.scrollTo({
+                top: 0,
+                behavior: "smooth",
+              });
+            }}
+            src={
+              element.profile ??
+              "https://cdn.pixabay.com/photo/2016/11/08/15/21/user-1808597_640.png"
+            }
+            alt=""
+            className="object-cover p-0 m-0 mx-auto shadow-sm rounded-full w-32 h-32 dark:bg-gray-500 sm:w-32 sm:h-32 opacity-80 border-2 border-green-600"
+          />
         </div>
         <div className="flex px-4 py-2 justify-center items-center">
           <div className="space-y-2 sm:text-start text-center divide-y divide-gray-700">
