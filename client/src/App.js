@@ -13,9 +13,13 @@ import AdminUnProtected from "./auth/admin/AdminUnprotectedRoute";
 import UserProtected from "./auth/admin/UserProtectedRoute.js";
 import UserUnProtected from "./auth/admin/UserUnprotected.js";
 import Home from "./pages/Home";
-import AddNewUsers from "./admin/pages/AddNewUser.jsx";
+import DashManualAdded from "./admin/pages/DashManualAdded.jsx";
 
 // import UserProfile from "./pages/UserProfile.jsx";
+const AddNewUsers = React.lazy(() => import("./admin/pages/AddNewUser.jsx"));
+const DashUnVerifiedUser = React.lazy(() =>
+  import("./admin/pages/DashUnVerifiedUser.jsx")
+);
 const UserProfile = React.lazy(() => import("./pages/UserProfile"));
 const ChangePwd = React.lazy(() => import("./admin/pages/ChangePwd"));
 const Memories = React.lazy(() => import("./pages/Memories.jsx"));
@@ -288,6 +292,22 @@ function App() {
                     element={
                       <AdminProtected>
                         <DashRequest />
+                      </AdminProtected>
+                    }
+                  />
+                  <Route
+                    path="un-verified"
+                    element={
+                      <AdminProtected>
+                        <DashUnVerifiedUser />
+                      </AdminProtected>
+                    }
+                  />
+                  <Route
+                    path="manual-added"
+                    element={
+                      <AdminProtected>
+                        <DashManualAdded />
                       </AdminProtected>
                     }
                   />

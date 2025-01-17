@@ -83,12 +83,12 @@ const Topbar = memo(
             )}{" "}
           </IconButton>
 
-          <IconButton>
-            <LogoutIcon
-              onClick={() => {
-                logout(true);
-              }}
-            />
+          <IconButton
+            onClick={() => {
+              logout(true);
+            }}
+          >
+            <LogoutIcon />
           </IconButton>
         </Box>
       </Box>
