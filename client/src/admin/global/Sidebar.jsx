@@ -16,7 +16,7 @@ import LockPersonIcon from "@mui/icons-material/LockPerson";
 import WorkHistoryIcon from "@mui/icons-material/WorkHistory";
 
 import { AuthApi } from "../../context/user";
-import { AddToPhotosRounded } from "@mui/icons-material";
+import { AddToPhotosRounded, VerifiedUser } from "@mui/icons-material";
 
 const Item = ({ title, to, icon, selected }) => {
   const theme = useTheme();
@@ -160,12 +160,24 @@ const Sidebar = () => {
               icon={<ContactsOutlinedIcon />}
               selected={"/admin/user"}
             />
+            <Item
+              title="Unverified Users"
+              to="/admin/un-verified"
+              icon={<LockPersonIcon />}
+              selected={"/admin/un-verified"}
+            />
             {/* //*** Pending references */}
             <Item
               title="Pending References"
               to="/admin/pendingRef"
               icon={<WorkHistoryIcon />}
               selected={"/admin/pendingRef"}
+            />
+            <Item
+              title="Self Added"
+              to="/admin/manual-added"
+              icon={<VerifiedUser />}
+              selected={"/admin/manual-added"}
             />
             <Item
               title="Gallery"
