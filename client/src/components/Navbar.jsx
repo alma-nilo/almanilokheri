@@ -33,7 +33,7 @@ const Navbar = memo(({ headerDash, developer }) => {
   return (
     <div>
       <header ref={headerRef} className="bg-white shadow-lg">
-        <div className="hidden sm:flex sm:flex-row justify-around items-center w-full max-w-screen-2xl mx-auto p-3 bg-black h-10 ">
+        <div className="hidden sm:flex sm:flex-row justify-around items-center w-full max-w-screen-2xl mx-auto p-3 bg-green-600 h-10 ">
           <span className="font-semibold text-base hover:text-green-400 text-white  hover:underline hover:scale-105">
             <a
               href="https://www.google.com/maps?ll=29.837213,76.935578&z=14&t=m&hl=en&gl=IN&mapclient=embed&cid=10415524260629688384"
