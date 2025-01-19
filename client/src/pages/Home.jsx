@@ -22,6 +22,7 @@ import Loader from "../components/Loader";
 import { AuthApi } from "../context/user";
 import { Link } from "react-router-dom";
 import VideoPlayer from "../components/VideoPlayer";
+import PrincipalMessage from "../components/messages/PrincipalMessage";
 const DeviceCounter = lazy(() => import("../components/DeviceCounter"));
 // import DeviceCounter from "../components/DeviceCounter";
 // import PaidIcon from "@mui/icons-material/Paid";
@@ -143,6 +144,9 @@ export default function Home({ deviceCount }) {
           <div className="my-2">
             <NewsAndEvent />
           </div>
+          <div className="">
+            <PrincipalMessage />
+          </div>
 
           {/* card  */}
           <div className="w-full flex my-6 justify-center">
@@ -221,7 +225,6 @@ export default function Home({ deviceCount }) {
               </div>
             </div>
           )}
-
 
           <div className="flex   sm:my-4 md:my-4 flex-col p-4 md:flex-row items-center justify-center h-auto md:h-60">
             <div className="w-full md:w-1/2 lg:w-1/3 p-4">
