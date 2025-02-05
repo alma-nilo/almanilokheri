@@ -179,22 +179,28 @@ body,
 }
 
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 8px;
+  border-radius: 20px;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #e0e0e0;
+  background: #a3a3a398;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #888;
+  background: rgba(114, 114, 114, 0.76);
+  border: 2px solid rgba(73, 73, 73, 0.486);
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  border-bottom-left-radius: 20px;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  background: #09aa03;
 }
 
 .LinkNav {
