@@ -4,6 +4,7 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import https from "https";
 import fs from "fs";
+import cron from "node-cron";
 
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -12,6 +13,7 @@ dotenv.config();
 import main from "./routes/main.js";
 import Admin from "./routes/admin.js";
 import { User } from "./DB/user.js";
+import { runEventEmailTask } from "./cron-jobs/eventCronJob.js";
 
 const DB = process.env.DATABASE_KEY;
 
@@ -67,6 +69,18 @@ app.get("/", (req, res) => {
 app.use(main);
 app.use("/admins", Admin);
 
+// Schedule the job to run every 24 hours at midnight
+cron.schedule(
+  // "0 0 * * *",
+  "0 12 * * *",
+  async () => {
+    console.log("⏳ Running daily cron job...");
+    await runEventEmailTask();
+  },
+  {
+    timezone: "Asia/Kolkata", // Adjust timezone if needed
+  }
+);
 mongoose.set("strictQuery", false);
 mongoose
   .connect(DB)
