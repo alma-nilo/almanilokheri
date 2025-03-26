@@ -95,7 +95,7 @@ export default function Member() {
           <div className="container mx-auto px-4 py-8">
             <div className="flex items-center mb-6">
               <select
-                className="w-1/3 h-fit max-h-72 overflow-y-auto p-2 border rounded-md bg-white text-gray-900 mr-2"
+                className="w-1/3  max-h-72 overflow-y-auto p-2 border rounded-md bg-white text-gray-900 mr-2"
                 value={selectedBatch}
                 onChange={(e) => setSelectedBatch(e.target.value)}
               >

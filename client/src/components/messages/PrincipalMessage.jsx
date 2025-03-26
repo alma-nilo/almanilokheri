@@ -2,7 +2,7 @@ import { useState } from "react";
 import { principleMessage } from "./message";
 const PrincipalMessage = () => {
   const [expanded, setExpanded] = useState(false);
-  const maxLength = 550;
+  const maxLength = 700;
   const toggleExpand = () => setExpanded((prev) => !prev);
   return (
     <div className="max-w-screen-2xl w-full mx-auto h-full overflow-y-auto sm:px-5 md:px-8 max-h-screen px-2 sm:py-10 py-5 bg-gradient-to-r from-green-500 via-green-400 to-green-500 rounded-tr-3xl    rounded-bl-3xl ">
