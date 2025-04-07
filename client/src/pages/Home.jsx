@@ -222,6 +222,20 @@ export default function Home({ deviceCount }) {
                     )}
                   </Fragment>
                 ))}
+                  <Link
+                       className="LinkNav"
+                       onClick={() => {
+                         window.scrollTo({
+                           top: 0,
+                           behavior: "smooth",
+                         });
+                       }}
+                       to="/gallery"
+                     >
+                   <span class="material-symbols-outlined">
+                      expand_circle_right
+                   </span>
+                     </Link>
               </div>
             </div>
           )}

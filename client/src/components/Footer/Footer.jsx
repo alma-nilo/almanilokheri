@@ -91,7 +91,7 @@ export default function Footer() {
           </Link>
         </div>
         <div className="bg-gray-800 text-white h-12 flex justify-center items-center">
-          <p>&copy;2022 Govt Polytechnic Nilokheri. All rights reserved.</p>
+          <p>&copy;2025 Govt Polytechnic Nilokheri. All rights reserved.</p>
         </div>
       </footer>
     </div>
