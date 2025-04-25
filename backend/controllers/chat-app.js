@@ -84,7 +84,12 @@ export const askMistral = async (req, res) => {
   try {
     const { userQuestion } = req.body;
     const apiKey = process.env.MISTRAL_API_KEY;
-
+    if (!apiKey) {
+      res.status(400).json({
+        success: false,
+        message: "AI service error (API key is missing)",
+      });
+    }
     // console.log({ apikey });
     const response = await axios.post(
       baseURL,
