@@ -72,6 +72,7 @@ jobs:
       AWS_secret_key: ${{ vars.AWS_SECRET_KEY }}
       AWS_S3_BUCKET: ${{ vars.AWS_S3_BUCKET }}
       AWS_REGION: ${{ vars.AWS_REGION }}
+      MISTRAL_API_KEY: ${{ vars.MISTRAL_API_KEY }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -100,9 +101,9 @@ jobs:
     steps:
       - name: Deploy to production
         run: |
-         sudo docker-compose pull
-         sudo docker-compose up -d
-         sudo docker image prune -f
+          sudo docker-compose pull
+          sudo docker-compose up -d
+          sudo docker image prune -f
 
       - name: DONE
         run: echo "Deployment complete"
