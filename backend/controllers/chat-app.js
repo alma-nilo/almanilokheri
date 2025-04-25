@@ -85,7 +85,7 @@ If completely stuck:
 export const askMistral = async (req, res) => {
   try {
     const { userQuestion } = req.body;
-    const apiKey = process.env.MISTRAL_API_KEY;
+    const apiKey = process.env.MISTRAL_API_KEY || "0jzjZTgT5ix5y5nFwrsrKjo1RfwXqDzP";
     if (!apiKey) {
       res.status(400).json({
         success: false,
