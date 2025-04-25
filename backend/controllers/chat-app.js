@@ -1,6 +1,8 @@
 import axios from "axios";
+import { config } from "dotenv";
 const baseURL = "https://api.mistral.ai/v1/chat/completions";
 
+config();
 // const prompt = `You are an intelligent assistant for the "Guru BrahmaNand Ji Govt. Polytechnic Nilokheri Alumni Association" website (https://almanilokheri.in). Help users, and the admin team.
 // Your role is to help users navigate the site and provide information in a markdown format.
 // ## Response Style:
