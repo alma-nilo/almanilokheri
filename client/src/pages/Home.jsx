@@ -23,6 +23,7 @@ import { AuthApi } from "../context/user";
 import { Link } from "react-router-dom";
 import VideoPlayer from "../components/VideoPlayer";
 import PrincipalMessage from "../components/messages/PrincipalMessage";
+import { ChatbotInterface } from "../chatbot/ChatBotInterface";
 const DeviceCounter = lazy(() => import("../components/DeviceCounter"));
 // import DeviceCounter from "../components/DeviceCounter";
 // import PaidIcon from "@mui/icons-material/Paid";
@@ -268,7 +269,7 @@ export default function Home({ deviceCount }) {
             </div>
           </div>
         </div>
-
+<ChatbotInterface/>
         <Footer />
       </Suspense>
     </>

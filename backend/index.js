@@ -11,6 +11,7 @@ dotenv.config();
 
 //  routes
 import main from "./routes/main.js";
+import chatRouter from "./routes/chat-app.js";
 import Admin from "./routes/admin.js";
 import { User } from "./DB/user.js";
 import { runEventEmailTask } from "./cron-jobs/eventCronJob.js";
@@ -68,6 +69,7 @@ app.get("/", (req, res) => {
 
 app.use(main);
 app.use("/admins", Admin);
+app.use("/chat",chatRouter );
 
 // Schedule the job to run every 24 hours at midnight
 cron.schedule(
