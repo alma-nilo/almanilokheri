@@ -2,22 +2,22 @@ import { useState } from "react";
 import { principleMessage } from "./message";
 const PrincipalMessage = () => {
   const [expanded, setExpanded] = useState(false);
-  const maxLength = 700;
+  const maxLength = 800;
   const toggleExpand = () => setExpanded((prev) => !prev);
   return (
-    <div className="max-w-screen-2xl w-full mx-auto h-full overflow-y-auto sm:px-5 md:px-8 max-h-screen px-2 sm:py-10 py-5 bg-gradient-to-r from-green-500 via-green-400 to-green-500 rounded-tr-3xl    rounded-bl-3xl ">
+    <div className="max-w-screen-2xl w-full mx-auto h-full overflow-y-auto sm:px-5 md:px-8  px-2 sm:py-10 py-5 bg-gradient-to-r from-green-500 via-green-400 to-green-500 rounded-tr-3xl    rounded-bl-3xl ">
       <h3 className="text-4xl text-center font-bold leading-relaxed mx-auto mb-5 ">
         Principal's Message
       </h3>
       <div className="lg:flex-row sm:w1-11/12 mx-auto w-full h-full flex-col flex justify-between items-center ">
         <div className="lg:w-1/2 w-full  align-bottom flex flex-col items-center justify-center">
           <img
-            src="./jwala.jpeg"
+            src="./benu-mam.jpg"
             alt=""
             className="rounded-3xl w-3/4 h-full  object-cover "
           />
           <p className="text-lg font-bold italic text-right mt-5 ">
-            Sh. Jwala Prasad
+            Smt. Benu Bajaj
             <br />
           </p>
           Principal GBN Govt Polytechnic, Nilokheri
@@ -28,8 +28,8 @@ const PrincipalMessage = () => {
             Principal's Message
           </h3> */}
           <div className="text-start text-lg md:w-11/12 w-full mx-auto md:px-4 text-pretty py-1 leading-relaxed mb-5">
-            <p className="text-xl font-medium text-slate-800 whitespace-normal md:-ml-4">
-              Dear Alumni,
+            <p className="text-xl font-medium text-slate-800 whitespace-normal md:-ml-8">
+              Dear Alumni's,
             </p>
             <br />
             {principleMessage.length > maxLength && !expanded
