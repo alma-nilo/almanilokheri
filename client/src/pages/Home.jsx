@@ -11,6 +11,7 @@ import axios from "axios";
 import { Dialog, DialogContent } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
+import CardComponent from "../components/CardComponent";
 import Carousel from "../components/Carousel/MyCarousel";
 import UserLoding from "../components/UserLoding";
 import Navbar from "../components/Navbar";
@@ -75,7 +76,6 @@ export default function Home({ deviceCount }) {
       <Suspense fallback={<Loader />}>
         <div className=" bg-slate-200 overflow-hidden">
           <Navbar />
-
           <DeviceCounter deviceCount={deviceCount} />
           <div className="">
             <Carousel />
@@ -148,7 +148,14 @@ export default function Home({ deviceCount }) {
           <div className="">
             <PrincipalMessage />
           </div>
-
+          <div className="flex flex-wrap justify-center gap-8 p-6">
+            <CardComponent
+              image="/news-letter.jpg"
+              title="News Letter of 2025"
+              description="This the link for the annual news letter of the GBN Government Polytechnic Nilokheri ."
+              link="https://drive.google.com/file/d/1mD6fw_LG3JlM28wqCWUnKxd6_L6nV0GG/view?usp=sharing"
+            />
+          </div>{" "}
           {/* card  */}
           <div className="w-full flex my-6 justify-center">
             <h1 className="text-2xl lg:text-4xl text-gray font-bold mb-6">
@@ -166,7 +173,6 @@ export default function Home({ deviceCount }) {
               ))}
             </div>
           )}
-
           {/* gallary */}
           <div className="w-full flex my-6 justify-center">
             <h1 className="text-2xl lg:text-4xl text-gray font-bold mb-6">
@@ -223,24 +229,23 @@ export default function Home({ deviceCount }) {
                     )}
                   </Fragment>
                 ))}
-                  <Link
-                       className="LinkNav"
-                       onClick={() => {
-                         window.scrollTo({
-                           top: 0,
-                           behavior: "smooth",
-                         });
-                       }}
-                       to="/gallery"
-                     >
-                   <span class="material-symbols-outlined">
-                      expand_circle_right
-                   </span>
-                     </Link>
+                <Link
+                  className="LinkNav"
+                  onClick={() => {
+                    window.scrollTo({
+                      top: 0,
+                      behavior: "smooth",
+                    });
+                  }}
+                  to="/gallery"
+                >
+                  <span class="material-symbols-outlined">
+                    expand_circle_right
+                  </span>
+                </Link>
               </div>
             </div>
           )}
-
           <div className="flex   sm:my-4 md:my-4 flex-col p-4 md:flex-row items-center justify-center h-auto md:h-60">
             <div className="w-full md:w-1/2 lg:w-1/3 p-4">
               <div className="flex rounded-lg overflow-hidden contribution-card">
@@ -269,7 +274,7 @@ export default function Home({ deviceCount }) {
             </div>
           </div>
         </div>
-<ChatbotInterface/>
+        <ChatbotInterface />
         <Footer />
       </Suspense>
     </>
