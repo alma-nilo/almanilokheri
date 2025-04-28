@@ -151,8 +151,8 @@ export default function Home({ deviceCount }) {
           <div className="flex flex-wrap justify-center gap-8 p-6">
             <CardComponent
               image="/news-letter.jpg"
-              title="News Letter of 2025"
-              description="This the link for the annual news letter of the GBN Government Polytechnic Nilokheri ."
+              title="News letter Session 2023-24"
+              description="This the link for the annual News letter of the GBN Government Polytechnic Nilokheri for the Session 2023-24."
               link="https://drive.google.com/file/d/1mD6fw_LG3JlM28wqCWUnKxd6_L6nV0GG/view?usp=sharing"
             />
           </div>{" "}
