@@ -94,7 +94,7 @@ jobs:
         run: docker push vishu7im/almanilokheri-backend:latest
 
   deploy:
-    runs-on: self-hosted
+    runs-on: alma
     needs:
       - backend
       - frontend
